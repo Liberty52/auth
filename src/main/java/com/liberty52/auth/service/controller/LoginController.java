@@ -1,12 +1,9 @@
-package com.liberty52.auth.service.conotroller;
+package com.liberty52.auth.service.controller;
 
-import com.liberty52.auth.service.conotroller.dto.LoginRequestDto;
-import com.liberty52.auth.service.conotroller.dto.LoginResponseDto;
-import com.liberty52.auth.service.conotroller.dto.SignUpRequestDto;
-import org.springframework.http.HttpHeaders;
+import com.liberty52.auth.service.controller.dto.LoginRequestDto;
+import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

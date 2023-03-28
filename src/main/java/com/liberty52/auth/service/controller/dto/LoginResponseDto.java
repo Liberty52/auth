@@ -1,4 +1,4 @@
-package com.liberty52.auth.service.conotroller.dto;
+package com.liberty52.auth.service.controller.dto;
 
 import lombok.Getter;
 
