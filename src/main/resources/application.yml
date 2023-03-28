@@ -1,0 +1,9 @@
+spring:
+  config:
+    import:
+#      - classpath:kafka-config.yml
+#      - classpath:db-config.yml
+      - classpath:eureka-config.yml
+#      - classpath:kafka-topics.yml
+  application:
+    name: auth
