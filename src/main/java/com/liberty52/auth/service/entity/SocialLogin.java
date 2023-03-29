@@ -18,6 +18,9 @@ public class SocialLogin {
     @Enumerated(EnumType.STRING)
     private SocialLoginType type;
 
+    @Column(nullable = false, unique = true, updatable = false)
+    private String email;
+
     public void associate(Auth auth) {
         this.auth = auth;
     }
