@@ -18,6 +18,7 @@ public class EmailSignUpServiceImpl implements EmailSignUpService {
     private final SocialLoginRepository socialLoginRepository;
     private final PasswordEncoder encoder;
 
+
     @Override
     public void signUp(SignUpRequestDto dto, MultipartFile imageFile) {
         if(authRepository.findByEmail(dto.getEmail()).isPresent() ||
