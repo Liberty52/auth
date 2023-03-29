@@ -1,12 +1,15 @@
 package com.liberty52.auth.service.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class SocialLogin {
     @Id
     private String id = UUID.randomUUID().toString();
@@ -20,6 +23,12 @@ public class SocialLogin {
 
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
+
+    @Builder
+    public SocialLogin(Auth auth, SocialLoginType type) {
+        this.auth = auth;
+        this.type = type;
+    }
 
     public void associate(Auth auth) {
         this.auth = auth;
