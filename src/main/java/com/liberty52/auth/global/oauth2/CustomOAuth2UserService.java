@@ -56,12 +56,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
-    Auth findUser = authRepository.findByEmail(attributes.getOauth2UserInfo().getEmail()).orElse(null);
-
-    if(findUser == null) {
-      return saveUser(attributes, socialType);
-    }
-    return findUser;
+    return authRepository.findByEmail(attributes.getOauth2UserInfo().getEmail()).orElseGet(()-> saveUser(attributes,socialType));
   }
 
   private Auth saveUser(OAuthAttributes attributes, SocialLoginType socialType) {

@@ -15,9 +15,4 @@ public class LoginController {
         // return loginService.login(token, dto);
         return null;
     }
-
-    @GetMapping("/jwt-hello")
-    public String sayHello() {
-        return "Hello";
-    }
 }
