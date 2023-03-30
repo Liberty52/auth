@@ -25,9 +25,10 @@ public class SocialLogin {
     private String email;
 
     @Builder
-    public SocialLogin(Auth auth, SocialLoginType type) {
+    public SocialLogin(Auth auth, SocialLoginType type, String email) {
         this.auth = auth;
         this.type = type;
+        this.email = email;
     }
 
     public void associate(Auth auth) {

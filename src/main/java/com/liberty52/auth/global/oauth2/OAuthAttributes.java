@@ -44,7 +44,7 @@ public class OAuthAttributes {
   }
 
   public SocialLogin toSocialLoginEntity(Auth auth, SocialLoginType socialLoginType) {
-    return SocialLogin.builder().type(socialLoginType).auth(auth).build();
+    return SocialLogin.builder().type(socialLoginType).auth(auth).email(auth.getEmail()).build();
   }
 }
 

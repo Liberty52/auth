@@ -4,8 +4,8 @@ spring:
       - oauth
   config:
     import:
-      - classpath:eureka-config.yml
-      - classpath:aws-config.yml
+#      - classpath:eureka-config.yml
+      - classpath:aws-config-sample.yml
   application:
     name: auth
   datasource:

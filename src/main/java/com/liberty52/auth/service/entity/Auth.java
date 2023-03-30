@@ -22,6 +22,8 @@ public class Auth {
 
     private String profileUrl;
 
+    private String name;
+
     @Column(nullable = false, updatable = false)
     private LocalDate createdAt = LocalDate.now();
 
@@ -45,6 +47,14 @@ public class Auth {
         this.profileUrl = profileUrl;
         this.phoneNumber = phoneNumber;
         this.role = role;
+    }
+
+    public static Auth create(String email, String password, String name, String phoneNumber, String profileUrl) {
+        Auth auth = new Auth();
+        auth.email = email; auth.password = password;
+        auth.name = name; auth.phoneNumber = phoneNumber;
+        auth.profileUrl = profileUrl;
+        return auth;
     }
 
     public void addSocialLogin(SocialLogin socialLogin) {
