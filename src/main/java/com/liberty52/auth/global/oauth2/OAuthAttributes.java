@@ -39,7 +39,7 @@ public class OAuthAttributes {
         .phoneNumber(oauth2UserInfo.getPhoneNumber())
         .email(oauth2UserInfo.getEmail())
         .profileUrl(oauth2UserInfo.getImageUrl())
-        .role(Role.GUEST)
+        .role(Role.USER)
         .build();
   }
 

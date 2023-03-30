@@ -42,14 +42,10 @@ public class SecurityConfig {
 
         .and()
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-        )
-        .headers(headers -> headers.frameOptions().disable())
-        .csrf(csrf -> csrf
-            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
-        .authorizeHttpRequests()
-        .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico", "/login/**").permitAll()
-        .requestMatchers("/sign-up").permitAll()
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico", "/login/**").permitAll()
+                .requestMatchers("/sign-up").permitAll()
+        ).authorizeHttpRequests()
         .anyRequest().authenticated()
 
         .and()
