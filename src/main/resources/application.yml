@@ -4,6 +4,11 @@ spring:
 #      - classpath:kafka-config.yml
 #      - classpath:db-config.yml
       - classpath:eureka-config.yml
-#      - classpath:kafka-topics.yml
+      - classpath:aws-config.yml
+  #      - classpath:kafka-topics.yml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   application:
     name: auth
