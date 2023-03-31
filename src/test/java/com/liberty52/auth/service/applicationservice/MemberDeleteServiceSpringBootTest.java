@@ -37,12 +37,6 @@ class MemberDeleteServiceSpringBootTest {
         authRepository.save(auth);
 
         userId = auth.getId();
-
-        // SET SECURITY
-        User user = new User(auth.getEmail(), auth.getPassword(), Collections.EMPTY_LIST);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, user.getPassword());
-        SecurityContextHolder.getContext().setAuthentication(token);
-
     }
 
     @Test
@@ -55,25 +49,4 @@ class MemberDeleteServiceSpringBootTest {
         assertThat(result_isNotPresent).isNotPresent();
 
     }
-
-    @Test
-    void deleteByEmail () throws Exception{
-        //given
-        memberDeleteService.deleteMemberByEmail(MOCK_USER_EMAIL);
-        //when
-        Optional<Auth> result_isNotPresent = authRepository.findByEmail(MOCK_USER_EMAIL);
-        //then
-        assertThat(result_isNotPresent).isNotPresent();
-    }
-
-    @Test
-    void deleteByAuthentication () throws Exception{
-        //given
-        memberDeleteService.deleteMemberWithToken();
-        //when
-        Optional<Auth> result_isNotPresent = authRepository.findById(userId);
-        //then
-        assertThat(result_isNotPresent).isNotPresent();
-    }
-
 }

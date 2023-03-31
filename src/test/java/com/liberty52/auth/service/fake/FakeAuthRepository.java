@@ -22,17 +22,6 @@ public class FakeAuthRepository implements AuthRepository {
     public Optional<Auth> findByEmail(String email) {
         return Optional.empty();
     }
-
-    @Override
-    public void deleteByEmail(String email) {
-        for(Entry<String,Auth> entry : storage.entrySet()){
-            if(email.equals(entry.getValue().getEmail())){
-                storage.remove(entry.getKey());
-                break;
-            }
-        }
-    }
-
     @Override
     public void flush() {
 

@@ -20,18 +20,4 @@ public class MemberDeleteServiceImpl implements
     public void deleteMemberByUserId(String userId) {
         authRepository.deleteById(userId);
     }
-
-    @Override
-    public void deleteMemberByEmail(String email) {
-        authRepository.deleteByEmail(email);
-    }
-
-    @Override
-    public void deleteMemberWithToken() {
-        authRepository.deleteByEmail(extractUserFromAuthentication().getUsername());
-    }
-
-    private User extractUserFromAuthentication() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
 }

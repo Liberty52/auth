@@ -13,24 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberDeleteController {
 
     private final MemberDeleteService memberDeleteService;
-
-    @DeleteMapping("/member/c1")
-    public ResponseEntity<Void> deleteMemberC1(@RequestHeader(HttpHeaders.AUTHORIZATION) String userEmail){
-        memberDeleteService.deleteMemberByEmail(userEmail);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/member/c2")
+    @DeleteMapping("/member")
     public ResponseEntity<Void> deleteMemberC2(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId){
         memberDeleteService.deleteMemberByUserId(userId);
         return ResponseEntity.ok().build();
     }
-
-    @DeleteMapping("/member/c3")
-    public ResponseEntity<Void> deleteMemberC3(){
-        memberDeleteService.deleteMemberWithToken();
-        return ResponseEntity.ok().build();
-    }
-
-
 }
