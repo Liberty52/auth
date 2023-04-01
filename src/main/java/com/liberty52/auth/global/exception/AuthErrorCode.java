@@ -11,7 +11,6 @@ public enum AuthErrorCode implements ErrorCode{
 
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,"이미 존재하는 이메일입니다."),
     ;
-    private static int iota = 1;
 
     private final HttpStatus httpStatus;
     private final String errorMessage;
