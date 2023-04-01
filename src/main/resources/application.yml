@@ -1,11 +1,15 @@
+server:
+  port: 0
+
 spring:
   profiles:
     include:
-      - oauth
+      - oauth-sample
   config:
     import:
-#      - classpath:eureka-config.yml
+      - classpath:eureka-config-sample.yml
       - classpath:aws-config-sample.yml
+      - classpath:jwt-config.yml
   application:
     name: auth
   datasource:
@@ -14,16 +18,6 @@ spring:
     console:
       enabled: on
       path: /h2-console
-
-
-jwt:
-  secretKey: eqjUk3IihCy9ZUIsun7V2BKysTULbZxUlA8Zb6jAriWHEiNDnSeqjUk3IihCy9ZUIsun7V2BKysTULbZxUlA8Zb6jAriWHEiNDnSeqjUk3IihCy9ZUIsun7V2BKysTULbZxUlA8Zb6jAriWHEiNDnSeqjUk3IihCy9ZUIsun7V2BKysTULbZxUlA8Zb6jAriWHEiNDnSeqjUk3IihCy9ZUIsun7V2BKysTULbZxUlA8Zb6jAriWHEiNDnSeqjUk3IihCy9ZUIsun7V2BKysTULbZxUlA8Zb6jAriWHEiNDnS
-  access:
-    expiration: 3600000
-    header: Authorization
-  refresh:
-    expiration: 3600000
-    header: Authorization-refresh
 
 logging:
   level:
