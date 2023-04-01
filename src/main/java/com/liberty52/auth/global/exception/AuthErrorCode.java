@@ -21,6 +21,6 @@ public enum AuthErrorCode implements ErrorCode{
 
     public String getErrorCode() {
         String order = String.valueOf(this.ordinal() + 1);
-        return "A-" + "0".repeat(4-order.length()) + order;
+        return "A-" + "0".repeat(Math.max(4-order.length(), 0)) + order;
     }
 }
