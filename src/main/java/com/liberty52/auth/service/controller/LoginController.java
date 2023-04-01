@@ -6,10 +6,7 @@ import com.liberty52.auth.service.controller.dto.LoginRequestDto;
 import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ public class LoginController {
 //    }
 
     @PostMapping("/login")
-    public LoginResponseDto EmailLogin(@Validated @RequestPart("dto") EmailLoginRequestDto dto) {
+    public LoginResponseDto EmailLogin(@Validated @RequestBody EmailLoginRequestDto dto) {
         return loginService.login(dto);
     }
 }
