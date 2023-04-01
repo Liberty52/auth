@@ -13,12 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     private final LoginService loginService;
 
-//    @PostMapping("/login")
-//    public LoginResponseDto login(@Validated LoginRequestDto dto) {
-//        // return loginService.login(token, dto);
-//        return null;
-//    }
-
     @PostMapping("/login")
     public LoginResponseDto EmailLogin(@Validated @RequestBody EmailLoginRequestDto dto) {
         return loginService.login(dto);
