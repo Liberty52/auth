@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum AuthErrorCode implements ErrorCode{
 
-    Auth_Not_Found(HttpStatus.UNAUTHORIZED,"A-0001", "등록되지 않은 계정입니다."),
+    AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED,"A-0001", "등록되지 않은 계정입니다."),
     ;
 
     private final HttpStatus httpStatus;

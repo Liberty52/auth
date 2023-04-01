@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     private final LoginService loginService;
 
-    @PostMapping("/login")
-    public LoginResponseDto login(@Validated LoginRequestDto dto) {
-        // return loginService.login(token, dto);
-        return null;
-    }
+//    @PostMapping("/login")
+//    public LoginResponseDto login(@Validated LoginRequestDto dto) {
+//        // return loginService.login(token, dto);
+//        return null;
+//    }
 
-    @GetMapping("/login")
-    public LoginResponseDto EmailLogin(@Validated EmailLoginRequestDto dto) {
+    @PostMapping("/login")
+    public LoginResponseDto EmailLogin(@Validated @RequestPart("dto") EmailLoginRequestDto dto) {
         return loginService.login(dto);
     }
 }
