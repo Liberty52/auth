@@ -39,13 +39,10 @@ public class WebSecurityConfig {
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and()
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                        .requestMatchers("/**","/css/**","/images/**","/js/**","/favicon.ico", "/login/**").permitAll()
-                        .requestMatchers("/sign-up").permitAll()
-                ).authorizeHttpRequests()
-                .anyRequest().authenticated()
+//                .and()
+//                .authorizeHttpRequests()
+//                .anyRequest().permitAll()
+//                .requestMatchers("/**").permitAll()
 
                 .and()
                 .oauth2Login()

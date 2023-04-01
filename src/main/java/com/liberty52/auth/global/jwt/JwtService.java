@@ -37,18 +37,18 @@ public class JwtService {
 
   private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
   private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-  private static final String EMAIL_CLAIM = "email";
+  private static final String AUTH_ID_CLAIM = "authId";
   private static final String BEARER = "Bearer ";
 
   private final AuthRepository authRepository;
 
-  public String createAccessToken(String email) {
+  public String createAccessToken(String id) {
     Date now = new Date();
-    return JWT.create() // JWT 토큰을 생성하는 빌더 반환
-        .withSubject(ACCESS_TOKEN_SUBJECT) // JWT의 Subject 지정 -> AccessToken이므로 AccessToken
-        .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod)) // 토큰 만료 시간 설정
-        .withClaim(EMAIL_CLAIM, email)
-        .sign(Algorithm.HMAC512(secretKey)); // HMAC512 알고리즘 사용, application-jwt.yml에서 지정한 secret 키로 암호화
+    return JWT.create()
+        .withSubject(ACCESS_TOKEN_SUBJECT)
+        .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
+        .withClaim(AUTH_ID_CLAIM, id)
+        .sign(Algorithm.HMAC512(secretKey));
   }
 
   public String createRefreshToken() {
@@ -81,18 +81,17 @@ public class JwtService {
   }
 
   public Optional<String> extractAccessToken(HttpServletRequest request) {
-    System.out.println(request.getHeader(accessHeader));
     return Optional.ofNullable(request.getHeader(accessHeader))
         .filter(token -> token.startsWith(BEARER))
         .map(token -> token.replace(BEARER, ""));
   }
 
-  public Optional<String> extractEmail(String accessToken) {
+  public Optional<String> extractAuthId(String accessToken) {
     try {
       Optional<String> result = Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
           .build()
           .verify(accessToken)
-          .getClaim(EMAIL_CLAIM)
+          .getClaim(AUTH_ID_CLAIM)
           .asString());
 
       return result;
