@@ -23,7 +23,10 @@ public class LoginServiceImpl implements LoginService{
 
     @Override
     public LoginResponseDto login(EmailLoginRequestDto dto) {
-        Auth auth = authRepository.findByEmailAndPassword(dto.getEmail(), encoder.encode(dto.getPassword())).orElseThrow(AuthNotFoundException::new);
+        Auth auth = authRepository.findByEmail(dto.getEmail()).orElseThrow(AuthNotFoundException::new);
+        if(!encoder.matches(dto.getPassword(), auth.getPassword()))
+            throw new AuthNotFoundException();
+
         String accessToken = jwtService.createAccessToken(dto.getEmail());
         String refreshToken = jwtService.createRefreshToken();
         auth.updateRefreshToken(refreshToken);
