@@ -7,6 +7,7 @@ import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,12 @@ public class LoginServiceImpl implements LoginService{
 
     private final AuthRepository authRepository;
     private final JwtService jwtService;
+    private final PasswordEncoder encoder;
 
 
     @Override
     public LoginResponseDto login(EmailLoginRequestDto dto) {
-        Auth auth = authRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()).orElseThrow(AuthNotFoundException::new);
+        Auth auth = authRepository.findByEmailAndPassword(dto.getEmail(), encoder.encode(dto.getPassword())).orElseThrow(AuthNotFoundException::new);
         String accessToken = jwtService.createAccessToken(dto.getEmail());
         String refreshToken = jwtService.createRefreshToken();
         auth.updateRefreshToken(refreshToken);
