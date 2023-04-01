@@ -22,6 +22,17 @@ public class FakeAuthRepository implements AuthRepository {
     public Optional<Auth> findByEmail(String email) {
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Auth> findByRefreshToken(String refreshToken) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Auth> findByEmailAndPassword(String email, String password) {
+        return Optional.empty();
+    }
+
     @Override
     public void flush() {
 

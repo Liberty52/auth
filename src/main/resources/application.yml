@@ -1,14 +1,26 @@
+server:
+  port: 0
+
 spring:
-  config:
-    import:
-#      - classpath:kafka-config.yml
-#      - classpath:db-config.yml
-      - classpath:eureka-config.yml
-      - classpath:aws-config.yml
-  #      - classpath:kafka-topics.yml
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   application:
     name: auth
+  profiles:
+    active: prod
+  config:
+    import:
+      - optional:configserver:http://3.34.181.222:8888/
+      - classpath:aws-config-sample.yml
+      - classpath:application-oauth-sample.yaml
+  datasource:
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: on
+      path: /h2-console
+  cloud:
+    config:
+      label: main
+
+logging:
+  level:
+    root: info
