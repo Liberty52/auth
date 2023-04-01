@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@RequiredArgsConstructor
 @Getter
 public enum AuthErrorCode implements ErrorCode{
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED,"등록되지 않은 계정입니다."),
@@ -15,12 +14,14 @@ public enum AuthErrorCode implements ErrorCode{
     private final HttpStatus httpStatus;
     private final String errorMessage;
 
-    public String getErrorName() {
-        return this.name();
+    private final String errorCode = "A-" + "0".repeat(Math.max(4-String.valueOf(this.ordinal() + 1).length(), 0)) + (this.ordinal() + 1);
+
+    AuthErrorCode(HttpStatus httpStatus, String errorMessage) {
+        this.httpStatus = httpStatus;
+        this.errorMessage = errorMessage;
     }
 
-    public String getErrorCode() {
-        String order = String.valueOf(this.ordinal() + 1);
-        return "A-" + "0".repeat(Math.max(4-order.length(), 0)) + order;
+    public String getErrorName() {
+        return this.name();
     }
 }
