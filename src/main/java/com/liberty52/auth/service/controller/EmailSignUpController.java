@@ -19,7 +19,6 @@ public class EmailSignUpController {
             @Validated @RequestPart("dto") SignUpRequestDto dto,
             @RequestPart(value = "file", required = false) MultipartFile imageFile
     ) {
-        System.out.println("sign up");
         emailSignUpService.signUp(dto, imageFile);
     }
 
