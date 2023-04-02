@@ -9,9 +9,11 @@ import com.liberty52.auth.service.repository.SocialLoginRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EmailSignUpServiceImpl implements EmailSignUpService {
     private final S3Uploader s3Uploader;
     private final AuthRepository authRepository;
