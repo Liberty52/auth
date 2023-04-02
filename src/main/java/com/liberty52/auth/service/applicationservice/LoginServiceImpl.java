@@ -15,26 +15,42 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
 
-    private final AuthRepository authRepository;
-    private final JwtService jwtService;
-    private final PasswordEncoder encoder;
+  private final AuthRepository authRepository;
+  private final JwtService jwtService;
+  private final PasswordEncoder encoder;
 
 
-    @Override
-    public LoginResponseDto login(EmailLoginRequestDto dto, HttpServletResponse response) {
-        Auth auth = authRepository.findByEmail(dto.getEmail()).orElseThrow(AuthNotFoundException::new);
-        if(!encoder.matches(dto.getPassword(), auth.getPassword()))
-            throw new AuthNotFoundException();
-
-        String accessToken = jwtService.createAccessToken(dto.getEmail());
-        String refreshToken = jwtService.createRefreshToken();
-        auth.updateRefreshToken(refreshToken);
-
-        response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-        response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
-        return LoginResponseDto.of(auth.getName(), auth.getProfileUrl(), auth.getRole());
+  @Override
+  public LoginResponseDto login(EmailLoginRequestDto dto, HttpServletResponse response) {
+    Auth auth = authRepository.findByEmail(dto.getEmail()).orElseThrow(AuthNotFoundException::new);
+    if (!encoder.matches(dto.getPassword(), auth.getPassword())) {
+      throw new AuthNotFoundException();
     }
+
+    String accessToken = jwtService.createAccessToken(auth.getId());
+    String refreshToken = jwtService.createRefreshToken();
+    auth.updateRefreshToken(refreshToken);
+    authRepository.saveAndFlush(auth);
+
+    response.addHeader("access", "Bearer " + accessToken);
+    response.addHeader("refresh", "Bearer " + refreshToken);
+    return LoginResponseDto.of(auth.getName(), auth.getProfileUrl(), auth.getRole());
+  }
+
+  @Override
+  public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+    authRepository.findByRefreshToken(refreshToken)
+        .ifPresent(auth -> {
+              String reIssuedAccessToken = jwtService.createAccessToken(auth.getId());
+              String reIssuedRefreshToken = jwtService.createRefreshToken();
+              auth.updateRefreshToken(refreshToken);
+              authRepository.saveAndFlush(auth);
+              response.addHeader("access", "Bearer " + reIssuedAccessToken);
+              response.addHeader("refresh", "Bearer " + reIssuedRefreshToken);
+            }
+        );
+  }
 }
 
