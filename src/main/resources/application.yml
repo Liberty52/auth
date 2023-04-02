@@ -21,3 +21,6 @@ spring:
 logging:
   level:
     root: info
+
+frontend:
+  url: http://localhost:3000
