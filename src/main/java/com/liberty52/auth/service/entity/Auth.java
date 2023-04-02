@@ -49,8 +49,9 @@ public class Auth {
         this.role = role;
     }
 
-    public static Auth create(String email, String password, String name, String phoneNumber, String profileUrl) {
+    public static Auth createUser(String email, String password, String name, String phoneNumber, String profileUrl) {
         Auth auth = new Auth();
+        auth.role = Role.USER;
         auth.email = email; auth.password = password;
         auth.name = name; auth.phoneNumber = phoneNumber;
         auth.profileUrl = profileUrl;

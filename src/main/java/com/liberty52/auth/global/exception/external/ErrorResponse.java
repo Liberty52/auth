@@ -1,4 +1,4 @@
-package com.liberty52.auth.global.exception;
+package com.liberty52.auth.global.exception.external;
 
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
