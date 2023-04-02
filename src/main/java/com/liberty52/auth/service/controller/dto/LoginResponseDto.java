@@ -1,5 +1,6 @@
 package com.liberty52.auth.service.controller.dto;
 
+import com.liberty52.auth.service.entity.Role;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,13 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class LoginResponseDto {
-    private String accessToken;
-    private String refreshToken;
+
     private String name;
     private String profileUrl;
-    private String role; //// TODO: 수정해 줘야함
+    private Role role;
 
-    public static LoginResponseDto of(String access, String refresh, String name, String profileUrl, String role) {
-        return new LoginResponseDto(access, refresh, name, profileUrl, role);
+    public static LoginResponseDto of(String name, String profileUrl, Role role) {
+        return new LoginResponseDto(name, profileUrl, role);
     }
 }
