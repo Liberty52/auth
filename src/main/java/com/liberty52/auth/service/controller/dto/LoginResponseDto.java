@@ -10,13 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class LoginResponseDto {
-    private String accessToken;
-    private String refreshToken;
+
     private String name;
     private String profileUrl;
     private Role role;
 
-    public static LoginResponseDto of(String access, String refresh, String name, String profileUrl, Role role) {
-        return new LoginResponseDto(access, refresh, name, profileUrl, role);
+    public static LoginResponseDto of(String name, String profileUrl, Role role) {
+        return new LoginResponseDto(name, profileUrl, role);
     }
 }
