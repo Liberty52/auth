@@ -5,7 +5,7 @@ spring:
   application:
     name: auth
   profiles:
-    active: prod
+    active: dev
   config:
     import:
       - optional:configserver:http://3.34.181.222:8888/
@@ -25,4 +25,4 @@ logging:
     root: info
 
 frontend:
-  url: http://localhost:3000
+  url: http://localhost:3000/redirect?accessToken=%s&refreshToken=%s
