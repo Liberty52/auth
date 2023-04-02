@@ -12,7 +12,7 @@ public class MockFactory {
 
 
     public static Auth createMockAuth(){
-        return Auth.create(MOCK_USER_EMAIL,
+        return Auth.createUser(MOCK_USER_EMAIL,
                 MOCK_USER_PASSWORD,
                 MOCK_USER_NAME,
                 MOCK_PHONE_NUMBER,

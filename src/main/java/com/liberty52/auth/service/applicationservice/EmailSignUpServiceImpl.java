@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.adapter.S3Uploader;
-import com.liberty52.auth.global.exception.internal.AuthWithSuchEmailAlreadyExistsException;
+import com.liberty52.auth.global.exception.external.AuthWithSuchEmailAlreadyExistsException;
 import com.liberty52.auth.service.controller.dto.SignUpRequestDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
@@ -25,7 +25,7 @@ public class EmailSignUpServiceImpl implements EmailSignUpService {
             socialLoginRepository.findByEmail(dto.getEmail()).isPresent())
             throw new AuthWithSuchEmailAlreadyExistsException();
         String profileImageUrl = uploadImage(imageFile);
-        Auth auth = Auth.create(dto.getEmail(), encoder.encode(dto.getPassword()), dto.getName(), dto.getPhoneNumber(), profileImageUrl);
+        Auth auth = Auth.createUser(dto.getEmail(), encoder.encode(dto.getPassword()), dto.getName(), dto.getPhoneNumber(), profileImageUrl);
         authRepository.save(auth);
     }
 
