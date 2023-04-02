@@ -4,6 +4,7 @@ import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.SocialLoginRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +25,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
   private final AuthRepository authRepository;
   private final SocialLoginRepository socialLoginRepository;
+  private final HttpSession httpSession;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -41,6 +43,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     OAuthAttributes extractAttributes = OAuthAttributes.of(socialType, userNameAttributeName, attributes);
 
     Auth createdUser = getUser(extractAttributes, socialType);
+
+    SessionAuth sessionAuth = new SessionAuth(createdUser);
+    httpSession.setAttribute("user", sessionAuth);
 
     return new CustomOAuth2User(
         Collections.singleton(new SimpleGrantedAuthority(createdUser.getRole().getKey())),
