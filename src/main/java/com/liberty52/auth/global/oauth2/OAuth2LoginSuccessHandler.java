@@ -1,7 +1,7 @@
 package com.liberty52.auth.global.oauth2;
 
 import com.liberty52.auth.global.jwt.JwtService;
-import com.liberty52.auth.global.utils.Tokens;
+import com.liberty52.auth.global.jwt.Tokens;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
   private final JwtService jwtService;
-  @Value("${frontend.url}")
+  @Value("${frontend.redirectUrlWithAccessTokenAndRefreshToken}")
   private String frontendURL;
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

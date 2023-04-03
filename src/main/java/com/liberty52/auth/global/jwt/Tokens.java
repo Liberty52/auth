@@ -1,4 +1,4 @@
-package com.liberty52.auth.global.utils;
+package com.liberty52.auth.global.jwt;
 
 
 import lombok.AllArgsConstructor;
