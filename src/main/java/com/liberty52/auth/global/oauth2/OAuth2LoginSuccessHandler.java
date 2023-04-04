@@ -1,6 +1,7 @@
 package com.liberty52.auth.global.oauth2;
 
 import com.liberty52.auth.global.jwt.JwtService;
+import com.liberty52.auth.global.jwt.Tokens;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,21 +21,21 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
   private final JwtService jwtService;
-  @Value("${frontend.url}")
+  @Value("${frontend.redirectUrlWithAccessTokenAndRefreshToken}")
   private String frontendURL;
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     log.debug("OAuth2 Login 성공!");
     try {
       CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-      loginSuccess(response, oAuth2User); // 로그인에 성공한 경우 access, refresh 토큰 생성
-      response.sendRedirect(frontendURL);
+      Tokens tokens = loginSuccess(response, oAuth2User);// 로그인에 성공한 경우 access, refresh 토큰 생성
+      response.sendRedirect(String.format(frontendURL,tokens.getAccessToken(),tokens.getRefreshToken()));
     } catch (Exception e) {
       throw e;
     }
 
   }
-  private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
+  private Tokens loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
     String accessToken = jwtService.createAccessToken(oAuth2User.getId());
     String refreshToken = jwtService.createRefreshToken();
     response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
@@ -42,6 +43,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
     jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
+
+    return new Tokens("Bearer " + accessToken,"Bearer " + refreshToken);
   }
 }
 
