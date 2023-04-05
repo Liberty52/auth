@@ -23,8 +23,11 @@ public class OAuthAttributes {
 
   public static OAuthAttributes of(SocialLoginType socialType,
       String userNameAttributeName, Map<String, Object> attributes) {
-
-    return ofNaver(userNameAttributeName, attributes);
+    switch (socialType){
+      case NAVER : return ofNaver(userNameAttributeName, attributes);
+      case KAKAO : return ofKakao(userNameAttributeName, attributes);
+      default : return ofNaver(userNameAttributeName, attributes);
+    }
   }
 
   public static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
@@ -32,6 +35,12 @@ public class OAuthAttributes {
         .nameAttributeKey(userNameAttributeName)
         .oauth2UserInfo(new NaverOAuth2UserInfo(attributes))
         .build();
+  }
+  public static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+    return OAuthAttributes.builder()
+            .nameAttributeKey(userNameAttributeName)
+            .oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
+            .build();
   }
 
   public Auth toAuthEntity(OAuth2UserInfo oauth2UserInfo) {

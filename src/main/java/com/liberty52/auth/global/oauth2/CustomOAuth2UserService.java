@@ -33,7 +33,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
+
+
+    log.info("CustomOAuth2UserService.registrationId = {}", registrationId);
     SocialLoginType socialType = getSocialType(registrationId);
+
+    log.info("CustomOAuth2UserService.socialType = {}", socialType);
     String userNameAttributeName = userRequest.getClientRegistration()
         .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     Map<String, Object> attributes = oAuth2User.getAttributes();
@@ -53,7 +58,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private SocialLoginType getSocialType(String registrationId) {
-    return SocialLoginType.NAVER;
+    if("naver".equals(registrationId))
+      return SocialLoginType.NAVER;
+    if("kakao".equals(registrationId))
+      return SocialLoginType.KAKAO;
+    return null;
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
