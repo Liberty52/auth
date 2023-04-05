@@ -1,5 +1,6 @@
 package com.liberty52.auth.global.oauth2;
 
+import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.entity.SocialLogin;
@@ -26,7 +27,7 @@ public class OAuthAttributes {
     switch (socialType){
       case NAVER : return ofNaver(userNameAttributeName, attributes);
       case KAKAO : return ofKakao(userNameAttributeName, attributes);
-      default : return ofNaver(userNameAttributeName, attributes);
+      default : throw new InvalidSocialLoginCodeAccessedException();
     }
   }
 

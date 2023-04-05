@@ -2,7 +2,6 @@ package com.liberty52.auth.global.oauth2;
 
 import com.liberty52.auth.global.jwt.JwtService;
 import com.liberty52.auth.global.jwt.Tokens;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
   private String redirectedFrontURLWithTokens;
 
   @Value("${jwt.config.type.prefix}")
-  private String prefix;
+  private String authorizationTypePrefix;
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
     log.debug("OAuth2 Login 성공!");
@@ -41,7 +40,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
     jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
 
-    return new Tokens(prefix + accessToken,prefix + refreshToken);
+    return new Tokens(authorizationTypePrefix + accessToken, authorizationTypePrefix + refreshToken);
   }
 }
 
