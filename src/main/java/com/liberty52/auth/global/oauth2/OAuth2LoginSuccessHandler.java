@@ -22,29 +22,26 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
   private final JwtService jwtService;
   @Value("${frontend.redirectUrlWithAccessTokenAndRefreshToken}")
-  private String frontendURL;
+  private String redirectedFrontURLWithTokens;
+
+  @Value("${jwt.config.type.prefix}")
+  private String prefix;
   @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
     log.debug("OAuth2 Login 성공!");
-    try {
-      CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-      Tokens tokens = loginSuccess(response, oAuth2User);// 로그인에 성공한 경우 access, refresh 토큰 생성
-      response.sendRedirect(String.format(frontendURL,tokens.getAccessToken(),tokens.getRefreshToken()));
-    } catch (Exception e) {
-      throw e;
-    }
+    CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+    Tokens tokens = loginSuccess(response, oAuth2User);// 로그인에 성공한 경우 access, refresh 토큰 생성
+    response.sendRedirect(String.format(redirectedFrontURLWithTokens,tokens.getAccessToken(),tokens.getRefreshToken()));
 
   }
-  private Tokens loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
+  private Tokens loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User){
     String accessToken = jwtService.createAccessToken(oAuth2User.getId());
     String refreshToken = jwtService.createRefreshToken();
-    response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-    response.addHeader(jwtService.getRefreshHeader(), "Bearer " + refreshToken);
 
     jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
     jwtService.updateRefreshToken(oAuth2User.getEmail(), refreshToken);
 
-    return new Tokens("Bearer " + accessToken,"Bearer " + refreshToken);
+    return new Tokens(prefix + accessToken,prefix + refreshToken);
   }
 }
 
