@@ -31,6 +31,7 @@ public class Auth {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "pw_modifiy_request_date")
