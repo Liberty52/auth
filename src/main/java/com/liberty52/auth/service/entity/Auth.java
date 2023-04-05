@@ -49,6 +49,7 @@ public class Auth {
         this.profileUrl = profileUrl;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        passwordModifyRequestDate = createdAt.plusMonths(6);
     }
 
     public static Auth createUser(String email, String password, String name, String phoneNumber, String profileUrl) {
@@ -57,6 +58,7 @@ public class Auth {
         auth.email = email; auth.password = password;
         auth.name = name; auth.phoneNumber = phoneNumber;
         auth.profileUrl = profileUrl;
+        auth.passwordModifyRequestDate = auth.createdAt.plusMonths(6);
         return auth;
     }
 
