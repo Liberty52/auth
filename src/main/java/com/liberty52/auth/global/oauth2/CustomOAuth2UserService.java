@@ -1,5 +1,6 @@
 package com.liberty52.auth.global.oauth2;
 
+import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
@@ -58,11 +59,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private SocialLoginType getSocialType(String registrationId) {
-    if("naver".equals(registrationId))
-      return SocialLoginType.NAVER;
-    if("kakao".equals(registrationId))
-      return SocialLoginType.KAKAO;
-    return null;
+    switch (registrationId){
+      case "naver": return SocialLoginType.NAVER;
+      case "kakao" : return SocialLoginType.KAKAO;
+      default: throw new InvalidSocialLoginCodeAccessedException();
+    }
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
