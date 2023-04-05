@@ -22,7 +22,7 @@ public class MemberModifyController {
 
   @GetMapping("/modify")
   public @ResponseBody ModifyResponseDto getMemberInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId){
-    return null;
+    return memberModifyService.getMemberInfoById(userId);
   }
 
   @PutMapping("/modify")
