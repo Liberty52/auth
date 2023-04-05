@@ -4,15 +4,15 @@ spring:
       client:
         registration:
           naver:
-            client-id: rXFpqK8eUqJ82ZyD9rfo
-            client-secret: Ty9IPlgQ1x
-            redirect-uri: "http://13.125.49.218:8080/auth/login/oauth2/code/{registrationId}"
+            client-id: 4ztKZv4VT0bZ98DHY20u
+            client-secret: WMXU_SRbjM
+            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}" # (== http://localhost:8080/login/oauth2/code/naver)
             authorization-grant-type: authorization_code
-            scope: email, profile_image, mobile, name
+            scope: email, profile_image, mobile
             client-name: Naver
           kakao:
-            client-id: 987480ac95238226d696d70c2ec06be4
-            redirect-uri: "http://13.125.49.218:8080/auth/login/oauth2/code/{registrationId}" # http://localhost:8080/login/oauth2/code/kakao
+            client-id: 54ee4f8d451940b768d25ac695fe625d
+            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}" # http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email

@@ -1,5 +1,6 @@
 package com.liberty52.auth.global.oauth2;
 
+import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
@@ -33,7 +34,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
+
+
+    log.info("CustomOAuth2UserService.registrationId = {}", registrationId);
     SocialLoginType socialType = getSocialType(registrationId);
+
+    log.info("CustomOAuth2UserService.socialType = {}", socialType);
     String userNameAttributeName = userRequest.getClientRegistration()
         .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     Map<String, Object> attributes = oAuth2User.getAttributes();
@@ -53,7 +59,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private SocialLoginType getSocialType(String registrationId) {
-    return SocialLoginType.NAVER;
+    switch (registrationId){
+      case "naver": return SocialLoginType.NAVER;
+      case "kakao" : return SocialLoginType.KAKAO;
+      default: throw new InvalidSocialLoginCodeAccessedException();
+    }
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {

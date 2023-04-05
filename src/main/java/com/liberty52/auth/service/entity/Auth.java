@@ -31,6 +31,7 @@ public class Auth {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "pw_modifiy_request_date")
@@ -42,11 +43,13 @@ public class Auth {
     private List<SocialLogin> socialLogins = new ArrayList<>();
 
     @Builder
-    public Auth(String email, String profileUrl, String phoneNumber, Role role) {
+    public Auth(String email, String name, String profileUrl, String phoneNumber, Role role) {
         this.email = email;
+        this.name = name;
         this.profileUrl = profileUrl;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        passwordModifyRequestDate = createdAt.plusMonths(6);
     }
 
     public static Auth createUser(String email, String password, String name, String phoneNumber, String profileUrl) {
@@ -55,6 +58,7 @@ public class Auth {
         auth.email = email; auth.password = password;
         auth.name = name; auth.phoneNumber = phoneNumber;
         auth.profileUrl = profileUrl;
+        auth.passwordModifyRequestDate = auth.createdAt.plusMonths(6);
         return auth;
     }
 

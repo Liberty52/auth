@@ -5,11 +5,13 @@ spring:
   application:
     name: auth
   profiles:
-    active: dev
+    active: local
   config:
     import:
       - optional:configserver:http://3.34.181.222:8888/
       - classpath:aws-config-sample.yml
+#      - classpath:application-oauth-prod.yml
+      - classpath:application-oauth-local.yml
   datasource:
     url: jdbc:h2:mem:testdb
   h2:
@@ -19,7 +21,6 @@ spring:
   cloud:
     config:
       label: main
-
 logging:
   level:
     root: info
