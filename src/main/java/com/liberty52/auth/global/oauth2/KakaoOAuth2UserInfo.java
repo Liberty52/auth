@@ -30,9 +30,9 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getImageUrl() {
-        if(kakaoAccount == null)
+        if(kakaoProfile == null)
             return null;
-        return (String) kakaoAccount.get("profile_image_url");
+        return (String) kakaoProfile.get("profile_image_url");
     }
 
     @Override
