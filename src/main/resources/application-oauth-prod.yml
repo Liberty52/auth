@@ -8,7 +8,7 @@ spring:
             client-secret: Ty9IPlgQ1x
             redirect-uri: "http://13.125.49.218:8080/auth/login/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
-            scope: email, profile_image, mobile
+            scope: email, profile_image, mobile, name
             client-name: Naver
         provider:
           naver:

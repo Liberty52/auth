@@ -42,8 +42,9 @@ public class Auth {
     private List<SocialLogin> socialLogins = new ArrayList<>();
 
     @Builder
-    public Auth(String email, String profileUrl, String phoneNumber, Role role) {
+    public Auth(String email, String name, String profileUrl, String phoneNumber, Role role) {
         this.email = email;
+        this.name = name;
         this.profileUrl = profileUrl;
         this.phoneNumber = phoneNumber;
         this.role = role;
