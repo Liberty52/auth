@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class MemberModifyServiceImpl implements MemberModifyService{
   private final S3Uploader s3Uploader;
   private final AuthRepository authRepository;
@@ -32,6 +32,7 @@ public class MemberModifyServiceImpl implements MemberModifyService{
         .build();
   }
 
+  @Transactional
   @Override
   public void updateMemberInfo(String userId, ModifyRequestDto dto, MultipartFile imageFile) {
     Auth auth = authRepository.findById(userId).orElseThrow(AuthNotFoundException::new);
@@ -40,7 +41,6 @@ public class MemberModifyServiceImpl implements MemberModifyService{
     }
     String profileImageUrl = uploadImage(imageFile);
     auth.updateUser(encoder.encode(dto.getUpdatePassword()),dto.getPhoneNumber(),dto.getName(),profileImageUrl);
-    authRepository.saveAndFlush(auth);
   }
 
   private String uploadImage(MultipartFile multipartFile) {

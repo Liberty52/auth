@@ -9,12 +9,10 @@ public class SignUpRequestDto {
     private String email;
     @NotBlank
     private String password;
-
+    @NotBlank
     private String phoneNumber;
-
     @NotBlank
     private String name;
-
     private String recommender;
 
 }

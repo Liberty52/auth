@@ -11,6 +11,6 @@ public class ModifyRequestDto {
   private String updatePassword;
   @NotBlank
   private String phoneNumber;
-
+  @NotBlank
   private String name;
 }
