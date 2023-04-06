@@ -17,6 +17,10 @@ spring:
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email
             client-name: Kakao
+          google:
+            client-id: 531825395949-l08ihgbcsql6qv3iuqkh7bnrbomtuhac.apps.googleusercontent.com
+            client-secret: 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
+            scope: email, profile
         provider:
           naver:
             authorization_uri: https://nid.naver.com/oauth2.0/authorize
