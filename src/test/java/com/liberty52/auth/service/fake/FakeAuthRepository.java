@@ -5,7 +5,6 @@ import com.liberty52.auth.service.repository.AuthRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Function;
 import org.springframework.data.domain.Example;
@@ -27,6 +26,12 @@ public class FakeAuthRepository implements AuthRepository {
     public Optional<Auth> findByRefreshToken(String refreshToken) {
         return Optional.empty();
     }
+
+    @Override
+    public List<Auth> findEmailByNameAndPhoneNumber(String name, String phoneNumber) {
+        return null;
+    }
+
     @Override
     public void flush() {
 
