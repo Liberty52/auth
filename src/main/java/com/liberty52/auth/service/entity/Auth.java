@@ -22,6 +22,7 @@ public class Auth {
 
     private String profileUrl;
 
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, updatable = false)
@@ -50,6 +51,13 @@ public class Auth {
         this.phoneNumber = phoneNumber;
         this.role = role;
         passwordModifyRequestDate = createdAt.plusMonths(6);
+    }
+
+    public void updateUser(String updatePassword, String phoneNumber, String name,String profileUrl) {
+        this.password = updatePassword;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+        this.profileUrl = profileUrl;
     }
 
     public static Auth createUser(String email, String password, String name, String phoneNumber, String profileUrl) {

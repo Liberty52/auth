@@ -9,8 +9,8 @@ public enum AuthErrorCode implements ErrorCode{
 
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,"이미 존재하는 이메일입니다."),
 
-    INVALID_SOCIAL_LOGIN_CODE_ACCESSED(HttpStatus.BAD_REQUEST,"불가능한 소셜 로그인 코드가 도달했습니다.")
-    ;
+    INVALID_SOCIAL_LOGIN_CODE_ACCESSED(HttpStatus.BAD_REQUEST,"불가능한 소셜 로그인 코드가 도달했습니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST,"기존 비밀번호가 일치하지 않습니다");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;
