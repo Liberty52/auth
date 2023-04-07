@@ -24,20 +24,29 @@ public class OAuthAttributes {
 
   public static OAuthAttributes of(SocialLoginType socialType,
       String userNameAttributeName, Map<String, Object> attributes) {
-    switch (socialType){
-      case NAVER : return ofNaver(userNameAttributeName, attributes);
-      case KAKAO : return ofKakao(userNameAttributeName, attributes);
-      default : throw new InvalidSocialLoginCodeAccessedException();
-    }
+    return switch (socialType) {
+      case NAVER -> ofNaver(userNameAttributeName, attributes);
+      case KAKAO -> ofKakao(userNameAttributeName, attributes);
+      case GOOGLE -> ofGoogle(userNameAttributeName, attributes);
+      default -> throw new InvalidSocialLoginCodeAccessedException();
+    };
   }
 
-  public static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+  private static OAuthAttributes ofGoogle(String userNameAttributeName,
+          Map<String, Object> attributes) {
+    return OAuthAttributes.builder()
+            .nameAttributeKey(userNameAttributeName)
+            .oauth2UserInfo(new GoogleOAuth2UserInfo(attributes))
+            .build();
+  }
+
+  private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
     return OAuthAttributes.builder()
         .nameAttributeKey(userNameAttributeName)
         .oauth2UserInfo(new NaverOAuth2UserInfo(attributes))
         .build();
   }
-  public static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+  private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
     return OAuthAttributes.builder()
             .nameAttributeKey(userNameAttributeName)
             .oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
