@@ -28,8 +28,17 @@ public class OAuthAttributes {
       case NAVER -> ofNaver(userNameAttributeName, attributes);
       case KAKAO -> ofKakao(userNameAttributeName, attributes);
       case GOOGLE -> ofGoogle(userNameAttributeName, attributes);
+      case FACEBOOK -> ofFaceBook(userNameAttributeName, attributes);
       default -> throw new InvalidSocialLoginCodeAccessedException();
     };
+  }
+
+  private static OAuthAttributes ofFaceBook(String userNameAttributeName,
+          Map<String, Object> attributes) {
+    return OAuthAttributes.builder()
+            .nameAttributeKey(userNameAttributeName)
+            .oauth2UserInfo(new FacebookOAuth2UserInfo(attributes))
+            .build();
   }
 
   private static OAuthAttributes ofGoogle(String userNameAttributeName,

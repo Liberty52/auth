@@ -29,6 +29,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private static final String GOOGLE_REGISTRATION_ID = "google";
   private static final String NAVER_REGISTRATION_ID = "naver";
   private static final String KAKAO_REGISTRATION_ID = "kakao";
+  private static final String FACEBOOK_REGISTRATION_ID = "facebook";
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -68,6 +69,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
       case GOOGLE_REGISTRATION_ID -> SocialLoginType.GOOGLE;
       case NAVER_REGISTRATION_ID -> SocialLoginType.NAVER;
       case KAKAO_REGISTRATION_ID -> SocialLoginType.KAKAO;
+      case FACEBOOK_REGISTRATION_ID -> SocialLoginType.FACEBOOK;
       default -> throw new InvalidSocialLoginCodeAccessedException();
     };
   }
