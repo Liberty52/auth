@@ -12,4 +12,8 @@ public interface AuthRepository extends JpaRepository<Auth, String> {
   Optional<Auth> findByRefreshToken(String refreshToken);
   @Query("SELECT a FROM Auth a WHERE a.name = :name AND a.phoneNumber = :phoneNumber")
   List<Auth> findEmailByNameAndPhoneNumber(@Param String name, @Param String phoneNumber);
+
+  @Query("SELECT a FROM Auth a left join fetch SocialLogin s on a = s.auth "
+          + "where a.email = :email")
+  Optional<Auth> findAuthAndSocialLoginByEmail(@Param String email);
 }

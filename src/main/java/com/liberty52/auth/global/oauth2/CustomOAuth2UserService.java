@@ -1,10 +1,14 @@
 package com.liberty52.auth.global.oauth2;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
+import com.liberty52.auth.service.entity.SocialLogin;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.SocialLoginRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -75,14 +81,22 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
-    return authRepository.findByEmail(attributes.getOauth2UserInfo().getEmail()).orElseGet(()-> saveUser(attributes,socialType));
+    Auth auth = authRepository.findAuthAndSocialLoginByEmail(attributes.getOauth2UserInfo().getEmail())
+            .orElseGet(() -> saveUser(attributes));
+
+    if(!auth.isRegisteredSocialLoginType(socialType))
+      registerSocialLogin(socialType, auth);
+
+    return auth;
   }
 
-  private Auth saveUser(OAuthAttributes attributes, SocialLoginType socialType) {
-    Auth createdUser = authRepository.save(attributes.toAuthEntity(attributes.getOauth2UserInfo()));
-    socialLoginRepository.save(attributes.toSocialLoginEntity(createdUser, socialType));
+  private void registerSocialLogin(SocialLoginType socialType, Auth auth) {
+      auth.addSocialLogin(SocialLogin.builder()
+              .email(auth.getEmail()).type(socialType).build());
+  }
 
-    return createdUser;
+  private Auth saveUser(OAuthAttributes attributes) {
+    return authRepository.save(attributes.toAuthEntity(attributes.getOauth2UserInfo()));
   }
 }
 

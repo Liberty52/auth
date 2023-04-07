@@ -21,11 +21,12 @@ public class SocialLogin {
     @Enumerated(EnumType.STRING)
     private SocialLoginType type;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(nullable = false, updatable = false)
     private String email;
 
     @Builder
     public SocialLogin(Auth auth, SocialLoginType type, String email) {
+        id = UUID.randomUUID().toString();
         this.auth = auth;
         this.type = type;
         this.email = email;

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,11 @@ public class FakeAuthRepository implements AuthRepository {
     @Override
     public List<Auth> findEmailByNameAndPhoneNumber(String name, String phoneNumber) {
         return null;
+    }
+
+    @Override
+    public Optional<Auth> findAuthAndSocialLoginByEmail(String email) {
+        return Optional.empty();
     }
 
     @Override

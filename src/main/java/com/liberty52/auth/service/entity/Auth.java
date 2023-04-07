@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class Auth {
     @Id
     private String id = UUID.randomUUID().toString();
-
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
@@ -45,6 +44,7 @@ public class Auth {
 
     @Builder
     public Auth(String email, String name, String profileUrl, String phoneNumber, Role role) {
+
         this.email = email;
         this.name = name;
         this.profileUrl = profileUrl;
@@ -62,6 +62,7 @@ public class Auth {
 
     public static Auth createUser(String email, String password, String name, String phoneNumber, String profileUrl) {
         Auth auth = new Auth();
+
         auth.role = Role.USER;
         auth.email = email; auth.password = password;
         auth.name = name; auth.phoneNumber = phoneNumber;
@@ -77,5 +78,10 @@ public class Auth {
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
+    }
+
+    public boolean isRegisteredSocialLoginType(SocialLoginType socialLoginType){
+        return socialLogins.stream().anyMatch(s ->
+                        s.getType() == socialLoginType);
     }
 }
