@@ -31,7 +31,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
     Tokens tokens = loginSuccess(response, oAuth2User);// 로그인에 성공한 경우 access, refresh 토큰 생성
     response.sendRedirect(String.format(redirectedFrontURLWithTokens,tokens.getAccessToken(),tokens.getRefreshToken()));
-
   }
   private Tokens loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User){
     String accessToken = jwtService.createAccessToken(oAuth2User.getId());

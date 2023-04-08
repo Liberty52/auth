@@ -1,5 +1,7 @@
 package com.liberty52.auth.global.oauth2;
 
+import com.liberty52.auth.global.event.Events;
+import com.liberty52.auth.global.event.events.SignedUpEvent;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
@@ -82,7 +84,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
     Auth auth = authRepository.findAuthAndSocialLoginByEmail(attributes.getOauth2UserInfo().getEmail())
-            .orElseGet(() -> saveUser(attributes));
+            .orElseGet(() -> saveUser(attributes, socialType));
 
     if(!auth.isRegisteredSocialLoginType(socialType))
       registerSocialLogin(socialType, auth);
@@ -91,12 +93,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private void registerSocialLogin(SocialLoginType socialType, Auth auth) {
-      auth.addSocialLogin(SocialLogin.builder()
-              .email(auth.getEmail()).type(socialType).build());
+    auth.addSocialLogin(SocialLogin.builder()
+            .email(auth.getEmail()).type(socialType).build());
   }
 
-  private Auth saveUser(OAuthAttributes attributes) {
-    return authRepository.save(attributes.toAuthEntity(attributes.getOauth2UserInfo()));
+  private Auth saveUser(OAuthAttributes attributes, SocialLoginType socialType) {
+    Auth createdUser = authRepository.save(attributes.toAuthEntity(attributes.getOauth2UserInfo()));
+    registerSocialLogin(socialType,createdUser);
+    Events.raise(new SignedUpEvent(createdUser.getEmail(), createdUser.getName()));
+    return createdUser;
   }
 }
 
