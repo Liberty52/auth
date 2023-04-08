@@ -3,12 +3,12 @@ package com.liberty52.auth.service.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -69,5 +69,9 @@ public class Auth {
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }
