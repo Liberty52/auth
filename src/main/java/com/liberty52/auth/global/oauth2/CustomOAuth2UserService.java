@@ -1,7 +1,7 @@
 package com.liberty52.auth.global.oauth2;
 
 import com.liberty52.auth.global.event.Events;
-import com.liberty52.auth.global.event.SignedUpEvent;
+import com.liberty52.auth.global.event.events.SignedUpEvent;
 import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLoginType;

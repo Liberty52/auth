@@ -2,7 +2,7 @@ package com.liberty52.auth.global.event.eventhandler;
 
 import com.liberty52.auth.global.adapter.MailSender;
 import com.liberty52.auth.global.adapter.MailSender.Mail;
-import com.liberty52.auth.global.event.SendMailEvent;
+import com.liberty52.auth.global.event.events.SendMailEvent;
 import com.liberty52.auth.global.utils.EmailPageFormatter;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;

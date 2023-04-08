@@ -2,13 +2,11 @@ package com.liberty52.auth.service.applicationservice;
 
 
 import com.liberty52.auth.global.event.Events;
-import com.liberty52.auth.global.event.MemberDeletedEvent;
+import com.liberty52.auth.global.event.events.MemberDeletedEvent;
 import com.liberty52.auth.global.exception.external.AuthNotFoundException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

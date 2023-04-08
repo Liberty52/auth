@@ -1,7 +1,5 @@
 package com.liberty52.auth.global.oauth2;
 
-import com.liberty52.auth.global.event.Events;
-import com.liberty52.auth.global.event.SignedUpEvent;
 import com.liberty52.auth.global.jwt.JwtService;
 import com.liberty52.auth.global.jwt.Tokens;
 import jakarta.servlet.http.HttpServletRequest;

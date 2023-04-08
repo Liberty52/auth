@@ -1,10 +1,11 @@
-package com.liberty52.auth.global.event;
+package com.liberty52.auth.global.event.events;
 
+import com.liberty52.auth.global.event.Event;
 import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
-public class SendMailEvent implements Event{
+public class SendMailEvent implements Event {
 
     private String email;
     private String name;
