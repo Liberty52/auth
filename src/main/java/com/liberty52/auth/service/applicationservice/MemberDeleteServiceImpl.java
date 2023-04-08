@@ -1,6 +1,10 @@
 package com.liberty52.auth.service.applicationservice;
 
 
+import com.liberty52.auth.global.event.Events;
+import com.liberty52.auth.global.event.MemberDeletedEvent;
+import com.liberty52.auth.global.exception.external.AuthNotFoundException;
+import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +22,10 @@ public class MemberDeleteServiceImpl implements
 
     @Override
     public void deleteMemberByUserId(String userId) {
-        authRepository.deleteById(userId);
+        Auth auth = authRepository.findById(userId)
+                .orElseThrow(AuthNotFoundException::new);
+        authRepository.delete(auth);
+
+        Events.raise(new MemberDeletedEvent(auth.getEmail(), auth.getName()));
     }
 }

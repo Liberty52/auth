@@ -1,5 +1,7 @@
 package com.liberty52.auth.global.oauth2;
 
+import com.liberty52.auth.global.event.Events;
+import com.liberty52.auth.global.event.SignedUpEvent;
 import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLoginType;
@@ -79,7 +81,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private Auth saveUser(OAuthAttributes attributes, SocialLoginType socialType) {
     Auth createdUser = authRepository.save(attributes.toAuthEntity(attributes.getOauth2UserInfo()));
     socialLoginRepository.save(attributes.toSocialLoginEntity(createdUser, socialType));
-
+    Events.raise(new SignedUpEvent(createdUser.getEmail(), createdUser.getName()));
     return createdUser;
   }
 }

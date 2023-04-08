@@ -1,16 +1,21 @@
 package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.adapter.S3Uploader;
+import com.liberty52.auth.global.event.Events;
+import com.liberty52.auth.global.event.SignedUpEvent;
 import com.liberty52.auth.global.exception.external.AuthWithSuchEmailAlreadyExistsException;
 import com.liberty52.auth.service.controller.dto.SignUpRequestDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.SocialLoginRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,6 +34,10 @@ public class EmailSignUpServiceImpl implements EmailSignUpService {
         String profileImageUrl = uploadImage(imageFile);
         Auth auth = Auth.createUser(dto.getEmail(), encoder.encode(dto.getPassword()), dto.getName(), dto.getPhoneNumber(), profileImageUrl);
         authRepository.save(auth);
+
+        log.info("EventRaise-start");
+        Events.raise(new SignedUpEvent(dto.getEmail(), auth.getName()));
+        log.info("EventRaise-end");
     }
 
     private String uploadImage(MultipartFile multipartFile) {
