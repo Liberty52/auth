@@ -38,7 +38,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     if (refreshToken != null) {
       checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
     }else {
-      filterChain.doFilter(request, response);
+      filterChain.doFilter(request, response); // TODO Filter 내에서 Exception 발생 시 Handling Filter 생성해야 함.
     }
   }
 

@@ -1,11 +1,18 @@
 package com.liberty52.auth.global.oauth2;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
+    private static final String KAKAO_ACCOUNT_KEY = "kakao_account";
+    private static final String KAKAO_PROFILE_KEY = "profile";
+    private static final String KAKAO_PROFILE_IMAGE_URL_KEY = "profile_image_url";
+    private static final String KAKAO_ACCOUNT_EMAIL_KEY = "email";
+    private static final String KAKAO_PROFILE_NICKNAME_KEY = "nickname";
     private final Map<String, Object> kakaoAccount;
     private final Map<String, Object> kakaoProfile;
 
@@ -13,9 +20,9 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
     public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
         // kakao는 kakao_account에 유저정보가 있다. (email)
-        kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
+        kakaoAccount = (Map<String, Object>)attributes.get(KAKAO_ACCOUNT_KEY);
         // kakao_account안에 또 profile이라는 JSON객체가 있다. (nickname, profile_image)
-        kakaoProfile = (Map<String, Object>)kakaoAccount.get("profile");
+        kakaoProfile = (Map<String, Object>)kakaoAccount.get(KAKAO_PROFILE_KEY);
     }
 
     @Override
@@ -30,22 +37,25 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getImageUrl() {
-        if(kakaoProfile == null)
+        if(isEmpty(kakaoProfile))
             return null;
-        return (String) kakaoProfile.get("profile_image_url");
+
+        return (String) kakaoProfile.get(KAKAO_PROFILE_IMAGE_URL_KEY);
     }
 
     @Override
     public String getEmail() {
-        if(kakaoAccount == null)
+        if(isEmpty(kakaoAccount))
             return null;
-        return (String) kakaoAccount.get("email");
+
+        return (String) kakaoAccount.get(KAKAO_ACCOUNT_EMAIL_KEY);
     }
 
     @Override
     public String getName() {
-        if(kakaoProfile == null)
+        if(isEmpty(kakaoProfile))
             return null;
-        return (String) kakaoProfile.get("nickname");
+
+        return (String) kakaoProfile.get(KAKAO_PROFILE_NICKNAME_KEY);
     }
 }

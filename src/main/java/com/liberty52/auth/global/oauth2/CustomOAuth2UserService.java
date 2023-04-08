@@ -26,6 +26,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private final AuthRepository authRepository;
   private final SocialLoginRepository socialLoginRepository;
 
+  private static final String GOOGLE_REGISTRATION_ID = "google";
+  private static final String NAVER_REGISTRATION_ID = "naver";
+  private static final String KAKAO_REGISTRATION_ID = "kakao";
+
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
     log.debug("CustomOAuth2UserService.loadUser() 실행 - OAuth2 로그인 요청 진입");
@@ -59,11 +63,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   }
 
   private SocialLoginType getSocialType(String registrationId) {
-    switch (registrationId){
-      case "naver": return SocialLoginType.NAVER;
-      case "kakao" : return SocialLoginType.KAKAO;
-      default: throw new InvalidSocialLoginCodeAccessedException();
-    }
+
+    return switch (registrationId) {
+      case GOOGLE_REGISTRATION_ID -> SocialLoginType.GOOGLE;
+      case NAVER_REGISTRATION_ID -> SocialLoginType.NAVER;
+      case KAKAO_REGISTRATION_ID -> SocialLoginType.KAKAO;
+      default -> throw new InvalidSocialLoginCodeAccessedException();
+    };
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
