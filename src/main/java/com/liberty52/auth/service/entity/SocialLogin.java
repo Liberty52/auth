@@ -26,7 +26,6 @@ public class SocialLogin {
 
     @Builder
     public SocialLogin(Auth auth, SocialLoginType type, String email) {
-        id = UUID.randomUUID().toString();
         this.auth = auth;
         this.type = type;
         this.email = email;

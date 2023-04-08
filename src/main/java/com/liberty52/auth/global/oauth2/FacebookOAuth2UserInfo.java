@@ -1,16 +1,22 @@
 package com.liberty52.auth.global.oauth2;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
 
 @Slf4j
 public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
 
     private static final String FACEBOOK_NAME_KEY = "name";
     private static final String FACEBOOK_EMAIL_KEY = "email";
+    private static final String PICTURE_URL_KEY = "url";
+    private final Map<String, Object> picture;
     public FacebookOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
         log.info("attribute = {}", attributes);
+        picture = (Map<String, Object>) attributes.get("picture");
     }
 
     @Override
@@ -25,7 +31,10 @@ public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getImageUrl() {
-        return null;
+        if(isEmpty(picture))
+            return null;
+
+        return (String) picture.get(PICTURE_URL_KEY);
     }
 
     @Override

@@ -36,3 +36,5 @@ spring:
             token_uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user_name_attribute: id
+          facebook:
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture.type(large)
