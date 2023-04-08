@@ -17,6 +17,16 @@ spring:
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email
             client-name: Kakao
+          google:
+            client-id: 286791574239-9mnjn8fg1e0fsur237jnlqvp7r2qnu0o.apps.googleusercontent.com
+            redirect-uri: "https://lb.liberty52.com/auth/login/oauth2/code/google" # http://localhost:8080/login/oauth2/code/kakao
+            client-secret: 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
+            scope: email, profile
+          facebook:
+            client-id: 961899354834644
+            client-secret: 66fcb897079cc0517bd0eddf67ea941c
+            redirect-uri: "https://lb.liberty52.com/auth/login/oauth2/code/facebook" # http://localhost:8080/login/oauth2/code/kakao
+            scope: email, public_profile
         provider:
           naver:
             authorization_uri: https://nid.naver.com/oauth2.0/authorize
@@ -28,3 +38,5 @@ spring:
             token_uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user_name_attribute: id
+          facebook:
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture.type(large)
