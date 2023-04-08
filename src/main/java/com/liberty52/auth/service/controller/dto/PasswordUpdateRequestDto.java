@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public class PasswordUpdateRequestDto {
 
+    private String emailToken;
     @NotBlank
     private String password;
 
