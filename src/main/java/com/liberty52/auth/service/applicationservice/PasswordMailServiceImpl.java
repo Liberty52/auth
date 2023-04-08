@@ -3,6 +3,7 @@ package com.liberty52.auth.service.applicationservice;
 import com.liberty52.auth.global.adapter.MailSender;
 import com.liberty52.auth.global.contants.MailContentConstants;
 import com.liberty52.auth.global.exception.external.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.MailMessagingException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.mail.MessagingException;
@@ -37,18 +38,24 @@ public class PasswordMailServiceImpl implements PasswordMailService {
     private String title;
 
     @Override
-    public boolean sendEmailForUpdatePassword(String email) throws MessagingException {
-        Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
-        String name = auth.getName();
+    public boolean sendEmailForUpdatePassword(String email) {
+        try {
+            Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
+            String name = auth.getName();
 
-        String emailToken = getEmailToken(email);
-        String limitTime = getLimitTime();
-        String content = createMailContent(name, emailToken, limitTime);
+            String emailToken = getEmailToken(email);
+            String limitTime = getLimitTime();
+            String content = createMailContent(name, emailToken, limitTime);
 
-        MailSender.Mail mail = MailSender.buildMail(email, title, content, true);
-        mailSender.prepareAndSend(mail);
+            MailSender.Mail mail = MailSender.buildMail(email, title, content, true);
 
-        return true;
+            mailSender.prepareAndSend(mail);
+
+            return true;
+
+        } catch (MessagingException e) {
+            throw new MailMessagingException();
+        }
     }
 
     @Override

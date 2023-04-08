@@ -24,7 +24,7 @@ public class PasswordMailController {
      */
     @PostMapping("/send-mail")
     @ResponseStatus(HttpStatus.OK)
-    public void sendEmailForUpdatePassword(@RequestBody EmailDto dto) throws MessagingException {
+    public void sendEmailForUpdatePassword(@RequestBody EmailDto dto) {
         passwordMailService.sendEmailForUpdatePassword(dto.getEmail());
     }
 
