@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Transactional
 public class EmailSignUpServiceImpl implements EmailSignUpService {
+
     private final S3Uploader s3Uploader;
     private final AuthRepository authRepository;
     private final SocialLoginRepository socialLoginRepository;
@@ -28,22 +29,21 @@ public class EmailSignUpServiceImpl implements EmailSignUpService {
 
     @Override
     public void signUp(SignUpRequestDto dto, MultipartFile imageFile) {
-        if(authRepository.findByEmail(dto.getEmail()).isPresent() ||
-            socialLoginRepository.findByEmail(dto.getEmail()).isPresent())
+        if (authRepository.findByEmail(dto.getEmail()).isPresent() ||
+                socialLoginRepository.findByEmail(dto.getEmail()).isPresent())
             throw new AuthWithSuchEmailAlreadyExistsException();
+
         String profileImageUrl = uploadImage(imageFile);
-        Auth auth = Auth.createUser(dto.getEmail(), encoder.encode(dto.getPassword()), dto.getName(), dto.getPhoneNumber(), profileImageUrl);
+        Auth auth = Auth.createUser(dto.getEmail(), encoder.encode(dto.getPassword()),
+                dto.getName(), dto.getPhoneNumber(), profileImageUrl);
         authRepository.save(auth);
 
-        log.info("EventRaise-start");
         Events.raise(new SignedUpEvent(dto.getEmail(), auth.getName()));
-        log.info("EventRaise-end");
     }
 
     private String uploadImage(MultipartFile multipartFile) {
-        if(multipartFile == null) {
+        if (multipartFile == null)
             return null;
-        }
         return s3Uploader.upload(multipartFile);
     }
 }
