@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 
 public interface MailSender {
 
+    void prepareAndSend(Mail mail) throws MessagingException;
     void prepare(Mail mail) throws MessagingException;
     void send();
 
