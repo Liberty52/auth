@@ -21,7 +21,7 @@ public class SocialLogin {
     @Enumerated(EnumType.STRING)
     private SocialLoginType type;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(nullable = false, updatable = false)
     private String email;
 
     @Builder

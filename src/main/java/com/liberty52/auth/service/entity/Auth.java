@@ -16,7 +16,6 @@ import java.util.UUID;
 public class Auth {
     @Id
     private String id = UUID.randomUUID().toString();
-
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
@@ -82,4 +81,9 @@ public class Auth {
     public void updatePassword(String password) {
         this.password = password;
     }
+    public boolean isRegisteredSocialLoginType(SocialLoginType socialLoginType){
+        return socialLogins.stream().anyMatch(s ->
+                        s.getType() == socialLoginType);
+    }
+
 }
