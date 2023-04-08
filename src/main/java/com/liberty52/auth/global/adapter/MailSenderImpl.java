@@ -33,6 +33,12 @@ public class MailSenderImpl implements MailSender {
     }
 
     @Override
+    public void prepareAndSend(Mail mail) throws MessagingException {
+        this.prepare(mail);
+        this.send();
+    }
+
+    @Override
     public void prepare(Mail mail) throws MessagingException {
         initMailSender();
 

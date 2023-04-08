@@ -1,0 +1,57 @@
+package com.liberty52.auth.service.repository;
+
+import static com.liberty52.auth.service.utils.MockConstants.MOCK_USER_EMAIL;
+import static com.liberty52.auth.service.utils.MockFactory.createMockAuth;
+import static com.liberty52.auth.service.utils.MockFactory.createSocialLogin;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.liberty52.auth.service.entity.Auth;
+import com.liberty52.auth.service.entity.SocialLogin;
+import com.liberty52.auth.service.entity.SocialLoginType;
+import com.netflix.discovery.converters.Auto;
+import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+
+@DataJpaTest
+class AuthRepositoryTest {
+
+    @Autowired AuthRepository authRepository;
+    @Autowired
+    EntityManager em;
+
+    Auth auth;
+
+    @BeforeEach
+    void beforeEach(){
+        auth = createMockAuth();
+    }
+    @AfterEach
+    void afterEach(){
+        em.clear();
+    }
+
+    @Test
+    void findAuthAndSocialLoginByEmail () throws Exception{
+        //given
+        auth.addSocialLogin(createSocialLogin(SocialLoginType.FACEBOOK));
+        auth.addSocialLogin(createSocialLogin(SocialLoginType.NAVER));
+        authRepository.save(auth);
+
+        //when
+        Auth finded = authRepository.findAuthAndSocialLoginByEmail(MOCK_USER_EMAIL)
+                .get();
+
+        //then
+        assertThat(finded.isRegisteredSocialLoginType(SocialLoginType.FACEBOOK)).isTrue();
+        assertThat(finded.isRegisteredSocialLoginType(SocialLoginType.NAVER)).isTrue();
+
+    }
+
+}

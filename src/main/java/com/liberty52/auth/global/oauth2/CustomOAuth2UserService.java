@@ -2,11 +2,15 @@ package com.liberty52.auth.global.oauth2;
 
 import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.SignedUpEvent;
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
+import com.liberty52.auth.service.entity.SocialLogin;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.SocialLoginRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +23,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,6 +37,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private static final String GOOGLE_REGISTRATION_ID = "google";
   private static final String NAVER_REGISTRATION_ID = "naver";
   private static final String KAKAO_REGISTRATION_ID = "kakao";
+  private static final String FACEBOOK_REGISTRATION_ID = "facebook";
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -70,17 +77,29 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
       case GOOGLE_REGISTRATION_ID -> SocialLoginType.GOOGLE;
       case NAVER_REGISTRATION_ID -> SocialLoginType.NAVER;
       case KAKAO_REGISTRATION_ID -> SocialLoginType.KAKAO;
+      case FACEBOOK_REGISTRATION_ID -> SocialLoginType.FACEBOOK;
       default -> throw new InvalidSocialLoginCodeAccessedException();
     };
   }
 
   private Auth getUser(OAuthAttributes attributes, SocialLoginType socialType) {
-    return authRepository.findByEmail(attributes.getOauth2UserInfo().getEmail()).orElseGet(()-> saveUser(attributes,socialType));
+    Auth auth = authRepository.findAuthAndSocialLoginByEmail(attributes.getOauth2UserInfo().getEmail())
+            .orElseGet(() -> saveUser(attributes, socialType));
+
+    if(!auth.isRegisteredSocialLoginType(socialType))
+      registerSocialLogin(socialType, auth);
+
+    return auth;
+  }
+
+  private void registerSocialLogin(SocialLoginType socialType, Auth auth) {
+    auth.addSocialLogin(SocialLogin.builder()
+            .email(auth.getEmail()).type(socialType).build());
   }
 
   private Auth saveUser(OAuthAttributes attributes, SocialLoginType socialType) {
     Auth createdUser = authRepository.save(attributes.toAuthEntity(attributes.getOauth2UserInfo()));
-    socialLoginRepository.save(attributes.toSocialLoginEntity(createdUser, socialType));
+    registerSocialLogin(socialType,createdUser);
     Events.raise(new SignedUpEvent(createdUser.getEmail(), createdUser.getName()));
     return createdUser;
   }

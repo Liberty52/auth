@@ -21,6 +21,10 @@ spring:
             client-id: 531825395949-l08ihgbcsql6qv3iuqkh7bnrbomtuhac.apps.googleusercontent.com
             client-secret: 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
             scope: email, profile
+          facebook:
+            client-id: 192318016885022
+            client-secret: 986bfd88ab50ae67a85eb8073e5d7b12
+            scope: email, public_profile
         provider:
           naver:
             authorization_uri: https://nid.naver.com/oauth2.0/authorize
@@ -32,3 +36,5 @@ spring:
             token_uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user_name_attribute: id
+          facebook:
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture.type(large)
