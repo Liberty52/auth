@@ -18,6 +18,9 @@ public enum AuthErrorCode implements ErrorCode{
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
             "현재 시스템에 오류가 발생하였습니다. 다시 시도해주세요.\n자세한 문의는 고객센터에 문의해주세요."),
 
+    UPDATE_PASSWORD_REQUEST_FORBIDDEN(HttpStatus.FORBIDDEN,
+            "해당 링크로는 현재 비밀번호를 변경할 수 없습니다. 다시 메일을 요청해주세요."),
+
     ;
 
     private final HttpStatus httpStatus;
