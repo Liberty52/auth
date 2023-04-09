@@ -6,23 +6,30 @@ import com.liberty52.auth.global.exception.external.AuthNotFoundException;
 import com.liberty52.auth.global.exception.external.MailMessagingException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
+import com.liberty52.auth.service.repository.EmailTokenByUpdatePasswordRepository;
 import jakarta.mail.MessagingException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.util.Objects;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class PasswordMailServiceImpl implements PasswordMailService {
 
+    private final EmailTokenByUpdatePasswordRepository tokenRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailSender mailSender;
@@ -44,6 +51,8 @@ public class PasswordMailServiceImpl implements PasswordMailService {
             String name = auth.getName();
 
             String emailToken = getEmailToken(email);
+            saveEmailTokenCache(emailToken);
+
             String limitTime = getLimitTime();
             String content = createMailContent(name, emailToken, limitTime);
 
@@ -58,14 +67,20 @@ public class PasswordMailServiceImpl implements PasswordMailService {
         }
     }
 
+
+
     @Override
     @Transactional
     public void updatePassword(String emailToken, String password) {
+
+
         String email = new String(Base64.getDecoder().decode(emailToken));
         Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
 
         String encodedPassword = passwordEncoder.encode(password);
         auth.updatePassword(encodedPassword);
+
+        deleteEmailTokenCache(emailToken);
     }
 
     private String createMailContent(String name, String emailToken, String limitTime) {
@@ -85,4 +100,40 @@ public class PasswordMailServiceImpl implements PasswordMailService {
         return limitTime.toString();
     }
 
+    private void saveEmailTokenCache(String emailToken) {
+        tokenRepository.save(EmailTokenVO.of(emailToken));
+    }
+
+    private void deleteEmailTokenCache(String emailToken) {
+        tokenRepository.delete(EmailTokenVO.of(emailToken));
+    }
+
+    @Getter
+    @RedisHash(value = "emailToken", timeToLive = 600L)
+    public static class EmailTokenVO implements Serializable {
+
+        @Id
+        String emailToken;
+
+        private EmailTokenVO(String emailToken) {
+            this.emailToken = emailToken;
+        }
+
+        public static EmailTokenVO of(String emailToken) {
+            return new EmailTokenVO(emailToken);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            EmailTokenVO that = (EmailTokenVO) o;
+            return Objects.equals(emailToken, that.emailToken);
+        }
+
+        @Override
+        public int hashCode() {
+            return emailToken != null ? emailToken.hashCode() : 0;
+        }
+    }
 }
