@@ -52,8 +52,7 @@ public class Auth {
         passwordModifyRequestDate = createdAt.plusMonths(6);
     }
 
-    public void updateUser(String updatePassword, String phoneNumber, String name,String profileUrl) {
-        this.password = updatePassword;
+    public void updateUser(String phoneNumber, String name,String profileUrl) {
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.profileUrl = profileUrl;

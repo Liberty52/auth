@@ -42,7 +42,6 @@ public class LoginServiceImpl implements LoginService {
     String accessToken = jwtService.createAccessToken(auth.getId());
     String refreshToken = jwtService.createRefreshToken();
     auth.updateRefreshToken(refreshToken);
-    authRepository.saveAndFlush(auth);
 
     response.addHeader("access", "Bearer " + accessToken);
     response.addHeader("refresh", "Bearer " + refreshToken);
