@@ -3,6 +3,7 @@ package com.liberty52.auth.service.applicationservice;
 import com.liberty52.auth.global.adapter.MailSender;
 import com.liberty52.auth.global.contants.MailContentConstants;
 import com.liberty52.auth.global.exception.external.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.AuthUpdatePasswordForbiddenException;
 import com.liberty52.auth.global.exception.external.MailMessagingException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
@@ -67,12 +68,10 @@ public class PasswordMailServiceImpl implements PasswordMailService {
         }
     }
 
-
-
     @Override
     @Transactional
     public void updatePassword(String emailToken, String password) {
-
+        tokenRepository.findById(emailToken).orElseThrow(AuthUpdatePasswordForbiddenException::new);
 
         String email = new String(Base64.getDecoder().decode(emailToken));
         Auth auth = authRepository.findByEmail(email).orElseThrow(AuthNotFoundException::new);
@@ -115,6 +114,7 @@ public class PasswordMailServiceImpl implements PasswordMailService {
         @Id
         String emailToken;
 
+        private EmailTokenVO() {}
         private EmailTokenVO(String emailToken) {
             this.emailToken = emailToken;
         }
