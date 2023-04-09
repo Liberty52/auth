@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ModifyRequestDto {
   @NotBlank
   private String originPassword;
-  @NotBlank
+
   private String updatePassword;
   @NotBlank
   private String phoneNumber;

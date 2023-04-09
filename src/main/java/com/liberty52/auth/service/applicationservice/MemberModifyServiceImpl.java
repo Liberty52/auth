@@ -8,6 +8,7 @@ import com.liberty52.auth.service.controller.dto.ModifyResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +40,14 @@ public class MemberModifyServiceImpl implements MemberModifyService{
     if (!encoder.matches(dto.getOriginPassword(), auth.getPassword())) {
       throw new AuthWithInvalidPasswordException();
     }
+
+    String updatedPassword = dto.getUpdatePassword();
+    if(!StringUtils.isBlank(updatedPassword)) {
+      auth.updatePassword(encoder.encode(dto.getUpdatePassword()));
+    }
+
     String profileImageUrl = uploadImage(imageFile);
-    auth.updateUser(encoder.encode(dto.getUpdatePassword()),dto.getPhoneNumber(),dto.getName(),profileImageUrl);
+    auth.updateUser(dto.getPhoneNumber(),dto.getName(),profileImageUrl);
   }
 
   private String uploadImage(MultipartFile multipartFile) {

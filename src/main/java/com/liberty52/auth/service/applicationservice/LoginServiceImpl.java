@@ -28,29 +28,23 @@ public class LoginServiceImpl implements LoginService {
     if (!encoder.matches(dto.getPassword(), auth.getPassword())) {
       throw new AuthNotFoundException();
     }
-
-    String accessToken = jwtService.createAccessToken(auth.getId());
-    String refreshToken = jwtService.createRefreshToken();
-    auth.updateRefreshToken(refreshToken);
-    authRepository.saveAndFlush(auth);
-
-    response.addHeader("access", "Bearer " + accessToken);
-    response.addHeader("refresh", "Bearer " + refreshToken);
+    createTokenToResponse(response, auth);
     return LoginResponseDto.of(auth.getName(), auth.getProfileUrl(), auth.getRole());
   }
 
   @Override
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
     authRepository.findByRefreshToken(refreshToken)
-        .ifPresent(auth -> {
-              String reIssuedAccessToken = jwtService.createAccessToken(auth.getId());
-              String reIssuedRefreshToken = jwtService.createRefreshToken();
-              auth.updateRefreshToken(refreshToken);
-              authRepository.saveAndFlush(auth);
-              response.addHeader("access", "Bearer " + reIssuedAccessToken);
-              response.addHeader("refresh", "Bearer " + reIssuedRefreshToken);
-            }
-        );
+        .ifPresent(auth -> createTokenToResponse(response, auth));
+  }
+
+  private void createTokenToResponse(HttpServletResponse response, Auth auth) {
+    String accessToken = jwtService.createAccessToken(auth.getId());
+    String refreshToken = jwtService.createRefreshToken();
+    auth.updateRefreshToken(refreshToken);
+
+    response.addHeader("access", "Bearer " + accessToken);
+    response.addHeader("refresh", "Bearer " + refreshToken);
   }
 }
 
