@@ -2,7 +2,6 @@ package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
-import com.liberty52.auth.service.utils.MockFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Base64;
+
+import static com.liberty52.auth.service.utils.MockConstants.*;
 
 @SpringBootTest
 class PasswordMailServiceImplTestImpl {
@@ -29,7 +30,12 @@ class PasswordMailServiceImplTestImpl {
 
     @BeforeEach
     void initAuth(){
-        Auth auth = MockFactory.createMockAuth();
+        Auth auth = Auth.createUser(
+                "mju.omnm@gmail.com",
+                MOCK_USER_PASSWORD,
+                MOCK_USER_NAME,
+                MOCK_PHONE_NUMBER,
+                MOCK_PROFILE_URL);
         authRepository.save(auth);
         email = auth.getEmail();
     }
