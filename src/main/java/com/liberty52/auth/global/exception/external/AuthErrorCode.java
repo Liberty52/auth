@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 public enum AuthErrorCode implements ErrorCode{
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED,"등록되지 않은 계정입니다."),
 
+    AUTH_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "회원정보가 일치하지 않습니다."),
+
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST,"이미 존재하는 이메일입니다."),
 
     INVALID_SOCIAL_LOGIN_CODE_ACCESSED(HttpStatus.BAD_REQUEST,"불가능한 소셜 로그인 코드가 도달했습니다."),
