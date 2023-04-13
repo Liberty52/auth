@@ -42,3 +42,5 @@ out/
 ### secret
 
 /src/main/resources/bootstrap.yml
+/spy.log
+/data/dump.rdb
