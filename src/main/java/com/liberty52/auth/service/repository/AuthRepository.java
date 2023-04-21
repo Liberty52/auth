@@ -1,5 +1,6 @@
 package com.liberty52.auth.service.repository;
 
+import com.liberty52.auth.service.controller.dto.ReviewerProfileResponse;
 import com.liberty52.auth.service.entity.Auth;
 import feign.Param;
 import java.util.List;
@@ -16,4 +17,8 @@ public interface AuthRepository extends JpaRepository<Auth, String> {
   @Query("SELECT a FROM Auth a left join fetch SocialLogin s on a = s.auth "
           + "where a.email = :email")
   Optional<Auth> findAuthAndSocialLoginByEmail(@Param String email);
+
+  @Query("SELECT new com.liberty52.auth.service.controller.dto.ReviewerProfileResponse(a.name, a.profileUrl) from Auth a "
+          + "where a.id = :authId")
+  Optional<ReviewerProfileResponse> findReviewerProfileById(@Param String authId);
 }

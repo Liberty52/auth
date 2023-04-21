@@ -1,5 +1,6 @@
 package com.liberty52.auth.service.fake;
 
+import com.liberty52.auth.service.controller.dto.ReviewerProfileResponse;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import java.util.HashMap;
@@ -35,6 +36,11 @@ public class FakeAuthRepository implements AuthRepository {
 
     @Override
     public Optional<Auth> findAuthAndSocialLoginByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<ReviewerProfileResponse> findReviewerProfileById(String authId) {
         return Optional.empty();
     }
 
