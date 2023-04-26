@@ -14,7 +14,7 @@ public class QuestionModifyRequestDto {
     String title;
 
     @NotEmpty
-    @Max(10000)
+    @Size(max = 10000)
     String content;
 
     public static QuestionModifyRequestDto createForTest(String mTitle, String mContent) {
