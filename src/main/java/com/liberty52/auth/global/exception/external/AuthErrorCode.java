@@ -31,7 +31,7 @@ public enum AuthErrorCode implements ErrorCode{
 
     FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 작업에 오류가 발생하였습니다."),
 
-    ;
+    NOT_FOUND(HttpStatus.NOT_FOUND, ""), FORBIDDEN(HttpStatus.FORBIDDEN, "");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;
