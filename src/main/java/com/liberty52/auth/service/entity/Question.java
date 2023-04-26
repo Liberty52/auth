@@ -58,7 +58,7 @@ public class Question {
         }
     }
 
-    public void modify(String title, String content) {
+    public void modify(String title, String content) throws InvalidQuestionContentException, InvalidQuestionTitleException {
         setTitle(title);
         setContent(content);
     }

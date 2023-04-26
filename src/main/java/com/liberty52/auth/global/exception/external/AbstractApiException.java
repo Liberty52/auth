@@ -12,12 +12,16 @@ public class AbstractApiException extends RuntimeException implements ErrorCode{
     private final String errorMessage;
 
     public AbstractApiException (ErrorCode errorCode) {
-
         httpStatus = errorCode.getHttpStatus();
         this.errorCode = errorCode.getErrorCode();
         errorName = errorCode.getErrorName();
         errorMessage = errorCode.getErrorMessage();
     }
 
-
+    public AbstractApiException(AuthErrorCode errorCode, String msg) {
+        httpStatus = errorCode.getHttpStatus();
+        this.errorCode = errorCode.getErrorCode();
+        errorName = errorCode.getErrorName();
+        errorMessage = msg;
+    }
 }

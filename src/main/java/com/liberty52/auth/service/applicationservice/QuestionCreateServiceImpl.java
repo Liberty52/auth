@@ -1,6 +1,6 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.service.controller.dto.QuestionCreateRequest;
+import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class QuestionCreateServiceImpl implements QuestionCreateService {
     private final QuestionRepository questionRepository;
 
     @Override
-    public void createQuestion(String writerId, QuestionCreateRequest dto) {
+    public void createQuestion(String writerId, QuestionCreateRequestDto dto) {
         Question question = Question.create(dto.getTitle(), dto.getContent(), writerId);
         questionRepository.save(question);
     }
