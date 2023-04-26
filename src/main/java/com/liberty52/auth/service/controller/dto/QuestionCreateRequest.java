@@ -16,6 +16,7 @@ public class QuestionCreateRequest {
     String title;
 
     @NotNull
+    @Min(1)
     @Max(10000)
     String content;
 

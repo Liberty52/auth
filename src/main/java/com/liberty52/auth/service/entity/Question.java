@@ -30,6 +30,7 @@ public class Question {
     public static final int TITLE_MAX_LENGTH = 50;
     public static final int TITLE_MIN_LENGTH = 1;
     public static final int CONTENT_MAX_LENGTH = 10000;
+    public static final int CONTENT_MIN_LENGTH = 1;
 
     @Builder
     private Question(String title, String content, String writerId) {
@@ -46,7 +47,7 @@ public class Question {
     }
 
     private void validContent() {
-        if (content.length() > CONTENT_MAX_LENGTH) {
+        if (content.length() > CONTENT_MAX_LENGTH || content.length() < CONTENT_MIN_LENGTH) {
             throw new InvalidQuestionContentException();
         }
     }
