@@ -15,7 +15,7 @@ public class QuestionCreateController {
 
     @PostMapping("/questions")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @RequestBody QuestionCreateRequest dto) {
+    public void createQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @Validated @RequestBody QuestionCreateRequest dto) {
         questionCreateService.createQuestion(writerId, dto);
     }
 }
