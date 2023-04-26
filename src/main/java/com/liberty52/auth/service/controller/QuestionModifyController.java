@@ -16,7 +16,7 @@ public class QuestionModifyController {
 
     private final QuestionModifyService questionModifyService;
 
-    @PostMapping("/questions/{questionId}")
+    @PutMapping("/questions/{questionId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void questionModify(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
