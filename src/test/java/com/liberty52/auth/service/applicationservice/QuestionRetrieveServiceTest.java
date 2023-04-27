@@ -2,6 +2,7 @@ package com.liberty52.auth.service.applicationservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionRetrieveServiceTest {
 
   private static final String WAITING = "WAITING";
+  private static final String writerId = "TESTER-001";
+  private static final String questionedId = "QUESTION-001";
   @Autowired
   QuestionRepository questionRepository;
 
@@ -23,7 +26,6 @@ public class QuestionRetrieveServiceTest {
 
   @Test
   void 문의조회() {
-    String writerId = "TESTER-001";
     Page<QuestionRetrieveResponseDto> responses =
         questionRetrieveService.retrieveQuestions(writerId, 0, 5);
     for (QuestionRetrieveResponseDto response:responses){
@@ -34,5 +36,15 @@ public class QuestionRetrieveServiceTest {
       assertThat(response.getTitle()).isEqualTo("this is title");
       assertThat(response.getContent()).isEqualTo("this is content");
     }
+  }
+
+  @Test
+  void 상세문의조회() {
+    QuestionDetailResponseDto response = questionRetrieveService.retrieveQuestionDetail(questionedId, writerId);
+    assertThat(response.getId()).isEqualTo(questionedId);
+    assertThat(response.getWriterId()).isEqualTo(writerId);
+    assertThat(response.getTitle()).isEqualTo("this is title");
+    assertThat(response.getContent()).isEqualTo("this is content");
+    assertThat(response.getStatus()).isEqualTo(WAITING);
   }
 }
