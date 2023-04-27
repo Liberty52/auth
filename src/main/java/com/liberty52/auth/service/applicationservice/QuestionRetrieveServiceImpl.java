@@ -3,6 +3,8 @@ package com.liberty52.auth.service.applicationservice;
 import com.liberty52.auth.global.exception.external.AuthNotFoundException;
 import com.liberty52.auth.global.exception.external.PageNumberOutOfRangeException;
 import com.liberty52.auth.global.exception.external.PageSizeException;
+import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
+import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.QuestionRepository;
@@ -38,6 +40,16 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
     return questionList.map(question ->
         QuestionRetrieveResponseDto.create(question, pageInfo.get(currentPage),
             pageInfo.get(startPage), pageInfo.get(lastPage)));
+  }
+
+  @Override
+  public QuestionDetailResponseDto retrieveQuestionDetail(String questionId, String writerId) {
+    Question question = questionRepository.findById(questionId)
+        .orElseThrow(() -> new QuestionNotFoundById(questionId));
+    if (!question.getWriterId().equals(writerId)) {
+      throw new AuthNotFoundException();
+    }
+    return QuestionDetailResponseDto.create(question);
   }
 
   private Map<String,Long> getPageInfo(Page<Question> questionList, int pageNumber, int pageSize){
