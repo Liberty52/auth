@@ -2,34 +2,48 @@ package com.liberty52.auth.service.controller.dto;
 
 import com.liberty52.auth.service.entity.Question;
 import java.time.LocalDate;
-import lombok.Builder;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class QuestionRetrieveResponseDto {
-
-  private String id;
-  private String status;
-  private String title;
-  private String content;
-  private String writerId;
-  private LocalDate createdAt;
+  private List<QuestionContent> contents;
   private long currentPage;
   private long startPage;
   private long lastPage;
 
-  public static QuestionRetrieveResponseDto create(Question question,long currentPage,long startPage,long lastPage) {
-    return  QuestionRetrieveResponseDto.builder()
-        .id(question.getId())
-        .status(question.getStatus().name())
-        .title(question.getTitle())
-        .content(question.getContent())
-        .writerId(question.getWriterId())
-        .createdAt(question.getCreatedAt().toLocalDate())
-        .currentPage(currentPage)
-        .startPage(startPage)
-        .lastPage(lastPage)
-        .build();
+  public QuestionRetrieveResponseDto (Question question,long currentPage,long startPage,long lastPage) {
+    contents = new ArrayList<>();
+    QuestionContent questionContent = new QuestionContent(
+        question.getId(), question.getStatus().name(),question.getTitle()
+        ,question.getContent(),question.getWriterId(),question.getCreatedAt().toLocalDate());
+    contents.add(questionContent);
+    this.currentPage = currentPage;
+    this.startPage = startPage;
+    this.lastPage = lastPage;
+  }
+
+  @Data
+  public class QuestionContent{
+    private String id;
+    private String status;
+    private String title;
+    private String content;
+    private String writerId;
+    private LocalDate createdAt;
+
+    public QuestionContent(String id,String status,String title,
+        String content,String writerId,LocalDate createAt){
+      this.id = id;
+      this.status = status;
+      this.title = title;
+      this.content = content;
+      this.writerId = writerId;
+      this.createdAt = createAt;
+    }
   }
 }

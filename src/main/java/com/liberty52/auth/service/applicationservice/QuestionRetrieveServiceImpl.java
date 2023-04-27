@@ -9,6 +9,7 @@ import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   private final String lastPage = "lastPage";
   private final QuestionRepository questionRepository;
   @Override
-  public Page<QuestionRetrieveResponseDto> retrieveQuestions(String writerId, int pageNumber,int pageSize) {
+  public List<QuestionRetrieveResponseDto> retrieveQuestions(String writerId, int pageNumber,int pageSize) {
     if(questionRepository.findByWriterId(writerId).isEmpty()){
       throw new AuthNotFoundException();
     }
@@ -37,9 +38,9 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
       throw new PageNumberOutOfRangeException();
     }
     Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber,pageSize);
-    return questionList.map(question ->
-        QuestionRetrieveResponseDto.create(question, pageInfo.get(currentPage),
-            pageInfo.get(startPage), pageInfo.get(lastPage)));
+    return questionList.map(
+        question -> new QuestionRetrieveResponseDto(question, pageInfo.get(currentPage),
+            pageInfo.get(startPage), pageInfo.get(lastPage))).getContent();
   }
 
   @Override
