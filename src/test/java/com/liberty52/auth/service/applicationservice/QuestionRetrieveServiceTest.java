@@ -6,7 +6,6 @@ import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto.QuestionContent;
 import com.liberty52.auth.service.repository.QuestionRepository;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,9 +26,7 @@ public class QuestionRetrieveServiceTest {
 
   @Test
   void 문의조회() {
-    List<QuestionRetrieveResponseDto> responses =
-        questionRetrieveService.retrieveQuestions(writerId, 0, 5);
-    for (QuestionRetrieveResponseDto response:responses){
+    QuestionRetrieveResponseDto response = questionRetrieveService.retrieveQuestions(writerId, 0, 5);
       assertThat(response.getCurrentPage()).isSameAs(1L);
       assertThat(response.getStartPage()).isSameAs(1L);
       assertThat(response.getLastPage()).isSameAs(1L);
@@ -38,7 +35,6 @@ public class QuestionRetrieveServiceTest {
       assertThat(questionContent.getStatus()).isEqualTo(WAITING);
       assertThat(questionContent.getTitle()).isEqualTo("this is title");
       assertThat(questionContent.getContent()).isEqualTo("this is content");
-    }
   }
 
   @Test

@@ -21,7 +21,7 @@ public class QuestionRetrieveController {
   private final QuestionRetrieveService questionRetrieveService;
   @GetMapping("/questions")
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<List<QuestionRetrieveResponseDto>> retrieveQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
+  public ResponseEntity<QuestionRetrieveResponseDto> retrieveQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
       @RequestParam(value = "page", defaultValue = "0") int pageNumber,
       @RequestParam(value = "size", defaultValue = "10") int size){
     return ResponseEntity.ok(questionRetrieveService.retrieveQuestions(writerId,pageNumber,size));
