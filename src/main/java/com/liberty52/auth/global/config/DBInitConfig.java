@@ -1,7 +1,9 @@
 package com.liberty52.auth.global.config;
 
 import com.liberty52.auth.service.entity.Auth;
+import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.AuthRepository;
+import com.liberty52.auth.service.repository.QuestionRepository;
 import jakarta.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class DBInitConfig {
     public static class DBInitService {
 
         private final AuthRepository authRepository;
+        private final QuestionRepository questionRepository;
         private final PasswordEncoder encoder;
 
         public void init() {
@@ -40,6 +43,9 @@ public class DBInitConfig {
                 id.set(auth, "TESTER-001");
 
                 authRepository.save(auth);
+
+                Question question = Question.create("this is title","this is content","TESTER-001");
+                questionRepository.save(question);
 
             } catch (Exception e) {
                 e.printStackTrace();
