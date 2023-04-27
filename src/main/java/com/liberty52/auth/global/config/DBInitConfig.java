@@ -44,11 +44,15 @@ public class DBInitConfig {
 
                 authRepository.save(auth);
 
-                Question question = Question.create("this is title","this is content","TESTER-001");
-                Field questionId = question.getClass().getDeclaredField("id");
-                questionId.setAccessible(true);
-                questionId.set(question, "QUESTION-001");
-                questionRepository.save(question);
+
+                for(int i = 0; i< 20; i++){
+                    Question question = Question.create("this is title","this is content","TESTER-001");
+                    Field questionId = question.getClass().getDeclaredField("id");
+                    questionId.setAccessible(true);
+                    questionId.set(question, "QUESTION-00"+i);
+                    questionRepository.save(question);
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();

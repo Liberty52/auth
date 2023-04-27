@@ -9,19 +9,15 @@ import lombok.Data;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class QuestionRetrieveResponseDto {
   private List<QuestionContent> contents;
   private long currentPage;
   private long startPage;
   private long lastPage;
 
-  public QuestionRetrieveResponseDto (Question question,long currentPage,long startPage,long lastPage) {
-    contents = new ArrayList<>();
-    QuestionContent questionContent = new QuestionContent(
-        question.getId(), question.getStatus().name(),question.getTitle()
-        ,question.getContent(),question.getWriterId(),question.getCreatedAt().toLocalDate());
-    contents.add(questionContent);
+  public QuestionRetrieveResponseDto (List<Question> questions,long currentPage,long startPage,long lastPage) {
+    contents = questions.stream().map(q -> new QuestionContent(q.getId(),q.getStatus().name(),q.getTitle(),q.getContent(),q.getWriterId(),q.getCreatedAt()
+            .toLocalDate())).toList();
     this.currentPage = currentPage;
     this.startPage = startPage;
     this.lastPage = lastPage;

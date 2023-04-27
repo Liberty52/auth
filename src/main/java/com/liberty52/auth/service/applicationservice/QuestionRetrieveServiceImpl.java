@@ -25,7 +25,7 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   private final String lastPage = "lastPage";
   private final QuestionRepository questionRepository;
   @Override
-  public List<QuestionRetrieveResponseDto> retrieveQuestions(String writerId, int pageNumber,int pageSize) {
+  public QuestionRetrieveResponseDto retrieveQuestions(String writerId, int pageNumber,int pageSize) {
     if(questionRepository.findByWriterId(writerId).isEmpty()){
       throw new AuthNotFoundException();
     }
@@ -38,9 +38,12 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
       throw new PageNumberOutOfRangeException();
     }
     Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber,pageSize);
-    return questionList.map(
-        question -> new QuestionRetrieveResponseDto(question, pageInfo.get(currentPage),
-            pageInfo.get(startPage), pageInfo.get(lastPage))).getContent();
+//    return questionList.map(
+//        question -> new QuestionRetrieveResponseDto(question, pageInfo.get(currentPage),
+//            pageInfo.get(startPage), pageInfo.get(lastPage))).getContent();
+
+    return new QuestionRetrieveResponseDto(questionList.getContent(),
+            pageInfo.get(currentPage),pageInfo.get(startPage),pageInfo.get(lastPage));
   }
 
   @Override
