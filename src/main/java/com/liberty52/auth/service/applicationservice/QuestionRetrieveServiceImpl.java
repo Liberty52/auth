@@ -53,15 +53,10 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   private Map<String,Long> getPageInfo(Page<Question> questionList, int pageNumber, int pageSize){
     long totalPages = questionList.getTotalPages();
     long currentPage = pageNumber + 1; // 0부터 시작하는 페이지 번호를 1부터 시작하는 번호로 변환
-    long startPage;
-    long lastPage;
-    if (pageSize > 1) {
-      startPage = ((currentPage - 1) / pageSize) * pageSize + 1;
-      lastPage = Math.min(startPage + pageSize - 1, totalPages);
-    } else {
-      startPage = Math.max(currentPage - 5, 1); // 현재 페이지에서 5 페이지 이전으로 이동
-      lastPage = Math.min(startPage + 9, totalPages); // 현재 페이지에서 4 페이지 이후로 이동
-    }
+    long startPage =  currentPage %10 ==0 ? (currentPage/10-1)*10+1 : (currentPage/10)*10 +1;
+    long lastPage = Math.min(totalPages, 10L * (currentPage%10 == 0 ? currentPage/10 : currentPage / 10 + 1));
+
+
     Map<String,Long> returnMap = new HashMap<>();
     returnMap.put("startPage", startPage);
     returnMap.put("currentPage", currentPage);
