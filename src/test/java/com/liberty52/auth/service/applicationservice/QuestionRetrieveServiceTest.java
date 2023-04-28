@@ -30,6 +30,7 @@ public class QuestionRetrieveServiceTest {
       assertThat(response.getCurrentPage()).isSameAs(1L);
       assertThat(response.getStartPage()).isSameAs(1L);
       assertThat(response.getLastPage()).isSameAs(1L);
+      assertThat(response.getTotalPage()).isSameAs(1L);
 
       QuestionContent questionContent = response.getContents().get(0);
       assertThat(questionContent.getStatus()).isEqualTo(WAITING);
