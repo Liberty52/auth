@@ -19,9 +19,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
-  private final String currentPage = "currentPage";
   private final String startPage = "startPage";
+  private final String currentPage = "currentPage";
   private final String lastPage = "lastPage";
+  private final String totalPage = "totalPage";
   private final QuestionRepository questionRepository;
   @Override
   public QuestionRetrieveResponseDto retrieveQuestions(String writerId, int pageNumber,int pageSize) {
@@ -36,8 +37,9 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
     if (questionList.isEmpty()){
       throw new PageNumberOutOfRangeException();
     }
-    Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber,pageSize);
-    return new QuestionRetrieveResponseDto(questionList,pageInfo.get(currentPage),pageInfo.get(startPage),pageInfo.get(lastPage));
+    Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
+    return new QuestionRetrieveResponseDto(questionList,pageInfo.get(currentPage),pageInfo.get(
+        startPage),pageInfo.get(lastPage),pageInfo.get(totalPage));
   }
 
   @Override
@@ -50,22 +52,16 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
     return QuestionDetailResponseDto.create(question);
   }
 
-  private Map<String,Long> getPageInfo(Page<Question> questionList, int pageNumber, int pageSize){
+  private Map<String,Long> getPageInfo(Page<Question> questionList, int pageNumber){
     long totalPages = questionList.getTotalPages();
     long currentPage = pageNumber + 1; // 0부터 시작하는 페이지 번호를 1부터 시작하는 번호로 변환
-    long startPage;
-    long lastPage;
-    if (pageSize > 1) {
-      startPage = ((currentPage - 1) / pageSize) * pageSize + 1;
-      lastPage = Math.min(startPage + pageSize - 1, totalPages);
-    } else {
-      startPage = Math.max(currentPage - 5, 1); // 현재 페이지에서 5 페이지 이전으로 이동
-      lastPage = Math.min(startPage + 9, totalPages); // 현재 페이지에서 4 페이지 이후로 이동
-    }
+    long startPage =  currentPage %10 ==0 ? (currentPage/10-1)*10+1 : (currentPage/10)*10 +1;
+    long lastPage = Math.min(totalPages, 10L * (currentPage%10 == 0 ? currentPage/10 : currentPage / 10 + 1));
     Map<String,Long> returnMap = new HashMap<>();
     returnMap.put("startPage", startPage);
     returnMap.put("currentPage", currentPage);
     returnMap.put("lastPage", lastPage);
+    returnMap.put("totalPage", totalPages);
     return returnMap;
   }
 

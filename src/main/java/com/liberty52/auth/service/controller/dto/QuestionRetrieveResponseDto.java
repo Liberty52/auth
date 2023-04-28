@@ -15,14 +15,16 @@ public class QuestionRetrieveResponseDto {
   private long currentPage;
   private long startPage;
   private long lastPage;
+  private long totalPage;
 
-  public QuestionRetrieveResponseDto (Page<Question> questionList,long currentPage,long startPage,long lastPage) {
+  public QuestionRetrieveResponseDto (Page<Question> questionList,long currentPage,long startPage,long lastPage,long totalPage) {
     contents = questionList.stream().map(q-> new QuestionContent(q.getId(),q.getStatus().name(),
         q.getTitle(),q.getContent(),q.getWriterId(),q.getCreatedAt().toLocalDate())).toList();
 
     this.currentPage = currentPage;
     this.startPage = startPage;
     this.lastPage = lastPage;
+    this.totalPage = totalPage;
   }
 
   @Data
