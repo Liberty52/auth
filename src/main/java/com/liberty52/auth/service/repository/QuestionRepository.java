@@ -11,4 +11,6 @@ public interface QuestionRepository extends JpaRepository<Question, String> {
   List<Question> findByWriterId(String writerId);
 
   Page<Question> findAllByWriterId(String writerId, PageRequest pageable);
+
+  void deleteAllByWriterId(String writerId);
 }

@@ -23,4 +23,9 @@ public class QuestionDeleteServiceImpl implements QuestionDeleteService {
         }
         questionRepository.delete(question);
     }
+
+    @Override
+    public void deleteAllQuestion(String writerId) {
+        questionRepository.deleteAllByWriterId(writerId);
+    }
 }

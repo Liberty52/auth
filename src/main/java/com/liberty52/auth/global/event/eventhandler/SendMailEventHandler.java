@@ -3,6 +3,7 @@ package com.liberty52.auth.global.event.eventhandler;
 import com.liberty52.auth.global.adapter.MailSender;
 import com.liberty52.auth.global.adapter.MailSender.Mail;
 import com.liberty52.auth.global.event.events.SendMailEvent;
+import com.liberty52.auth.global.event.events.SignedUpEvent;
 import com.liberty52.auth.global.utils.EmailPageFormatter;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class SendMailEventHandler {
 
     private final MailSender mailSender;
     @Async
-    @EventListener(SendMailEvent.class)
+    @EventListener(SignedUpEvent.class)
     public void handlingSendMailEvent(SendMailEvent sendMailEvent) throws MessagingException {
         Mail mail = MailSender.buildMail(sendMailEvent.getEmail(), sendMailEvent.getTitle(),
                 EmailPageFormatter.formatSignUpOrDeletePage(sendMailEvent.getMainText(), sendMailEvent.getSubText(),
@@ -26,8 +27,5 @@ public class SendMailEventHandler {
         mailSender.prepare(mail);
         mailSender.send();
     }
-
-
-
 
 }

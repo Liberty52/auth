@@ -24,6 +24,6 @@ public class MemberDeleteServiceImpl implements
                 .orElseThrow(AuthNotFoundException::new);
         authRepository.delete(auth);
 
-        Events.raise(new MemberDeletedEvent(auth.getEmail(), auth.getName()));
+        Events.raise(new MemberDeletedEvent(auth.getEmail(), auth.getName(),userId));
     }
 }
