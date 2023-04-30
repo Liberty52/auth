@@ -6,8 +6,14 @@ import com.liberty52.auth.global.event.Event;
 
 public class MemberDeletedEvent extends SendMailEvent implements Event {
 
-    public MemberDeletedEvent(String email, String name) {
+    private String authId;
+
+    public MemberDeletedEvent(String email, String name, String authId) {
         super(DELETE_MEMBER_TITLE, email, name,DELETE_MEMBER_DATE_TEXT ,DELETE_MEMBER_MAIN_TEXT , DELETE_MEMBER_SUB_TEXT);
+        this.authId = authId;
     }
 
+    public String getAuthId() {
+        return authId;
+    }
 }
