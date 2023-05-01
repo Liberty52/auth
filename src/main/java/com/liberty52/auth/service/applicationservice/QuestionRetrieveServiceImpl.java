@@ -26,9 +26,6 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   private final QuestionRepository questionRepository;
   @Override
   public QuestionRetrieveResponseDto retrieveQuestions(String writerId, int pageNumber,int pageSize) {
-    if(questionRepository.findByWriterId(writerId).isEmpty()){
-      throw new AuthNotFoundException();
-    }
     if (pageSize <= 0) {//페이지당 출력할 데이터 개수를 의미
       throw new PageSizeException();
     }
@@ -38,8 +35,8 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
       throw new PageNumberOutOfRangeException();
     }
     Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
-    return new QuestionRetrieveResponseDto(questionList,pageInfo.get(currentPage),pageInfo.get(
-        startPage),pageInfo.get(lastPage),pageInfo.get(totalPage));
+    return new QuestionRetrieveResponseDto(questionList,pageInfo.get(currentPage),pageInfo.get(startPage),
+        pageInfo.get(lastPage),pageInfo.get(totalPage));
   }
 
   @Override
