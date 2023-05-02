@@ -26,6 +26,8 @@ public class Question {
     private String writerId;
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+    @OneToOne(fetch = FetchType.LAZY, mappedBy="question")
+    private QuestionReply questionReply;
 
     public static final int TITLE_MAX_LENGTH = 50;
     public static final int TITLE_MIN_LENGTH = 1;
@@ -71,5 +73,10 @@ public class Question {
     private void setContent(String content) {
         this.content = content;
         validContent();
+    }
+
+    public void associate(QuestionReply questionReply){
+        this.questionReply = questionReply;
+        this.status = QuestionStatus.DONE;
     }
 }
