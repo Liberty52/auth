@@ -18,7 +18,7 @@ public class QuestionReply {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "questionReply_id")
+    @JoinColumn(name = "question_id")
     private Question question;
 
     public static final int CONTENT_MAX_LENGTH = 10000;

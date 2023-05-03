@@ -26,8 +26,7 @@ public class Question {
     private String writerId;
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "questionReply_id")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "question")
     private QuestionReply questionReply;
 
     public static final int TITLE_MAX_LENGTH = 50;
