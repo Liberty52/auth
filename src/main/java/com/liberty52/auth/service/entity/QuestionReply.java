@@ -2,11 +2,16 @@ package com.liberty52.auth.service.entity;
 
 import com.liberty52.auth.global.exception.internal.InvalidQuestionContentException;
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
+@Getter
+@Setter(AccessLevel.PRIVATE)
+@Table(name = "questionReply")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionReply {
 
     @Id
