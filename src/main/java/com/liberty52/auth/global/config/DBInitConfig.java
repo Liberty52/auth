@@ -2,6 +2,7 @@ package com.liberty52.auth.global.config;
 
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Question;
+import com.liberty52.auth.service.entity.QuestionReply;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import jakarta.annotation.PostConstruct;
@@ -48,6 +49,12 @@ public class DBInitConfig {
                 Field questionId = question.getClass().getDeclaredField("id");
                 questionId.setAccessible(true);
                 questionId.set(question, "QUESTION-001");
+
+                QuestionReply questionReply = QuestionReply.create("this is reply content", "ADMIN-001");
+                Field questionReplyId = questionReply.getClass().getDeclaredField("id");
+                questionReplyId.setAccessible(true);
+                questionReplyId.set(questionReply, "QUESTION-REPLY-001");
+                questionReply.associate(question);
                 questionRepository.save(question);
 
             } catch (Exception e) {
