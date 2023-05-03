@@ -5,8 +5,10 @@ import com.liberty52.auth.global.exception.external.PageNumberOutOfRangeExceptio
 import com.liberty52.auth.global.exception.external.PageSizeException;
 import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
 import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
+import com.liberty52.auth.service.controller.dto.QuestionReplyResponse;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.entity.Question;
+import com.liberty52.auth.service.entity.QuestionReply;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +48,12 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
     if (!question.getWriterId().equals(writerId)) {
       throw new AuthNotFoundException();
     }
-    return QuestionDetailResponseDto.create(question);
+    QuestionReply questionReply = question.getQuestionReply();
+    QuestionReplyResponse questionReplyResponse = null;
+    if (questionReply != null) {
+      questionReplyResponse = new QuestionReplyResponse(questionReply);
+    }
+    return QuestionDetailResponseDto.create(question, questionReplyResponse);
   }
 
   private Map<String,Long> getPageInfo(Page<Question> questionList, int pageNumber){
@@ -61,5 +68,6 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
     returnMap.put("totalPage", totalPages);
     return returnMap;
   }
+
 
 }
