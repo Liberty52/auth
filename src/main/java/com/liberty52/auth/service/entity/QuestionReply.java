@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Entity
 @Getter
-@Setter(AccessLevel.PRIVATE)
 @Table(name = "questionReply")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionReply {
