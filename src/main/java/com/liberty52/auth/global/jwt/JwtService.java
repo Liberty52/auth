@@ -35,16 +35,16 @@ public class JwtService {
   private String refreshHeader;
 
   @Value("${jwt.value.prefix.bearer}")
-  private String PREFIX_BEARER;
+  private String prefixBearer;
 
   @Value("${jwt.value.prefix.basic}")
-  private String PREFIX_BASIC;
+  private String prefixBasic;
 
   @Value("${jwt.value.claim.auth-id}")
-  private String CLAIM_AUTH_ID;
+  private String claimAuthId;
 
   @Value("${jwt.value.claim.role}")
-  private String CLAIM_ROLE;
+  private String claimRole;
 
   private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
   private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
@@ -56,8 +56,8 @@ public class JwtService {
     return JWT.create()
             .withSubject(ACCESS_TOKEN_SUBJECT)
             .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-            .withClaim(CLAIM_AUTH_ID, id)
-            .withClaim(CLAIM_ROLE, role.getKey())
+            .withClaim(claimAuthId, id)
+            .withClaim(claimRole, role.getKey())
             .sign(Algorithm.HMAC512(secretKey));
   }
 
@@ -86,14 +86,14 @@ public class JwtService {
 
   public Optional<String> extractRefreshToken(HttpServletRequest request) {
     return Optional.ofNullable(request.getHeader(refreshHeader))
-        .filter(refreshToken -> refreshToken.startsWith(PREFIX_BEARER))
-        .map(refreshToken -> refreshToken.replace(PREFIX_BEARER, ""));
+        .filter(refreshToken -> refreshToken.startsWith(prefixBearer))
+        .map(refreshToken -> refreshToken.replace(prefixBearer, ""));
   }
 
   public Optional<String> extractAccessToken(HttpServletRequest request) {
     return Optional.ofNullable(request.getHeader(accessHeader))
-        .filter(token -> token.startsWith(PREFIX_BEARER))
-        .map(token -> token.replace(PREFIX_BEARER, ""));
+        .filter(token -> token.startsWith(prefixBearer))
+        .map(token -> token.replace(prefixBearer, ""));
   }
 
   public Optional<String> extractAuthId(String accessToken) {
@@ -101,7 +101,7 @@ public class JwtService {
       Optional<String> result = Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
           .build()
           .verify(accessToken)
-          .getClaim(CLAIM_AUTH_ID)
+          .getClaim(claimAuthId)
           .asString());
 
       return result;
