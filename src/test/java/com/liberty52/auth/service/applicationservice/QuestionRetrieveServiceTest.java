@@ -2,10 +2,12 @@ package com.liberty52.auth.service.applicationservice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.liberty52.auth.service.controller.dto.AdminQuestionRetrieveResponse;
 import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionReplyResponse;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto.QuestionContent;
+import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
@@ -57,5 +59,20 @@ public class QuestionRetrieveServiceTest {
       assertThat(questionReplyResponse.getReplyContent()).isEqualTo("this is reply content");
       assertThat(questionReplyResponse.getReplyCreatedAt()).isEqualTo(LocalDate.now());
     }
+  }
+
+  @Test
+  void 관리자문의조회() {
+    AdminQuestionRetrieveResponse response = questionRetrieveService.retrieveAllQuestions(Role.ADMIN.name(), 0, 5);
+    assertThat(response.getCurrentPage()).isSameAs(1L);
+    assertThat(response.getStartPage()).isSameAs(1L);
+    assertThat(response.getLastPage()).isSameAs(1L);
+    assertThat(response.getTotalPage()).isSameAs(1L);
+
+    AdminQuestionRetrieveResponse.QuestionContent questionContent = response.getContents().get(0);
+    assertThat(questionContent.getStatus()).isEqualTo(DONE);
+    assertThat(questionContent.getTitle()).isEqualTo("this is title");
+    assertThat(questionContent.getContent()).isEqualTo("this is content");
+    assertThat(questionContent.getEmail()).isEqualTo("test@gmail.com");
   }
 }
