@@ -17,7 +17,7 @@ public class QuestionReply {
     private String id = UUID.randomUUID().toString();
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String writerId;
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -30,7 +30,7 @@ public class QuestionReply {
 
     @Builder
     private QuestionReply(String content, String writerId) {
-        this.content = content;
+        setContent(content);
         this.writerId = writerId;
     }
 
@@ -49,5 +49,14 @@ public class QuestionReply {
         if (content.length() > CONTENT_MAX_LENGTH || content.length() < CONTENT_MIN_LENGTH) {
             throw new InvalidQuestionContentException();
         }
+    }
+
+    public void modify(String content) {
+        setContent(content);
+    }
+
+    private void setContent(String content) {
+        this.content = content;
+        validContent();
     }
 }
