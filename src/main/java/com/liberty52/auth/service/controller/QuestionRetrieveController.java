@@ -1,9 +1,9 @@
 package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.service.applicationservice.QuestionRetrieveService;
+import com.liberty52.auth.service.controller.dto.AdminQuestionRetrieveResponse;
 import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,4 +33,12 @@ public class QuestionRetrieveController {
     return ResponseEntity.ok(questionRetrieveService.retrieveQuestionDetail(questionId,writerId));
   }
 
+  //admin
+  @GetMapping("/all-questions")
+  @ResponseStatus(HttpStatus.OK)
+  public ResponseEntity<AdminQuestionRetrieveResponse> retrieveAllQuestions(@RequestHeader("X-ROLE") String role,
+      @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+      @RequestParam(value = "size", defaultValue = "10") int size){
+    return ResponseEntity.ok(questionRetrieveService.retrieveAllQuestions(role,pageNumber,size));
+  }
 }
