@@ -6,7 +6,6 @@ import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +16,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Getter
 @Slf4j
 public class JwtService {
 
@@ -36,11 +34,20 @@ public class JwtService {
   @Value("${jwt.refresh.header}")
   private String refreshHeader;
 
+  @Value("${jwt.value.prefix.bearer}")
+  private String PREFIX_BEARER;
+
+  @Value("${jwt.value.prefix.basic}")
+  private String PREFIX_BASIC;
+
+  @Value("${jwt.value.claim.auth-id}")
+  private String CLAIM_AUTH_ID;
+
+  @Value("${jwt.value.claim.role}")
+  private String CLAIM_ROLE;
+
   private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
   private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-  private static final String AUTH_ID_CLAIM = "authId";
-  private static final String ROLE = "role";
-  private static final String BEARER = "Bearer ";
 
   private final AuthRepository authRepository;
 
@@ -49,8 +56,8 @@ public class JwtService {
     return JWT.create()
             .withSubject(ACCESS_TOKEN_SUBJECT)
             .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-            .withClaim(AUTH_ID_CLAIM, id)
-            .withClaim(ROLE, role.getKey())
+            .withClaim(CLAIM_AUTH_ID, id)
+            .withClaim(CLAIM_ROLE, role.getKey())
             .sign(Algorithm.HMAC512(secretKey));
   }
 
@@ -79,14 +86,14 @@ public class JwtService {
 
   public Optional<String> extractRefreshToken(HttpServletRequest request) {
     return Optional.ofNullable(request.getHeader(refreshHeader))
-        .filter(refreshToken -> refreshToken.startsWith(BEARER))
-        .map(refreshToken -> refreshToken.replace(BEARER, ""));
+        .filter(refreshToken -> refreshToken.startsWith(PREFIX_BEARER))
+        .map(refreshToken -> refreshToken.replace(PREFIX_BEARER, ""));
   }
 
   public Optional<String> extractAccessToken(HttpServletRequest request) {
     return Optional.ofNullable(request.getHeader(accessHeader))
-        .filter(token -> token.startsWith(BEARER))
-        .map(token -> token.replace(BEARER, ""));
+        .filter(token -> token.startsWith(PREFIX_BEARER))
+        .map(token -> token.replace(PREFIX_BEARER, ""));
   }
 
   public Optional<String> extractAuthId(String accessToken) {
@@ -94,7 +101,7 @@ public class JwtService {
       Optional<String> result = Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
           .build()
           .verify(accessToken)
-          .getClaim(AUTH_ID_CLAIM)
+          .getClaim(CLAIM_AUTH_ID)
           .asString());
 
       return result;
