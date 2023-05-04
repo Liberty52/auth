@@ -80,22 +80,31 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   //admin method
   @Override
   public AdminQuestionRetrieveResponse retrieveAllQuestions(String role, int pageNumber, int pageSize) {
+    validateRoleAndPageSize(role,pageSize);
+    Page<Question> questionList = findQuestionPage(pageNumber, pageSize);
+    List<String> emailList = getEmailList(questionList);
+
+    Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
+    return new AdminQuestionRetrieveResponse(questionList.getContent(),emailList,
+        pageInfo.get(currentPage),pageInfo.get(startPage), pageInfo.get(lastPage),pageInfo.get(totalPage));
+  }
+
+  private Page<Question> findQuestionPage(int pageNumber, int pageSize) {
+    PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("createdAt").descending());
+    Page<Question> questionList = questionRepository.findAll(pageRequest);
+    if (questionList.isEmpty()){
+      throw new PageNumberOutOfRangeException();
+    }
+    return questionList;
+  }
+
+  private void validateRoleAndPageSize(String role, int pageSize) {
     if(!role.equals(Role.ADMIN.name())){
       throw new NotYourRoleException(role);
     }
     if (pageSize <= 0) {
       throw new PageSizeException();
     }
-    PageRequest pageRequest = PageRequest.of(pageNumber,pageSize, Sort.by("createdAt").descending());
-    Page<Question> questionList = questionRepository.findAll(pageRequest);
-    if (questionList.isEmpty()){
-      throw new PageNumberOutOfRangeException();
-    }
-
-    List<String> emailList = getEmailList(questionList);
-    Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
-    return new AdminQuestionRetrieveResponse(questionList,emailList,
-        pageInfo.get(currentPage),pageInfo.get(startPage), pageInfo.get(lastPage),pageInfo.get(totalPage));
   }
 
   private List<String> getEmailList(Page<Question> questionList) {
@@ -111,5 +120,4 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
     }
     return emailList;
   }
-
 }

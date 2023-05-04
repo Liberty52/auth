@@ -7,7 +7,6 @@ import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import org.springframework.data.domain.Page;
 
 @Getter
 @AllArgsConstructor
@@ -18,11 +17,11 @@ public class AdminQuestionRetrieveResponse {
   private long lastPage;
   private long totalPage;
 
-  public AdminQuestionRetrieveResponse(Page<Question> questionList, List<String> emails,
+  public AdminQuestionRetrieveResponse(List<Question> questionList, List<String> emails,
       long currentPage, long startPage, long lastPage, long totalPage) {
-    contents = IntStream.range(0, questionList.getContent().size())
+    contents = IntStream.range(0, questionList.size())
         .mapToObj(i -> {
-          Question question = questionList.getContent().get(i);
+          Question question = questionList.get(i);
           String email = emails.get(i);
           return new QuestionContent(
               question.getId(),
