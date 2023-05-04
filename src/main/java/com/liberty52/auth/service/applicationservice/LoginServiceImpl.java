@@ -40,7 +40,7 @@ public class LoginServiceImpl implements LoginService {
   }
 
   private void createTokenToResponse(HttpServletResponse response, Auth auth) {
-    String accessToken = jwtService.createAccessToken(auth.getId());
+    String accessToken = jwtService.createAccessToken(auth.getId(), auth.getRole());
     String refreshToken = jwtService.createRefreshToken();
     auth.updateRefreshToken(refreshToken);
 

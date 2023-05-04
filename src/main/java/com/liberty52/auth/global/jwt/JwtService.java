@@ -2,6 +2,7 @@ package com.liberty52.auth.global.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,17 +39,19 @@ public class JwtService {
   private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
   private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
   private static final String AUTH_ID_CLAIM = "authId";
+  private static final String ROLE = "role";
   private static final String BEARER = "Bearer ";
 
   private final AuthRepository authRepository;
 
-  public String createAccessToken(String id) {
+  public String createAccessToken(String id, Role role) {
     Date now = new Date();
     return JWT.create()
-        .withSubject(ACCESS_TOKEN_SUBJECT)
-        .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-        .withClaim(AUTH_ID_CLAIM, id)
-        .sign(Algorithm.HMAC512(secretKey));
+            .withSubject(ACCESS_TOKEN_SUBJECT)
+            .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
+            .withClaim(AUTH_ID_CLAIM, id)
+            .withClaim(ROLE, role.getKey())
+            .sign(Algorithm.HMAC512(secretKey));
   }
 
   public String createRefreshToken() {
