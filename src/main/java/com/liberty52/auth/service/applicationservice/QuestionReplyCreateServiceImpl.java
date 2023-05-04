@@ -1,6 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.NotYourRoleException;
+import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.external.InvalidRoleException;
 import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
 import com.liberty52.auth.service.controller.dto.QuestionReplyCreateRequestDto;
 import com.liberty52.auth.service.entity.Question;
@@ -22,7 +23,7 @@ public class QuestionReplyCreateServiceImpl implements QuestionReplyCreateServic
     public void createQuestionReply(String writerId, String role, QuestionReplyCreateRequestDto dto) {
 
         if(!role.equals(Role.ADMIN.name())){
-            throw new NotYourRoleException(role);
+            throw new InvalidAdminRoleException(role);
         }
 
         Question question = questionRepository.findById(dto.getQuestionId()).orElseThrow(() -> new QuestionNotFoundById(dto.getQuestionId()));

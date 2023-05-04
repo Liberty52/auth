@@ -16,7 +16,7 @@ public class QuestionReplyCreateController {
 
     private final QuestionReplyCreateService questionReplyCreateService;
 
-    @PostMapping("/questionReplys")
+    @PostMapping("/questionReplies")
     @ResponseStatus(HttpStatus.CREATED)
     public void createQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @RequestHeader("X_Role") String role, @Validated @RequestBody QuestionReplyCreateRequestDto dto) {
         questionReplyCreateService.createQuestionReply(writerId, role, dto);

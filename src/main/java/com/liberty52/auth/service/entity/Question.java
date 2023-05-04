@@ -26,7 +26,7 @@ public class Question {
     private String writerId;
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL)
     private QuestionReply questionReply;
 
     public static final int TITLE_MAX_LENGTH = 50;
