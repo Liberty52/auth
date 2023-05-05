@@ -15,7 +15,7 @@ public class QuestionReplyDeleteController {
 
     @DeleteMapping("/questionReplies/{questionReplyId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteQuestionReply(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @RequestHeader("X_Role") String role, @PathVariable String questionReplyId) {
+    public void deleteQuestionReply(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @RequestHeader("X-Role") String role, @PathVariable String questionReplyId) {
         questionReplyDeleteService.deleteQuestionReply(writerId, role, questionReplyId);
     }
 }
