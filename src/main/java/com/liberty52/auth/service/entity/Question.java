@@ -79,4 +79,8 @@ public class Question {
         this.questionReply = questionReply;
         this.status = QuestionStatus.DONE;
     }
+
+    public void removeReply() {
+        this.questionReply = null;
+    }
 }

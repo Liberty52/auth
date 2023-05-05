@@ -16,7 +16,7 @@ public class QuestionDeleteController {
 
     @DeleteMapping("/questions/{questionId}")
     @ResponseStatus(HttpStatus.OK)
-    public void createQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @PathVariable String questionId) {
+    public void deleteQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String writerId, @PathVariable String questionId) {
         questionDeleteService.deleteQuestion(writerId, questionId);
     }
 }
