@@ -5,11 +5,12 @@ import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import jakarta.annotation.PostConstruct;
-import java.lang.reflect.Field;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.reflect.Field;
 
 @Component
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class DBInitConfig {
         public void init() {
 
             final String password = "12341234";
+            final String adminPw = "admin1234";
 
             try {
                 Auth auth = Auth.createUser("test@gmail.com", encoder.encode(password),
@@ -49,6 +51,13 @@ public class DBInitConfig {
                 questionId.setAccessible(true);
                 questionId.set(question, "QUESTION-001");
                 questionRepository.save(question);
+
+                // Init Admin
+                Auth admin = Auth.createAdmin("admin", encoder.encode(adminPw), "김관리자", "01012341234");
+                Field adminId = admin.getClass().getDeclaredField("id");
+                adminId.setAccessible(true);
+                adminId.set(admin, "ADMIN-001");
+                authRepository.save(admin);
 
             } catch (Exception e) {
                 e.printStackTrace();
