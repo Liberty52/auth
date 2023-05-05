@@ -68,6 +68,17 @@ public class Auth {
         return auth;
     }
 
+    public static Auth createAdmin(String id, String password, String name, String phoneNumber) {
+        Auth auth = new Auth();
+        auth.role = Role.ADMIN;
+        auth.email = id;
+        auth.password = password;
+        auth.name = name;
+        auth.phoneNumber = phoneNumber;
+        auth.passwordModifyRequestDate = auth.createdAt.plusMonths(6);
+        return auth;
+    }
+
     public void addSocialLogin(SocialLogin socialLogin) {
         this.socialLogins.add(socialLogin);
         socialLogin.associate(this);
