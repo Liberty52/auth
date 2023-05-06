@@ -33,7 +33,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     response.sendRedirect(String.format(redirectedFrontURLWithTokens,tokens.getAccessToken(),tokens.getRefreshToken()));
   }
   private Tokens loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User){
-    String accessToken = jwtService.createAccessToken(oAuth2User.getId());
+    String accessToken = jwtService.createAccessToken(oAuth2User.getId(), oAuth2User.getRole());
     String refreshToken = jwtService.createRefreshToken();
 
     jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);

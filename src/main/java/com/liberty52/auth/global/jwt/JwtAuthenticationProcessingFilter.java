@@ -6,12 +6,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -46,7 +47,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     authRepository.findByRefreshToken(refreshToken)
         .ifPresent(user -> {
           String reIssuedRefreshToken = reIssueRefreshToken(user);
-          jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getId()),
+          jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(user.getId(), user.getRole()),
               reIssuedRefreshToken);
         });
   }

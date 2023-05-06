@@ -2,10 +2,10 @@ package com.liberty52.auth.global.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,53 +16,63 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Getter
 @Slf4j
 public class JwtService {
 
   @Value("${jwt.secretKey}")
-  private String secretKey;
+  private String SECRET_KEY;
 
   @Value("${jwt.access.expiration}")
-  private Long accessTokenExpirationPeriod;
+  private Long ACCESS_TOKEN_EXPIRATION;
 
   @Value("${jwt.refresh.expiration}")
-  private Long refreshTokenExpirationPeriod;
+  private Long REFRESH_TOKEN_EXPIRATION;
 
   @Value("${jwt.access.header}")
-  private String accessHeader;
+  private String ACCESS_HEADER;
 
   @Value("${jwt.refresh.header}")
-  private String refreshHeader;
+  private String REFRESH_HEADER;
+
+  @Value("${jwt.value.prefix.bearer}")
+  private String PREFIX_BEARER;
+
+  @Value("${jwt.value.prefix.basic}")
+  private String PREFIX_BASIC;
+
+  @Value("${jwt.value.claim.auth-id}")
+  private String CLAIM_AUTH_ID;
+
+  @Value("${jwt.value.claim.role}")
+  private String CLAIM_ROLE;
 
   private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
   private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
-  private static final String AUTH_ID_CLAIM = "authId";
-  private static final String BEARER = "Bearer ";
 
   private final AuthRepository authRepository;
 
-  public String createAccessToken(String id) {
+  public String createAccessToken(String id, Role role) {
     Date now = new Date();
     return JWT.create()
-        .withSubject(ACCESS_TOKEN_SUBJECT)
-        .withExpiresAt(new Date(now.getTime() + accessTokenExpirationPeriod))
-        .withClaim(AUTH_ID_CLAIM, id)
-        .sign(Algorithm.HMAC512(secretKey));
+            .withSubject(ACCESS_TOKEN_SUBJECT)
+            .withExpiresAt(new Date(now.getTime() + ACCESS_TOKEN_EXPIRATION))
+            .withClaim(CLAIM_AUTH_ID, id)
+            .withClaim(CLAIM_ROLE, role.getKey())
+            .sign(Algorithm.HMAC512(SECRET_KEY));
   }
 
   public String createRefreshToken() {
     Date now = new Date();
     return JWT.create()
         .withSubject(REFRESH_TOKEN_SUBJECT)
-        .withExpiresAt(new Date(now.getTime() + refreshTokenExpirationPeriod))
-        .sign(Algorithm.HMAC512(secretKey));
+        .withExpiresAt(new Date(now.getTime() + REFRESH_TOKEN_EXPIRATION))
+        .sign(Algorithm.HMAC512(SECRET_KEY));
   }
 
   public void sendAccessToken(HttpServletResponse response, String accessToken) {
     response.setStatus(HttpServletResponse.SC_OK);
 
-    response.setHeader(accessHeader, accessToken);
+    response.setHeader(ACCESS_HEADER, accessToken);
     log.debug("재발급된 Access Token : {}", accessToken);
   }
 
@@ -75,23 +85,23 @@ public class JwtService {
   }
 
   public Optional<String> extractRefreshToken(HttpServletRequest request) {
-    return Optional.ofNullable(request.getHeader(refreshHeader))
-        .filter(refreshToken -> refreshToken.startsWith(BEARER))
-        .map(refreshToken -> refreshToken.replace(BEARER, ""));
+    return Optional.ofNullable(request.getHeader(REFRESH_HEADER))
+        .filter(refreshToken -> refreshToken.startsWith(PREFIX_BEARER))
+        .map(refreshToken -> refreshToken.replace(PREFIX_BEARER, ""));
   }
 
   public Optional<String> extractAccessToken(HttpServletRequest request) {
-    return Optional.ofNullable(request.getHeader(accessHeader))
-        .filter(token -> token.startsWith(BEARER))
-        .map(token -> token.replace(BEARER, ""));
+    return Optional.ofNullable(request.getHeader(ACCESS_HEADER))
+        .filter(token -> token.startsWith(PREFIX_BEARER))
+        .map(token -> token.replace(PREFIX_BEARER, ""));
   }
 
   public Optional<String> extractAuthId(String accessToken) {
     try {
-      Optional<String> result = Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
+      Optional<String> result = Optional.ofNullable(JWT.require(Algorithm.HMAC512(SECRET_KEY))
           .build()
           .verify(accessToken)
-          .getClaim(AUTH_ID_CLAIM)
+          .getClaim(CLAIM_AUTH_ID)
           .asString());
 
       return result;
@@ -102,11 +112,11 @@ public class JwtService {
   }
 
   public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-    response.setHeader(accessHeader, accessToken);
+    response.setHeader(ACCESS_HEADER, accessToken);
   }
 
   public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-    response.setHeader(refreshHeader, refreshToken);
+    response.setHeader(REFRESH_HEADER, refreshToken);
   }
 
   public void updateRefreshToken(String email, String updateRefreshToken) {
@@ -122,7 +132,7 @@ public class JwtService {
 
   public boolean isTokenValid(String token) {
     try {
-      JWT.require(Algorithm.HMAC512(secretKey)).build().verify(token);
+      JWT.require(Algorithm.HMAC512(SECRET_KEY)).build().verify(token);
       return true;
     } catch (Exception e) {
       log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
