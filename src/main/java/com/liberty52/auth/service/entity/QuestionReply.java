@@ -59,4 +59,9 @@ public class QuestionReply {
         this.content = content;
         validContent();
     }
+
+    public void removeQuestion() {
+        this.question.removeReply();
+        this.question = null;
+    }
 }
