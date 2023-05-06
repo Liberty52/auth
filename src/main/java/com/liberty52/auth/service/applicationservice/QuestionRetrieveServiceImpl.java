@@ -1,10 +1,6 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.AuthNotFoundException;
-import com.liberty52.auth.global.exception.external.NotYourRoleException;
-import com.liberty52.auth.global.exception.external.PageNumberOutOfRangeException;
-import com.liberty52.auth.global.exception.external.PageSizeException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
+import com.liberty52.auth.global.exception.external.*;
 import com.liberty52.auth.service.controller.dto.AdminQuestionRetrieveResponse;
 import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionReplyResponse;
@@ -15,15 +11,16 @@ import com.liberty52.auth.service.entity.QuestionReply;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -100,7 +97,7 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
 
   private void validateRoleAndPageSize(String role, int pageSize) {
     if(!role.equals(Role.ADMIN.name())){
-      throw new NotYourRoleException(role);
+      throw new InvalidAdminRoleException(role);
     }
     if (pageSize <= 0) {
       throw new PageSizeException();
