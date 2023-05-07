@@ -41,4 +41,12 @@ public class QuestionRetrieveController {
       @RequestParam(value = "size", defaultValue = "10") int size){
     return ResponseEntity.ok(questionRetrieveService.retrieveAllQuestions(role,pageNumber,size));
   }
+
+  @GetMapping("/all-questions/{questionId}")
+  @ResponseStatus(HttpStatus.OK)
+  public ResponseEntity<QuestionDetailResponseDto> retrieveQuestionDetails(
+      @RequestHeader("LB-Role") String role,
+      @PathVariable("questionId") String questionId){
+    return ResponseEntity.ok(questionRetrieveService.retrieveQuestionDetails(role,questionId));
+  }
 }

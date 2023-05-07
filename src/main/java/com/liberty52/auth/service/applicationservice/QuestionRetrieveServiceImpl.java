@@ -86,6 +86,22 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
         pageInfo.get(currentPage),pageInfo.get(startPage), pageInfo.get(lastPage),pageInfo.get(totalPage));
   }
 
+  @Override
+  public QuestionDetailResponseDto retrieveQuestionDetails(String role, String questionId) {
+    if(!role.equals(Role.ADMIN.name())){
+      throw new InvalidAdminRoleException(role);
+    }
+    Question question = questionRepository.findById(questionId)
+        .orElseThrow(() -> new QuestionNotFoundById(questionId));
+    QuestionReply questionReply = question.getQuestionReply();
+    QuestionReplyResponse questionReplyResponse = null;
+    if (questionReply != null) {
+      questionReplyResponse = new QuestionReplyResponse(questionReply);
+    }
+    return QuestionDetailResponseDto.create(question, questionReplyResponse);
+  }
+
+
   private Page<Question> findQuestionPage(int pageNumber, int pageSize) {
     PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("createdAt").descending());
     Page<Question> questionList = questionRepository.findAll(pageRequest);
