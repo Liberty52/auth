@@ -19,7 +19,7 @@ public class QuestionReplyModifyController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void questionReplyModify(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
-            @RequestHeader("X_Role") String role,
+            @RequestHeader("LB-Role") String role,
             @PathVariable String questionReplyId,
             @Validated @RequestBody QuestionReplyModifyRequestDto dto) {
         questionReplyModifyService.modify(writerId, role, questionReplyId, dto);
