@@ -27,7 +27,7 @@ public class LoginController {
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/refresh")
-    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, @RequestHeader("X-REFRESHTOKEN") String refreshToken){
+    public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, @RequestHeader("LB-RefreshToken") String refreshToken){
         loginService.checkRefreshTokenAndReIssueAccessToken(response,refreshToken);
     }
 }
