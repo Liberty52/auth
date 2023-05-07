@@ -20,14 +20,14 @@ public class QuestionReplyCreateServiceImpl implements QuestionReplyCreateServic
     private final QuestionRepository questionRepository;
 
     @Override
-    public void createQuestionReply(String writerId, String role, QuestionReplyCreateRequestDto dto) {
+    public void createQuestionReply(String adminId, String role, QuestionReplyCreateRequestDto dto) {
 
         if(!role.equals(Role.ADMIN.name())){
             throw new InvalidAdminRoleException(role);
         }
 
         Question question = questionRepository.findById(dto.getQuestionId()).orElseThrow(() -> new QuestionNotFoundById(dto.getQuestionId()));
-        QuestionReply questionReply = QuestionReply.create(dto.getContent(), writerId);
+        QuestionReply questionReply = QuestionReply.create(dto.getContent(), adminId);
         questionReply.associate(question);
     }
 }
