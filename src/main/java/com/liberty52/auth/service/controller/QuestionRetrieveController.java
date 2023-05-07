@@ -36,7 +36,7 @@ public class QuestionRetrieveController {
   //admin
   @GetMapping("/all-questions")
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity<AdminQuestionRetrieveResponse> retrieveAllQuestions(@RequestHeader("X_Role") String role,
+  public ResponseEntity<AdminQuestionRetrieveResponse> retrieveAllQuestions(@RequestHeader("LB-Role") String role,
       @RequestParam(value = "page", defaultValue = "0") int pageNumber,
       @RequestParam(value = "size", defaultValue = "10") int size){
     return ResponseEntity.ok(questionRetrieveService.retrieveAllQuestions(role,pageNumber,size));
