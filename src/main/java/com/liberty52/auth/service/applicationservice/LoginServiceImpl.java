@@ -45,7 +45,7 @@ public class LoginServiceImpl implements LoginService {
     auth.updateRefreshToken(refreshToken);
 
     response.addHeader("access", "Bearer " + accessToken);
-    response.addHeader("refresh", "Bearer " + refreshToken);
+    response.addHeader("refresh", refreshToken);
   }
 }
 
