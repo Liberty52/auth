@@ -23,9 +23,6 @@ public class QuestionReplyModifyServiceImpl implements QuestionReplyModifyServic
             throw new InvalidAdminRoleException(role);
         QuestionReply questionReply = questionReplyRepository.findById(questionReplyId)
                 .orElseThrow(() -> new QuestionReplyNotFoundByIdException(questionReplyId));
-        if(!questionReply.getWriterId().equals(writerId))
-            throw new NotYourQuestionReplyException(writerId);
-
         questionReply.modify(dto.getContent()); // ensure validated
     }
 }
