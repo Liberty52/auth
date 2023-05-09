@@ -2,6 +2,7 @@ package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.exception.external.AuthNotFoundException;
 import com.liberty52.auth.global.exception.external.AuthUnauthorizedException;
+import com.liberty52.auth.global.exception.external.InvalidTokenException;
 import com.liberty52.auth.global.jwt.JwtService;
 import com.liberty52.auth.service.controller.dto.EmailLoginRequestDto;
 import com.liberty52.auth.service.controller.dto.LoginResponseDto;
@@ -36,7 +37,7 @@ public class LoginServiceImpl implements LoginService {
   @Override
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
     authRepository.findByRefreshToken(refreshToken)
-        .ifPresent(auth -> createTokenToResponse(response, auth));
+        .ifPresentOrElse(auth -> createTokenToResponse(response, auth), InvalidTokenException::new);
   }
 
   private void createTokenToResponse(HttpServletResponse response, Auth auth) {
