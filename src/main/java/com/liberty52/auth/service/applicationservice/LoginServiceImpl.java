@@ -9,6 +9,7 @@ import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,9 @@ public class LoginServiceImpl implements LoginService {
 
   @Override
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-    authRepository.findByRefreshToken(refreshToken)
-        .ifPresentOrElse(auth -> createTokenToResponse(response, auth), InvalidTokenException::new);
+    Optional<Auth> optionalAuth = authRepository.findByRefreshToken(refreshToken);
+    optionalAuth.ifPresent(auth -> createTokenToResponse(response, auth));
+    optionalAuth.orElseThrow(InvalidTokenException::new);
   }
 
   private void createTokenToResponse(HttpServletResponse response, Auth auth) {
@@ -49,4 +51,3 @@ public class LoginServiceImpl implements LoginService {
     response.addHeader("refresh", refreshToken);
   }
 }
-
