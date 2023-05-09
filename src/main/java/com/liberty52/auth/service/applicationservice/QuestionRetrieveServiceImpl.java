@@ -11,6 +11,7 @@ import com.liberty52.auth.service.entity.QuestionReply;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,17 +34,23 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   private final AuthRepository authRepository;
   @Override
   public QuestionRetrieveResponseDto retrieveQuestions(String writerId, int pageNumber,int pageSize) {
+    if(authRepository.findById(writerId).isEmpty()){
+      throw new AuthNotFoundException();
+    }
     if (pageSize <= 0) {//페이지당 출력할 데이터 개수를 의미
       throw new PageSizeException();
     }
     PageRequest pageRequest = PageRequest.of(pageNumber,pageSize, Sort.by("createdAt").descending());
     Page<Question> questionList = questionRepository.findAllByWriterId(writerId, pageRequest);
-    if (questionList.isEmpty()){
+    int totalPages = questionList.getTotalPages();
+    if (totalPages == 0 && pageNumber == 0) {
+      return new QuestionRetrieveResponseDto(questionList, 0L, 0L, 0L, 0L);
+    } else if (pageNumber < 0 || pageNumber >= totalPages) {
       throw new PageNumberOutOfRangeException();
+    } else {
+      Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
+      return new QuestionRetrieveResponseDto(questionList, pageInfo.get(currentPage), pageInfo.get(startPage), pageInfo.get(lastPage), pageInfo.get(totalPage));
     }
-    Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
-    return new QuestionRetrieveResponseDto(questionList,pageInfo.get(currentPage),pageInfo.get(startPage),
-        pageInfo.get(lastPage),pageInfo.get(totalPage));
   }
 
   @Override
@@ -79,8 +86,10 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   public AdminQuestionRetrieveResponse retrieveAllQuestions(String role, int pageNumber, int pageSize) {
     validateRoleAndPageSize(role,pageSize);
     Page<Question> questionList = findQuestionPage(pageNumber, pageSize);
+    if (questionList.isEmpty()){
+      return new AdminQuestionRetrieveResponse(questionList.getContent(), Collections.emptyList(),0L, 0L, 0L, 0L);
+    }
     List<String> emailList = getEmailList(questionList);
-
     Map<String, Long> pageInfo = getPageInfo(questionList, pageNumber);
     return new AdminQuestionRetrieveResponse(questionList.getContent(),emailList,
         pageInfo.get(currentPage),pageInfo.get(startPage), pageInfo.get(lastPage),pageInfo.get(totalPage));
@@ -105,7 +114,10 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   private Page<Question> findQuestionPage(int pageNumber, int pageSize) {
     PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("createdAt").descending());
     Page<Question> questionList = questionRepository.findAll(pageRequest);
-    if (questionList.isEmpty()){
+    int totalPages = questionList.getTotalPages();
+    if (totalPages == 0 && pageNumber == 0) {
+      return questionList;
+    } else if (pageNumber < 0 || pageNumber >= totalPages) {
       throw new PageNumberOutOfRangeException();
     }
     return questionList;
