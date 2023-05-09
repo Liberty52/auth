@@ -37,9 +37,9 @@ public class LoginServiceImpl implements LoginService {
 
   @Override
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-    Optional<Auth> optionalAuth = authRepository.findByRefreshToken(refreshToken);
-    optionalAuth.ifPresent(auth -> createTokenToResponse(response, auth));
-    optionalAuth.orElseThrow(InvalidTokenException::new);
+    Auth auth = authRepository.findByRefreshToken(refreshToken)
+        .orElseThrow(InvalidTokenException::new);
+    createTokenToResponse(response, auth);
   }
 
   private void createTokenToResponse(HttpServletResponse response, Auth auth) {
