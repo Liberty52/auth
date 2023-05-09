@@ -52,9 +52,12 @@ public class Auth {
         passwordModifyRequestDate = createdAt.plusMonths(6);
     }
 
-    public void updateUser(String phoneNumber, String name,String profileUrl) {
+    public void updateUser(String phoneNumber, String name) {
         this.phoneNumber = phoneNumber;
         this.name = name;
+    }
+
+    public void updateUserProfile(String profileUrl) {
         this.profileUrl = profileUrl;
     }
 
