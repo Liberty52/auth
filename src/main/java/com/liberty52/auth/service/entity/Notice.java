@@ -31,7 +31,7 @@ public class Notice {
     public static final int CONTENT_MIN_LENGTH = 1;
 
     @Builder
-    public Notice(String title, String content, boolean commentable) {
+    private Notice(String title, String content, boolean commentable) {
         setTitle(title);
         setContent(content);
         setCommentable(commentable);
