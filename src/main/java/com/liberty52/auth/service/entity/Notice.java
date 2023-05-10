@@ -3,10 +3,7 @@ package com.liberty52.auth.service.entity;
 import com.liberty52.auth.global.exception.internal.InvalidNoticeContentException;
 import com.liberty52.auth.global.exception.internal.InvalidNoticeTitleException;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,12 +30,15 @@ public class Notice {
     public static final int CONTENT_MAX_LENGTH = 10000;
     public static final int CONTENT_MIN_LENGTH = 1;
 
+    @Builder
+    public Notice(String title, String content, boolean commentable) {
+        setTitle(title);
+        setContent(content);
+        setCommentable(commentable);
+    }
+
     public static Notice create(String title, String content, boolean commentable) throws InvalidNoticeContentException, InvalidNoticeTitleException{
-        Notice notice = new Notice();
-        notice.setContent(content);
-        notice.setTitle(title);
-        notice.commentable = commentable;
-        return notice;
+        return builder().title(title).content(content).commentable(commentable).build();
     }
 
     private void setTitle(String title) {
