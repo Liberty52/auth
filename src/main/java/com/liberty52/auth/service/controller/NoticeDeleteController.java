@@ -16,6 +16,6 @@ public class NoticeDeleteController {
   @DeleteMapping("/notices/{noticeId}")
   public ResponseEntity<Void> deleteNotice(@RequestHeader("LB-Role") String role, @PathVariable String noticeId) {
     noticeDeleteService.deleteNotice(role, noticeId);
-    return ResponseEntity.ok().build();
+    return ResponseEntity.noContent().build();
   }
 }
