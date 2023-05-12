@@ -122,6 +122,7 @@ class UserNoticeRetrieveControllerTest {
         mockMvc.perform(get(api))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.noticeId").value(mockNotice.getId()))
+                .andExpect(jsonPath("$.title").value(mockNotice.getTitle()))
                 .andExpect(jsonPath("$.content").value(mockNotice.getContent()))
                 .andExpect(jsonPath("$.createdAt").value(mockNotice.getCreatedAt().toLocalDate().toString()))
                 .andExpect(jsonPath("$.commentable").value(false));

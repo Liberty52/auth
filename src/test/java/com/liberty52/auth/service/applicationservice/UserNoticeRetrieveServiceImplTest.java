@@ -75,6 +75,7 @@ class UserNoticeRetrieveServiceImplTest {
                 notice.getId());
         //then
         assertThat(response.getNoticeId()).isEqualTo(notice.getId());
+        assertThat(response.getTitle()).isEqualTo(notice.getTitle());
         assertThat(response.getContent()).isEqualTo(notice.getContent());
         assertThat(response.getCreatedAt()).isEqualTo(notice.getCreatedAt().toLocalDate().toString());
         assertThat(response.isCommentable()).isEqualTo(notice.isCommentable());
