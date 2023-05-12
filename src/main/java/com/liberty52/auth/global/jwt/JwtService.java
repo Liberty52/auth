@@ -141,16 +141,18 @@ public class JwtService {
         }
     }
 
-    public void createTokenAndAddHeaders(Auth auth, boolean isAutoLogin, HttpServletResponse response) {
+    public String createTokenAndAddHeaders(Auth auth, boolean isAutoLogin, HttpServletResponse response) {
         final String access = "access"; // 위 상수와 일치시키고 싶지만, FE와 맞춰야 하기 때문에 일단 유지. 추후 수정 예정.
         final String refresh = "refresh";
 
         String accessToken = this.createAccessToken(auth.getId(), auth.getRole());
         response.addHeader(access, PREFIX_BEARER + accessToken);
+        String refreshToken = null;
         if (isAutoLogin) {
-            String refreshToken = this.createRefreshToken();
+            refreshToken = this.createRefreshToken();
             response.addHeader(refresh, refreshToken);
         }
+        return refreshToken;
     }
 }
 
