@@ -1,5 +1,6 @@
 package com.liberty52.auth.service.applicationservice;
 
+import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
 import com.liberty52.auth.service.controller.dto.UserInfoListResponseDto;
 import com.liberty52.auth.service.controller.dto.UserInfoResponseDto;
 import com.liberty52.auth.service.entity.Auth;
@@ -43,5 +44,10 @@ class UserInfoRetrieveServiceImplTest {
             }
             page++;
         }
+    }
+
+    @Test
+    void InvalidAdminRoleException() {
+        assertThrows(InvalidAdminRoleException.class, () -> service.retrieveAllByAdmin(Role.USER.name(), PageRequest.of(0, 1)));
     }
 }
