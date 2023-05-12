@@ -1,9 +1,11 @@
 package com.liberty52.auth.global.config;
 
 import com.liberty52.auth.service.entity.Auth;
+import com.liberty52.auth.service.entity.Notice;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.entity.QuestionReply;
 import com.liberty52.auth.service.repository.AuthRepository;
+import com.liberty52.auth.service.repository.NoticeRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class DBInitConfig {
 
         private final AuthRepository authRepository;
         private final QuestionRepository questionRepository;
+        private final NoticeRepository noticeRepository;
         private final PasswordEncoder encoder;
 
         public void init() {
@@ -65,6 +68,12 @@ public class DBInitConfig {
                 adminId.setAccessible(true);
                 adminId.set(admin, "ADMIN-001");
                 authRepository.save(admin);
+
+                for (int i = 0; i < 3; i++) {
+                    Notice n = Notice.create("[이벤트] Liberty52 Frame 포토 리뷰 작성 이벤트"+i,"Notice-Content-"+i,false);
+                    noticeRepository.save(n);
+
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
