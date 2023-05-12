@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
     if (!encoder.matches(dto.getPassword(), auth.getPassword())) {
       throw new AuthUnauthorizedException();
     }
-    String refreshToken = jwtService.createTokenAndAddHeaders(auth, true, response);
+    String refreshToken = jwtService.createTokensAndAddHeaders(auth, true, response);
     auth.updateRefreshToken(refreshToken);
     return LoginResponseDto.of(auth.getName(), auth.getProfileUrl(), auth.getRole());
   }
@@ -39,7 +39,7 @@ public class LoginServiceImpl implements LoginService {
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String reqRefreshToken) {
     Auth auth = authRepository.findByRefreshToken(reqRefreshToken)
         .orElseThrow(InvalidTokenException::new);
-    String refreshToken = jwtService.createTokenAndAddHeaders(auth, true, response);
+    String refreshToken = jwtService.createTokensAndAddHeaders(auth, true, response);
     auth.updateRefreshToken(refreshToken);
   }
 
