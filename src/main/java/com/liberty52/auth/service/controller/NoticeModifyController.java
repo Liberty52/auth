@@ -5,6 +5,7 @@ import com.liberty52.auth.service.controller.dto.NoticeModifyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -16,7 +17,7 @@ public class NoticeModifyController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void noticeModify(@RequestHeader("LB-Role") String role,
                              @PathVariable String noticeId,
-                             @RequestBody NoticeModifyRequestDto dto) {
+                             @Validated @RequestBody NoticeModifyRequestDto dto) {
         noticeModifyService.modify(role, noticeId, dto);
     }
 }
