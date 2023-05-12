@@ -9,7 +9,6 @@ import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
     if (!encoder.matches(dto.getPassword(), auth.getPassword())) {
       throw new AuthUnauthorizedException();
     }
-    createTokenToResponse(response, auth);
+    jwtService.createTokenAndAddHeaders(auth, true, response);
     return LoginResponseDto.of(auth.getName(), auth.getProfileUrl(), auth.getRole());
   }
 
@@ -39,15 +38,7 @@ public class LoginServiceImpl implements LoginService {
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
     Auth auth = authRepository.findByRefreshToken(refreshToken)
         .orElseThrow(InvalidTokenException::new);
-    createTokenToResponse(response, auth);
+    jwtService.createTokenAndAddHeaders(auth, true, response);
   }
 
-  private void createTokenToResponse(HttpServletResponse response, Auth auth) {
-    String accessToken = jwtService.createAccessToken(auth.getId(), auth.getRole());
-    String refreshToken = jwtService.createRefreshToken();
-    auth.updateRefreshToken(refreshToken);
-
-    response.addHeader("access", "Bearer " + accessToken);
-    response.addHeader("refresh", refreshToken);
-  }
 }
