@@ -2,12 +2,14 @@ package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.exception.external.AuthNotFoundException;
 import com.liberty52.auth.global.exception.external.AuthUnauthorizedException;
+import com.liberty52.auth.global.exception.external.InvalidTokenException;
 import com.liberty52.auth.global.jwt.JwtService;
 import com.liberty52.auth.service.controller.dto.EmailLoginRequestDto;
 import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,8 +37,9 @@ public class LoginServiceImpl implements LoginService {
 
   @Override
   public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-    authRepository.findByRefreshToken(refreshToken)
-        .ifPresent(auth -> createTokenToResponse(response, auth));
+    Auth auth = authRepository.findByRefreshToken(refreshToken)
+        .orElseThrow(InvalidTokenException::new);
+    createTokenToResponse(response, auth);
   }
 
   private void createTokenToResponse(HttpServletResponse response, Auth auth) {
@@ -48,4 +51,3 @@ public class LoginServiceImpl implements LoginService {
     response.addHeader("refresh", refreshToken);
   }
 }
-

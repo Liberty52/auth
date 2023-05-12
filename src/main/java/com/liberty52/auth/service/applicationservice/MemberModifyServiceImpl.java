@@ -47,7 +47,10 @@ public class MemberModifyServiceImpl implements MemberModifyService{
     }
 
     String profileImageUrl = uploadImage(imageFile);
-    auth.updateUser(dto.getPhoneNumber(),dto.getName(),profileImageUrl);
+    if (profileImageUrl != null){
+      auth.updateUserProfile(profileImageUrl);
+    }
+    auth.updateUser(dto.getPhoneNumber(),dto.getName());
   }
 
   private String uploadImage(MultipartFile multipartFile) {

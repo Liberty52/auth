@@ -11,4 +11,5 @@ public interface QuestionRetrieveService {
 
   //admin
   AdminQuestionRetrieveResponse retrieveAllQuestions(String role, int pageNumber, int size);
+  QuestionDetailResponseDto retrieveQuestionDetails(String role, String questionId);
 }

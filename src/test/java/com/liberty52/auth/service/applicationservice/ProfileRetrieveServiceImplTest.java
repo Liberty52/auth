@@ -36,7 +36,8 @@ class ProfileRetrieveServiceImplTest {
         for (int i = 0; i < 3; i++) {
             Auth profile = Auth.createUser("uniqueEmail" + i, "12345678",
                     "KIM", null, "PROFILE");
-            profile.updateUser(null, "KIM"+profile.getId(), "PROFILE");
+            profile.updateUser(null, "KIM"+profile.getId());
+            profile.updateUserProfile("PROFILE");
             ids.add(profile.getId());
             em.persist(profile);
         }
