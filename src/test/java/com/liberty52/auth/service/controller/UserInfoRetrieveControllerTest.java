@@ -17,13 +17,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -65,15 +64,30 @@ class UserInfoRetrieveControllerTest {
                     role
             ));
         }
-        UserInfoListResponseDto dto = nextGiven(list, page, size);
 
-        String api = String.format(LIST_RETRIEVE_API,page++,size);
-        mockMvc.perform(get(api).header("LB-Role", Role.ADMIN.name()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.infoList").value(dto.getInfoList()))
-                .andExpect(jsonPath("$.totalCount").value(dto.getTotalCount()))
-                .andExpect(jsonPath("$.numberOfElements").value(dto.getNumberOfElements()));
-
+        while(true) {
+            UserInfoListResponseDto dto = nextGiven(list, page, size);
+            if (dto.getNumberOfElements()==0) break;
+            String api = String.format(LIST_RETRIEVE_API,page++,size);
+            ResultActions resultActions = mockMvc.perform(get(api).header("LB-Role", Role.ADMIN.name()))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.infoList.length()").value(dto.getInfoList().size()))
+                    .andExpect(jsonPath("$.totalCount").value(dto.getTotalCount()))
+                    .andExpect(jsonPath("$.numberOfElements").value(dto.getNumberOfElements()))
+                    .andExpect(jsonPath("$.pageNumber").value(dto.getPageNumber()))
+                    .andExpect(jsonPath("$.hasPrev").value(dto.isHasPrev()))
+                    .andExpect(jsonPath("$.hasNext").value(dto.isHasNext()))
+                    .andExpect(jsonPath("$.first").value(dto.isFirst()))
+                    .andExpect(jsonPath("$.last").value(dto.isLast()));
+            for (int i = 0; i < dto.getInfoList().size(); i++) {
+                String item = String.format("$.infoList[%d]", i);
+                resultActions.andExpect(jsonPath(item + ".id").value(dto.getInfoList().get(i).getId()))
+                        .andExpect(jsonPath(item + ".name").value(dto.getInfoList().get(i).getName()))
+                        .andExpect(jsonPath(item + ".phoneNumber").value(dto.getInfoList().get(i).getPhoneNumber()))
+                        .andExpect(jsonPath(item + ".createdAt").value(dto.getInfoList().get(i).getCreatedAt().toString()))
+                        .andExpect(jsonPath(item + ".role").value(dto.getInfoList().get(i).getRole()));
+            }
+        }
     }
 
     UserInfoListResponseDto nextGiven(List<UserInfoResponseDto> elements, int page, int size) {

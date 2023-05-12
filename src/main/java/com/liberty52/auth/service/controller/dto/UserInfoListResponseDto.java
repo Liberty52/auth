@@ -16,8 +16,8 @@ public class UserInfoListResponseDto {
     private int pageNumber;
     private boolean hasPrev;
     private boolean hasNext;
-    private boolean isFirst;
-    private boolean isLast;
+    private boolean first;
+    private boolean last;
 
     public static UserInfoListResponseDto of(Page<Auth> page) {
         return builder()
@@ -27,8 +27,8 @@ public class UserInfoListResponseDto {
                 .pageNumber(page.getNumber())
                 .hasPrev(page.hasPrevious())
                 .hasNext(page.hasNext())
-                .isFirst(page.isFirst())
-                .isLast(page.isLast())
+                .first(page.isFirst())
+                .last(page.isLast())
                 .build();
     }
 
@@ -40,8 +40,8 @@ public class UserInfoListResponseDto {
                 .pageNumber(pageNumber)
                 .hasPrev(pageNumber != 0)
                 .hasNext(pageNumber * size < totalCount)
-                .isFirst(pageNumber == 0)
-                .isLast(pageNumber * size >= totalCount)
+                .first(pageNumber == 0)
+                .last(pageNumber * size >= totalCount)
                 .build();
     }
 }
