@@ -35,7 +35,7 @@ public enum AuthErrorCode implements ErrorCode{
     NOT_FOUND(HttpStatus.NOT_FOUND, ""), FORBIDDEN(HttpStatus.FORBIDDEN, ""),
 
     INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST,"유효하지 않은 페이지 번호입니다."),
-    INVALID_PAGE_SIZE(HttpStatus.BAD_REQUEST,"유효하지 않은 페이지 크기입니다.");
+    INVALID_PAGE_SIZE(HttpStatus.BAD_REQUEST,"유효하지 않은 페이지 크기입니다."), BAD_REQUEST(HttpStatus.BAD_REQUEST, "유효하지 않은 요청입니다.");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;
