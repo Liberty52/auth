@@ -70,7 +70,7 @@ public class DBInitConfig {
                 authRepository.save(admin);
 
                 for (int i = 0; i < 3; i++) {
-                    Notice n = Notice.create("Notice-title"+i,"Notice-Content-"+i,false);
+                    Notice n = Notice.create("[이벤트] Liberty52 Frame 포토 리뷰 작성 이벤트"+i,"Notice-Content-"+i,false);
                     noticeRepository.save(n);
 
                 }
