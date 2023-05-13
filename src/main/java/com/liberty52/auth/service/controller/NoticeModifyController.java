@@ -4,11 +4,10 @@ import com.liberty52.auth.service.applicationservice.NoticeModifyService;
 import com.liberty52.auth.service.controller.dto.NoticeModifyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class NoticeModifyController {
     private final NoticeModifyService noticeModifyService;
