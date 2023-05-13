@@ -31,7 +31,7 @@ class PasswordMailServiceImplTestImpl {
     @BeforeEach
     void initAuth(){
         Auth auth = Auth.createUser(
-                "mju.omnm@gmail.com",
+                "hsh47607@daum.net",
                 MOCK_USER_PASSWORD,
                 MOCK_USER_NAME,
                 MOCK_PHONE_NUMBER,
