@@ -60,4 +60,10 @@ public class Notice {
         if(this.content.length() > CONTENT_MAX_LENGTH || this.content.length() < CONTENT_MIN_LENGTH)
             throw new InvalidNoticeContentException();
     }
+
+    public void modify(String title, String content, boolean commentable) throws InvalidNoticeTitleException, InvalidNoticeContentException{
+        setTitle(title);
+        setContent(content);
+        setCommentable(commentable);
+    }
 }
