@@ -38,7 +38,7 @@ public class DBInitConfig {
         public void init() {
 
             final String password = "12341234";
-            final String adminPw = "admin1234";
+            final String adminPw = "admin";
 
             try {
                 Auth auth = Auth.createUser("test@gmail.com", encoder.encode(password),
@@ -63,11 +63,21 @@ public class DBInitConfig {
                 questionRepository.save(question);
 
                 // Init Admin
-                Auth admin = Auth.createAdmin("admin", encoder.encode(adminPw), "김관리자", "01012341234");
-                Field adminId = admin.getClass().getDeclaredField("id");
-                adminId.setAccessible(true);
-                adminId.set(admin, "ADMIN-001");
-                authRepository.save(admin);
+                Auth admin1 = Auth.createAdmin("admin", encoder.encode(adminPw), "관리자", "01012341234");
+                Field adminId1 = admin1.getClass().getDeclaredField("id");
+                adminId1.setAccessible(true);
+                adminId1.set(admin1, "ADMIN-001");
+                authRepository.save(admin1);
+                Auth admin2 = Auth.createAdmin("mju.omnm@gmail.com", encoder.encode(adminPw), "OMNM_관리자", "01043214321");
+                Field adminId2 = admin2.getClass().getDeclaredField("id");
+                adminId2.setAccessible(true);
+                adminId2.set(admin2, "ADMIN-002");
+                authRepository.save(admin2);
+                Auth admin3 = Auth.createAdmin("admin@liberty.com", encoder.encode(adminPw), "LIBERTY_관리자", "01078900987");
+                Field adminId3 = admin3.getClass().getDeclaredField("id");
+                adminId3.setAccessible(true);
+                adminId3.set(admin3, "ADMIN-003");
+                authRepository.save(admin3);
 
                 for (int i = 0; i < 3; i++) {
                     Notice n = Notice.create("[이벤트] Liberty52 Frame 포토 리뷰 작성 이벤트"+i,"Notice-Content-"+i,false);
