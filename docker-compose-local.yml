@@ -1,3 +1,4 @@
+# docker-compose -f .\docker-compose-local.yml up -d --build
 version: "3"
 
 services:
@@ -11,7 +12,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-local
 #    image: hseungho/liberty52-auth-server:dev-0.0.2
     container_name: auth-app
     ports:
