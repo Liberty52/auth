@@ -80,9 +80,11 @@ public class DBInitConfig {
                 authRepository.save(admin3);
 
                 for (int i = 0; i < 3; i++) {
-                    Notice n = Notice.create("[이벤트] Liberty52 Frame 포토 리뷰 작성 이벤트"+i,"Notice-Content-"+i,false);
-                    noticeRepository.save(n);
-
+                    Notice notice = Notice.create("[이벤트] Liberty52 Frame 포토 리뷰 작성 이벤트"+i,"Notice-Content-"+i,false);
+                    Field noticeId = notice.getClass().getDeclaredField("id");
+                    noticeId.setAccessible(true);
+                    noticeId.set(notice, "NOTICE-00"+i);
+                    noticeRepository.save(notice);
                 }
 
             } catch (Exception e) {
