@@ -1,12 +1,11 @@
 package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
-import com.liberty52.auth.service.controller.dto.UserInfoListResponseDto;
-import com.liberty52.auth.service.controller.dto.UserInfoResponseDto;
+import com.liberty52.auth.service.controller.dto.CustomerInfoListResponseDto;
+import com.liberty52.auth.service.controller.dto.CustomerInfoResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,25 +18,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 
-class UserInfoRetrieveServiceImplTest {
+class CustomerInfoRetrieveServiceImplTest {
     @Autowired
-    UserInfoRetrieveService service;
+    CustomerInfoRetrieveService service;
     @Autowired
     private AuthRepository authRepository;
 
     @Test
     void basicPath() {
-        List<Auth> all = authRepository.findAll();
+        List<Auth> all = authRepository.findAll().stream().filter(a -> a.getRole() == Role.USER).toList();
         int size = 3;
         int page = 0;
         Iterator<Auth> allIter = all.iterator();
         while(true) {
-            UserInfoListResponseDto dto = service.retrieveAllByAdmin(Role.ADMIN.name(), PageRequest.of(page, size));
+            CustomerInfoListResponseDto dto = service.retrieveAllByAdmin(Role.ADMIN.name(), PageRequest.of(page, size));
             if(dto.getInfoList().size() == 0) break;
             assertEquals(all.size(), dto.getTotalCount());
             assertEquals(page, dto.getPageNumber());
             assertEquals(dto.getInfoList().size(), dto.getNumberOfElements());
-            for (UserInfoResponseDto actual : dto.getInfoList()) {
+            for (CustomerInfoResponseDto actual : dto.getInfoList()) {
                 assertTrue(allIter.hasNext());
                 Auth expected = allIter.next();
                 assertEquals(expected.getId(), actual.getId());

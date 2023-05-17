@@ -2,9 +2,9 @@ package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.global.config.WebSecurityConfig;
 import com.liberty52.auth.global.exception.external.AuthExceptionHandler;
-import com.liberty52.auth.service.applicationservice.UserInfoRetrieveService;
-import com.liberty52.auth.service.controller.dto.UserInfoListResponseDto;
-import com.liberty52.auth.service.controller.dto.UserInfoResponseDto;
+import com.liberty52.auth.service.applicationservice.CustomerInfoRetrieveService;
+import com.liberty52.auth.service.controller.dto.CustomerInfoListResponseDto;
+import com.liberty52.auth.service.controller.dto.CustomerInfoResponseDto;
 import com.liberty52.auth.service.entity.Role;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,33 +30,33 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = {UserInfoRetrieveController.class, AuthExceptionHandler.class},
+@WebMvcTest(value = {CustomerInfoRetrieveController.class, AuthExceptionHandler.class},
             excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)},
             excludeAutoConfiguration = {SecurityAutoConfiguration.class,
             SecurityFilterAutoConfiguration.class,
             OAuth2ClientAutoConfiguration.class,
             OAuth2ResourceServerAutoConfiguration.class})
-class UserInfoRetrieveControllerTest {
+class CustomerInfoRetrieveControllerTest {
     @InjectMocks
-    UserInfoRetrieveController controller;
+    CustomerInfoRetrieveController controller;
     @Autowired
     MockMvc mockMvc;
     @MockBean
     AuthExceptionHandler authExceptionHandler;
     @MockBean
-    UserInfoRetrieveService service;
-    final String LIST_RETRIEVE_API = "/user-info?page=%d&size=%d";
+    CustomerInfoRetrieveService service;
+    final String LIST_RETRIEVE_API = "/customer-info?page=%d&size=%d";
 
     @Test
     void userInfoListByAdmin() throws Exception {
         int page = 0;
         int size = 3;
         int totalCount = 10;
-        List<UserInfoResponseDto> list = new ArrayList<>();
+        List<CustomerInfoResponseDto> list = new ArrayList<>();
         LocalDate now = LocalDate.now();
         for (int i = 0; i < totalCount; i++) {
             String role = i % 2 == 0 ? Role.ADMIN.name() : Role.USER.name();
-            list.add(UserInfoResponseDto.of(
+            list.add(CustomerInfoResponseDto.of(
                     "id" + i,
                     "name" + i,
                     "phoneNumber" + i,
@@ -66,7 +66,7 @@ class UserInfoRetrieveControllerTest {
         }
 
         while(true) {
-            UserInfoListResponseDto dto = nextGiven(list, page, size);
+            CustomerInfoListResponseDto dto = nextGiven(list, page, size);
             if (dto.getNumberOfElements()==0) break;
             String api = String.format(LIST_RETRIEVE_API,page++,size);
             ResultActions resultActions = mockMvc.perform(get(api).header("LB-Role", Role.ADMIN.name()))
@@ -84,14 +84,13 @@ class UserInfoRetrieveControllerTest {
                 resultActions.andExpect(jsonPath(item + ".id").value(dto.getInfoList().get(i).getId()))
                         .andExpect(jsonPath(item + ".name").value(dto.getInfoList().get(i).getName()))
                         .andExpect(jsonPath(item + ".phoneNumber").value(dto.getInfoList().get(i).getPhoneNumber()))
-                        .andExpect(jsonPath(item + ".createdAt").value(dto.getInfoList().get(i).getCreatedAt().toString()))
-                        .andExpect(jsonPath(item + ".role").value(dto.getInfoList().get(i).getRole()));
+                        .andExpect(jsonPath(item + ".createdAt").value(dto.getInfoList().get(i).getCreatedAt().toString()));
             }
         }
     }
 
-    UserInfoListResponseDto nextGiven(List<UserInfoResponseDto> elements, int page, int size) {
-        UserInfoListResponseDto dto = UserInfoListResponseDto.of(
+    CustomerInfoListResponseDto nextGiven(List<CustomerInfoResponseDto> elements, int page, int size) {
+        CustomerInfoListResponseDto dto = CustomerInfoListResponseDto.of(
                 elements.stream()
                         .skip((long) page * size)
                         .limit(size)

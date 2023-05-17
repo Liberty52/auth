@@ -2,6 +2,7 @@ package com.liberty52.auth.service.fake;
 
 import com.liberty52.auth.service.controller.dto.ReviewerProfileResponse;
 import com.liberty52.auth.service.entity.Auth;
+import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import java.util.HashMap;
 import java.util.List;
@@ -193,6 +194,11 @@ public class FakeAuthRepository implements AuthRepository {
 
     @Override
     public Page<Auth> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<Auth> findByRole(Role role, Pageable pageable) {
         return null;
     }
 }

@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class UserInfoListResponseDto {
-    private List<UserInfoResponseDto> infoList;
+public class CustomerInfoListResponseDto {
+    private List<CustomerInfoResponseDto> infoList;
     private long totalCount;
     private int numberOfElements;
     private int pageNumber;
@@ -19,9 +19,9 @@ public class UserInfoListResponseDto {
     private boolean first;
     private boolean last;
 
-    public static UserInfoListResponseDto of(Page<Auth> page) {
+    public static CustomerInfoListResponseDto of(Page<Auth> page) {
         return builder()
-                .infoList(page.getContent().stream().map(UserInfoResponseDto::of).toList())
+                .infoList(page.getContent().stream().map(CustomerInfoResponseDto::of).toList())
                 .totalCount(page.getTotalElements())
                 .numberOfElements(page.getNumberOfElements())
                 .pageNumber(page.getNumber())
@@ -32,7 +32,7 @@ public class UserInfoListResponseDto {
                 .build();
     }
 
-    public static UserInfoListResponseDto of(List<UserInfoResponseDto> list, int totalCount, int pageNumber, int size) {
+    public static CustomerInfoListResponseDto of(List<CustomerInfoResponseDto> list, int totalCount, int pageNumber, int size) {
         return builder()
                 .infoList(list)
                 .totalCount(totalCount)
