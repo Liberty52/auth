@@ -45,7 +45,7 @@ class CustomerInfoRetrieveControllerTest {
     AuthExceptionHandler authExceptionHandler;
     @MockBean
     CustomerInfoRetrieveService service;
-    final String LIST_RETRIEVE_API = "/user-info?page=%d&size=%d";
+    final String LIST_RETRIEVE_API = "/customer-info?page=%d&size=%d";
 
     @Test
     void userInfoListByAdmin() throws Exception {
