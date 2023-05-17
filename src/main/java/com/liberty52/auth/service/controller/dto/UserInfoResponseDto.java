@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 public class UserInfoResponseDto {
     private String id;
     private String name;
+    private String email;
+    private String profileUrl;
     private String phoneNumber;
     private LocalDate createdAt;
     private String role;
@@ -20,6 +22,8 @@ public class UserInfoResponseDto {
         return builder()
                 .id(auth.getId())
                 .name(auth.getName())
+                .email(auth.getEmail())
+                .profileUrl(auth.getProfileUrl())
                 .phoneNumber(auth.getPhoneNumber())
                 .createdAt(auth.getCreatedAt())
                 .role(auth.getRole().name())
