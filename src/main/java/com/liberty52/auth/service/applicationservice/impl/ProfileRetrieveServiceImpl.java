@@ -1,5 +1,6 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
+import com.liberty52.auth.service.applicationservice.ProfileRetrieveService;
 import com.liberty52.auth.service.controller.dto.ReviewerProfileResponse;
 import com.liberty52.auth.service.repository.AuthRepository;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class ProfileRetrieveServiceImpl implements
-        ProfileRetrieveService {
+    ProfileRetrieveService {
 
     private final AuthRepository authRepository;
 

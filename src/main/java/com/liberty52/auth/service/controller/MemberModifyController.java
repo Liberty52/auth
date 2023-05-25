@@ -24,15 +24,15 @@ public class MemberModifyController {
   @GetMapping("/my")
   @ResponseStatus(HttpStatus.OK)
   public ModifyResponseDto getMemberInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId){
-    return memberModifyService.getMemberInfoById(userId);
+    return memberModifyService.getMemberInfo(userId);
   }
 
   @PutMapping("/my")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void updateMemberInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId,
+  public void modifyMemberInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId,
       @Validated @RequestPart("dto") ModifyRequestDto dto,
       @RequestPart(value = "file", required = false) MultipartFile imageFile){
-    memberModifyService.updateMemberInfo(userId,dto,imageFile);
+    memberModifyService.modifyMemberInfo(userId,dto,imageFile);
   }
 
 }

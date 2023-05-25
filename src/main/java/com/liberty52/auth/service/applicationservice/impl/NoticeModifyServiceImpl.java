@@ -1,7 +1,8 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.exception.notfound.ResourceNotFoundException;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
+import com.liberty52.auth.service.applicationservice.NoticeModifyService;
 import com.liberty52.auth.service.controller.dto.NoticeModifyRequestDto;
 import com.liberty52.auth.service.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class NoticeModifyServiceImpl implements NoticeModifyService {
     private final NoticeRepository noticeRepository;
 
     @Override
-    public void modify(String role, String noticeId, NoticeModifyRequestDto dto) {
+    public void modifyNotice(String role, String noticeId, NoticeModifyRequestDto dto) {
         AdminRoleUtils.checkRole(role);
         noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new ResourceNotFoundException("notice", "id", noticeId))

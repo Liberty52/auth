@@ -14,9 +14,9 @@ public class NoticeModifyController {
 
     @PutMapping("/notices/{noticeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void noticeModify(@RequestHeader("LB-Role") String role,
+    public void modifyNotice(@RequestHeader("LB-Role") String role,
                              @PathVariable String noticeId,
                              @Validated @RequestBody NoticeModifyRequestDto dto) {
-        noticeModifyService.modify(role, noticeId, dto);
+        noticeModifyService.modifyNotice(role, noticeId, dto);
     }
 }

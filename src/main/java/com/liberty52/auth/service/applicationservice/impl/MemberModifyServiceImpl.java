@@ -1,8 +1,9 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.adapter.S3Uploader;
 import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
 import com.liberty52.auth.global.exception.badrequest.AuthWithInvalidPasswordException;
+import com.liberty52.auth.service.applicationservice.MemberModifyService;
 import com.liberty52.auth.service.controller.dto.ModifyRequestDto;
 import com.liberty52.auth.service.controller.dto.ModifyResponseDto;
 import com.liberty52.auth.service.entity.Auth;
@@ -17,13 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberModifyServiceImpl implements MemberModifyService{
+public class MemberModifyServiceImpl implements MemberModifyService {
   private final S3Uploader s3Uploader;
   private final AuthRepository authRepository;
   private final PasswordEncoder encoder;
 
   @Override
-  public ModifyResponseDto getMemberInfoById(String userId) {
+  public ModifyResponseDto getMemberInfo(String userId) {
     Auth auth = authRepository.findById(userId).orElseThrow(AuthNotFoundException::new);
     return ModifyResponseDto.builder()
         .email(auth.getEmail())
@@ -35,7 +36,7 @@ public class MemberModifyServiceImpl implements MemberModifyService{
 
   @Transactional
   @Override
-  public void updateMemberInfo(String userId, ModifyRequestDto dto, MultipartFile imageFile) {
+  public void modifyMemberInfo(String userId, ModifyRequestDto dto, MultipartFile imageFile) {
     Auth auth = authRepository.findById(userId).orElseThrow(AuthNotFoundException::new);
     if (!encoder.matches(dto.getOriginPassword(), auth.getPassword())) {
       throw new AuthWithInvalidPasswordException();

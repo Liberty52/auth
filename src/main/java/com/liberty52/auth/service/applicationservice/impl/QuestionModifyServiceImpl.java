@@ -1,10 +1,11 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.exception.internalservererror.InvalidResourceConstraintException;
 import com.liberty52.auth.global.exception.forbidden.NotYourQuestionException;
 import com.liberty52.auth.global.exception.notfound.QuestionNotFoundById;
 import com.liberty52.auth.global.exception.internal.InvalidQuestionContentException;
 import com.liberty52.auth.global.exception.internal.InvalidQuestionTitleException;
+import com.liberty52.auth.service.applicationservice.QuestionModifyService;
 import com.liberty52.auth.service.controller.dto.QuestionModifyRequestDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.QuestionRepository;
@@ -19,7 +20,7 @@ public class QuestionModifyServiceImpl implements QuestionModifyService {
     private final QuestionRepository questionRepository;
 
     @Override
-    public void modify(String writerId, String questionId, QuestionModifyRequestDto dto) {
+    public void modifyQuestion(String writerId, String questionId, QuestionModifyRequestDto dto) {
         Question question = questionRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundById(questionId));
         if(!writerId.equals(question.getWriterId()))
             throw new NotYourQuestionException(writerId);

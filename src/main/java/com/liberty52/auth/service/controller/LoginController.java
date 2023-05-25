@@ -21,8 +21,7 @@ public class LoginController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    public LoginResponseDto emailLogin(@Validated @RequestBody EmailLoginRequestDto dto, HttpServletResponse response) {
-
+    public LoginResponseDto login(@Validated @RequestBody EmailLoginRequestDto dto, HttpServletResponse response) {
         return loginService.login(dto, response);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)

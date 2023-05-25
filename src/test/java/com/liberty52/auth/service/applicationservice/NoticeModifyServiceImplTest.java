@@ -40,7 +40,7 @@ class NoticeModifyServiceImplTest {
         String newContent = UUID.randomUUID().toString();
         boolean newCommentable = !originCommentable;
 
-        noticeModifyService.modify(Role.ADMIN.name(), noticeId, NoticeModifyRequestDto.builder().title(newTitle).content(newContent).commentable(newCommentable).build());
+        noticeModifyService.modifyNotice(Role.ADMIN.name(), noticeId, NoticeModifyRequestDto.builder().title(newTitle).content(newContent).commentable(newCommentable).build());
 
         Notice notice = noticeRepository.findById(noticeId).get();
         Assertions.assertEquals(newTitle, notice.getTitle());
@@ -51,19 +51,19 @@ class NoticeModifyServiceImplTest {
     @Test
     void InvalidAdminRoleException() {
         Assertions.assertThrows(InvalidAdminRoleException.class,
-                () -> noticeModifyService.modify(UUID.randomUUID().toString(), noticeId, NoticeModifyRequestDto.builder().build()));
+                () -> noticeModifyService.modifyNotice(UUID.randomUUID().toString(), noticeId, NoticeModifyRequestDto.builder().build()));
     }
 
     @Test
     void resourceNotFound() {
         Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> noticeModifyService.modify(Role.ADMIN.name(), UUID.randomUUID().toString(), NoticeModifyRequestDto.builder().build()));
+                () -> noticeModifyService.modifyNotice(Role.ADMIN.name(), UUID.randomUUID().toString(), NoticeModifyRequestDto.builder().build()));
     }
 
     @Test
     void InvalidNoticeTitle() {
         Assertions.assertThrows(InvalidNoticeTitleException.class,
-                () -> noticeModifyService.modify(
+                () -> noticeModifyService.modifyNotice(
                         Role.ADMIN.name(),
                         noticeId,
                         NoticeModifyRequestDto.builder()
@@ -77,7 +77,7 @@ class NoticeModifyServiceImplTest {
     @Test
     void InvalidNoticeContent() {
         Assertions.assertThrows(InvalidNoticeContentException.class,
-                () -> noticeModifyService.modify(
+                () -> noticeModifyService.modifyNotice(
                         Role.ADMIN.name(),
                         noticeId,
                         NoticeModifyRequestDto.builder()

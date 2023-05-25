@@ -10,6 +10,6 @@ public interface QuestionRetrieveService {
   QuestionDetailResponseDto retrieveQuestionDetail(String questionId, String writerId);
 
   //admin
-  AdminQuestionRetrieveResponse retrieveAllQuestions(String role, int pageNumber, int size);
-  QuestionDetailResponseDto retrieveQuestionDetails(String role, String questionId);
+  AdminQuestionRetrieveResponse retrieveQuestionByAdmin(String role, int pageNumber, int size);
+  QuestionDetailResponseDto retrieveQuestionDetailByAdmin(String role, String questionId);
 }

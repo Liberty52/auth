@@ -1,6 +1,7 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.adapter.S3Uploader;
+import com.liberty52.auth.service.applicationservice.QuestionImgSaveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ public class QuestionImgSaveServiceImpl implements QuestionImgSaveService {
     private final S3Uploader s3Uploader;
 
     @Override
-    public String saveImg(MultipartFile imageFile) {
+    public String saveQuestionImage(MultipartFile imageFile) {
         return uploadImage(imageFile);
     }
 

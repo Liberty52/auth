@@ -18,7 +18,7 @@ public class ProfileRetrieveController {
     private final ProfileRetrieveService profileRetrieveService;
 
     @PostMapping("/info")
-    public ResponseEntity<Map<String, ReviewerProfileResponse>> retrieveProfile(@RequestBody Set<String> ids){
+    public ResponseEntity<Map<String, ReviewerProfileResponse>> retrieveReviewerProfile(@RequestBody Set<String> ids){
         return ResponseEntity.ok(profileRetrieveService.retrieveReviewerProfile(ids));
     }
 

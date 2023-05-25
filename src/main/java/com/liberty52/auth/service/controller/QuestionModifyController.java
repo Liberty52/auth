@@ -1,8 +1,6 @@
 package com.liberty52.auth.service.controller;
 
-import com.liberty52.auth.service.applicationservice.QuestionCreateService;
 import com.liberty52.auth.service.applicationservice.QuestionModifyService;
-import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;
 import com.liberty52.auth.service.controller.dto.QuestionModifyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,10 +16,10 @@ public class QuestionModifyController {
 
     @PutMapping("/questions/{questionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void questionModify(
+    public void modifyQuestion(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
             @PathVariable String questionId,
             @Validated @RequestBody QuestionModifyRequestDto dto) {
-        questionModifyService.modify(writerId, questionId, dto);
+        questionModifyService.modifyQuestion(writerId, questionId, dto);
     }
 }

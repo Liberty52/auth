@@ -1,10 +1,12 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.exception.badrequest.PageNumberOutOfRangeException;
 import com.liberty52.auth.global.exception.badrequest.PageSizeException;
 import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
 import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
 import com.liberty52.auth.global.exception.notfound.QuestionNotFoundById;
+import com.liberty52.auth.global.utils.AdminRoleUtils;
+import com.liberty52.auth.service.applicationservice.QuestionRetrieveService;
 import com.liberty52.auth.service.controller.dto.AdminQuestionRetrieveResponse;
 import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionReplyResponse;
@@ -29,7 +31,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
-public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
+public class QuestionRetrieveServiceImpl implements QuestionRetrieveService {
   private final String startPage = "startPage";
   private final String currentPage = "currentPage";
   private final String lastPage = "lastPage";
@@ -87,7 +89,7 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
 
   //admin method
   @Override
-  public AdminQuestionRetrieveResponse retrieveAllQuestions(String role, int pageNumber, int pageSize) {
+  public AdminQuestionRetrieveResponse retrieveQuestionByAdmin(String role, int pageNumber, int pageSize) {
     validateRoleAndPageSize(role,pageSize);
     Page<Question> questionList = findQuestionPage(pageNumber, pageSize);
     if (questionList.isEmpty()){
@@ -100,10 +102,8 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   }
 
   @Override
-  public QuestionDetailResponseDto retrieveQuestionDetails(String role, String questionId) {
-    if(!role.equals(Role.ADMIN.name())){
-      throw new InvalidAdminRoleException(role);
-    }
+  public QuestionDetailResponseDto retrieveQuestionDetailByAdmin(String role, String questionId) {
+    AdminRoleUtils.checkRole(role);
     Question question = questionRepository.findById(questionId)
         .orElseThrow(() -> new QuestionNotFoundById(questionId));
     QuestionReply questionReply = question.getQuestionReply();
@@ -128,9 +128,7 @@ public class QuestionRetrieveServiceImpl implements QuestionRetrieveService{
   }
 
   private void validateRoleAndPageSize(String role, int pageSize) {
-    if(!role.equals(Role.ADMIN.name())){
-      throw new InvalidAdminRoleException(role);
-    }
+    AdminRoleUtils.checkRole(role);
     if (pageSize <= 0) {
       throw new PageSizeException();
     }

@@ -98,7 +98,7 @@ class CustomerInfoRetrieveControllerTest {
                 elements.size(),
                 page,
                 size);
-        given(service.retrieveAllByAdmin(any(), any()))
+        given(service.retrieveCustomerInfoByAdmin(any(), any()))
                 .willReturn(dto);
         return dto;
     }

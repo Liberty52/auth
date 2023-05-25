@@ -1,5 +1,6 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
+import com.liberty52.auth.service.applicationservice.QuestionCreateService;
 import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.repository.QuestionRepository;

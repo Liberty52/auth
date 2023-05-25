@@ -1,6 +1,7 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.utils.AdminRoleUtils;
+import com.liberty52.auth.service.applicationservice.CustomerInfoRetrieveService;
 import com.liberty52.auth.service.controller.dto.CustomerInfoListResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Role;
@@ -16,7 +17,7 @@ public class CustomerInfoRetrieveServiceImpl implements CustomerInfoRetrieveServ
     private final AuthRepository authRepository;
 
     @Override
-    public CustomerInfoListResponseDto retrieveAllByAdmin(String role, Pageable pageable) {
+    public CustomerInfoListResponseDto retrieveCustomerInfoByAdmin(String role, Pageable pageable) {
         AdminRoleUtils.checkRole(role);
         Page<Auth> page = authRepository.findByRole(Role.USER, pageable);
         return CustomerInfoListResponseDto.of(page);

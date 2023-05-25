@@ -1,6 +1,7 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.exception.badrequest.InvalidIdOrPhoneNumberException;
+import com.liberty52.auth.service.applicationservice.MemberFindService;
 import com.liberty52.auth.service.controller.dto.FindRequestDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;

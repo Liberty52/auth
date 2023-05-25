@@ -1,9 +1,10 @@
-package com.liberty52.auth.service.applicationservice;
+package com.liberty52.auth.service.applicationservice.impl;
 
 
 import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.MemberDeletedEvent;
 import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
+import com.liberty52.auth.service.applicationservice.MemberDeleteService;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class MemberDeleteServiceImpl implements
-        MemberDeleteService {
+    MemberDeleteService {
 
     private final AuthRepository authRepository;
 

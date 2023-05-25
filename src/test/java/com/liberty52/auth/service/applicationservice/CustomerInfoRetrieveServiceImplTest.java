@@ -31,7 +31,7 @@ class CustomerInfoRetrieveServiceImplTest {
         int page = 0;
         Iterator<Auth> allIter = all.iterator();
         while(true) {
-            CustomerInfoListResponseDto dto = service.retrieveAllByAdmin(Role.ADMIN.name(), PageRequest.of(page, size));
+            CustomerInfoListResponseDto dto = service.retrieveCustomerInfoByAdmin(Role.ADMIN.name(), PageRequest.of(page, size));
             if(dto.getInfoList().size() == 0) break;
             assertEquals(all.size(), dto.getTotalCount());
             assertEquals(page, dto.getPageNumber());
@@ -47,6 +47,6 @@ class CustomerInfoRetrieveServiceImplTest {
 
     @Test
     void InvalidAdminRoleException() {
-        assertThrows(InvalidAdminRoleException.class, () -> service.retrieveAllByAdmin(Role.USER.name(), PageRequest.of(0, 1)));
+        assertThrows(InvalidAdminRoleException.class, () -> service.retrieveCustomerInfoByAdmin(Role.USER.name(), PageRequest.of(0, 1)));
     }
 }

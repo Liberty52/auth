@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberModifyService {
 
-   ModifyResponseDto getMemberInfoById(String userId);
+   ModifyResponseDto getMemberInfo(String userId);
 
-   void updateMemberInfo(String userId, ModifyRequestDto dto, MultipartFile imageFile);
+   void modifyMemberInfo(String userId, ModifyRequestDto dto, MultipartFile imageFile);
 }
