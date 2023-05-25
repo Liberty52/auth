@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class NoticeDeleteServiceImpl implements NoticeDeleteService {
   private final NoticeRepository noticeRepository;
   @Override
-  public void deleteNotice(String role, String noticeId) {
+  public void deleteNoticeByAdmin(String role, String noticeId) {
     AdminRoleUtils.checkRole(role);
     Notice notice = noticeRepository.findById(noticeId)
         .orElseThrow(() -> new ResourceNotFoundException("notice", "id", noticeId));

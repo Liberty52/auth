@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class NoticeDeleteController {
 
   private final NoticeDeleteService noticeDeleteService;
-  @DeleteMapping("/notices/{noticeId}")
-  public ResponseEntity<Void> deleteNotice(@RequestHeader("LB-Role") String role, @PathVariable String noticeId) {
-    noticeDeleteService.deleteNotice(role, noticeId);
+  @DeleteMapping("/admin/notices/{noticeId}")
+  public ResponseEntity<Void> deleteNoticeByAdmin(@RequestHeader("LB-Role") String role, @PathVariable String noticeId) {
+    noticeDeleteService.deleteNoticeByAdmin(role, noticeId);
     return ResponseEntity.noContent().build();
   }
 }
