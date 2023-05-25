@@ -16,9 +16,9 @@ public class QuestionReplyDeleteController {
 
     private final QuestionReplyDeleteService questionReplyDeleteService;
 
-    @DeleteMapping("/questionReplies/{questionReplyId}")
+    @DeleteMapping("/admin/questionReplies/{questionReplyId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteQuestionReply(@RequestHeader(HttpHeaders.AUTHORIZATION) String adminId, @RequestHeader("LB-Role") String role, @PathVariable String questionReplyId) {
-        questionReplyDeleteService.deleteQuestionReply(adminId, role, questionReplyId);
+    public void deleteQuestionReplyByAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String adminId, @RequestHeader("LB-Role") String role, @PathVariable String questionReplyId) {
+        questionReplyDeleteService.deleteQuestionReplyByAdmin(adminId, role, questionReplyId);
     }
 }

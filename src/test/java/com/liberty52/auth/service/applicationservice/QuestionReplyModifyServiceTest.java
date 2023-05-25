@@ -48,7 +48,7 @@ public class QuestionReplyModifyServiceTest {
     @Test
     void basicPath() {
         String modifiedContent = UUID.randomUUID().toString();
-        questionReplyModifyService.modifyQuestionReply(adminId, Role.ADMIN.name(), qrId, QuestionReplyModifyRequestDto.createForTest(modifiedContent));
+        questionReplyModifyService.modifyQuestionReplyByAdmin(adminId, Role.ADMIN.name(), qrId, QuestionReplyModifyRequestDto.createForTest(modifiedContent));
 
         QuestionReply qr = questionReplyRepository.findById(qrId).get();
         Assertions.assertEquals(modifiedContent, qr.getContent());

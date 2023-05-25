@@ -54,7 +54,7 @@ public class QuestionReplyDeleteServiceTest {
         Question beforeQuestion = questionRepository.findById(questionId).orElseGet(null);
         assertThat(beforeQuestion.getQuestionReply().getContent().equals("답변"));
 
-        questionReplyDeleteService.deleteQuestionReply(adminId, role, questionReplyId);
+        questionReplyDeleteService.deleteQuestionReplyByAdmin(adminId, role, questionReplyId);
 
         QuestionReply questionReply =questionReplyRepository.findById(questionReplyId).orElse(null);
         Question afterQuestion = questionRepository.findById(questionId).orElse(null);

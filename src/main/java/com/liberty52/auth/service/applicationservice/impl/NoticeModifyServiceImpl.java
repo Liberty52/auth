@@ -16,7 +16,7 @@ public class NoticeModifyServiceImpl implements NoticeModifyService {
     private final NoticeRepository noticeRepository;
 
     @Override
-    public void modifyNotice(String role, String noticeId, NoticeModifyRequestDto dto) {
+    public void modifyNoticeByAdmin(String role, String noticeId, NoticeModifyRequestDto dto) {
         AdminRoleUtils.checkRole(role);
         noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new ResourceNotFoundException("notice", "id", noticeId))

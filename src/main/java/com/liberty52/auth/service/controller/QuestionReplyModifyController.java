@@ -14,13 +14,13 @@ public class QuestionReplyModifyController {
 
     private final QuestionReplyModifyService questionReplyModifyService;
 
-    @PutMapping("/questionReplies/{questionReplyId}")
+    @PutMapping("/admin/questionReplies/{questionReplyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifyQuestionReply(
+    public void modifyQuestionReplyByAdmin(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
             @RequestHeader("LB-Role") String role,
             @PathVariable String questionReplyId,
             @Validated @RequestBody QuestionReplyModifyRequestDto dto) {
-        questionReplyModifyService.modifyQuestionReply(writerId, role, questionReplyId, dto);
+        questionReplyModifyService.modifyQuestionReplyByAdmin(writerId, role, questionReplyId, dto);
     }
 }

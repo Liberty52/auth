@@ -17,7 +17,7 @@ public class QuestionReplyDeleteServiceImpl implements QuestionReplyDeleteServic
   private final QuestionReplyRepository questionReplyRepository;
 
   @Override
-  public void deleteQuestionReply(String adminId, String role, String questionReplyId) {
+  public void deleteQuestionReplyByAdmin(String adminId, String role, String questionReplyId) {
     AdminRoleUtils.checkRole(role);
     QuestionReply questionReply = questionReplyRepository.findById(questionReplyId)
         .orElseThrow(() -> new QuestionReplyNotFoundByIdException(questionReplyId));

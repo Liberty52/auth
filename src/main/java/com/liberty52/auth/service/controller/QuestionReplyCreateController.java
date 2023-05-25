@@ -18,9 +18,9 @@ public class QuestionReplyCreateController {
 
     private final QuestionReplyCreateService questionReplyCreateService;
 
-    @PostMapping("/questionReplies")
+    @PostMapping("/admin/questionReplies")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createQuestionReply(@RequestHeader(HttpHeaders.AUTHORIZATION) String adminId, @RequestHeader("LB-Role") String role, @Validated @RequestBody QuestionReplyCreateRequestDto dto) {
-        questionReplyCreateService.createQuestionReply(adminId, role, dto);
+    public void createQuestionReplyByAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String adminId, @RequestHeader("LB-Role") String role, @Validated @RequestBody QuestionReplyCreateRequestDto dto) {
+        questionReplyCreateService.createQuestionReplyByAdmin(adminId, role, dto);
     }
 }

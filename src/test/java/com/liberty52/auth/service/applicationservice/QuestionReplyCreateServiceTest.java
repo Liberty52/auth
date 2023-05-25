@@ -46,7 +46,7 @@ public class QuestionReplyCreateServiceTest {
     void 문의답변추가() {
         String role = "ADMIN";
         QuestionReplyCreateRequestDto dto = QuestionReplyCreateRequestDto.create(questionId, "답변");
-        questionReplyCreateService.createQuestionReply(adminId, role, dto);
+        questionReplyCreateService.createQuestionReplyByAdmin(adminId, role, dto);
         Question question = questionRepository.findById(questionId).orElseGet(null);
         QuestionReply questionReply = question.getQuestionReply();
 
@@ -57,8 +57,8 @@ public class QuestionReplyCreateServiceTest {
 
 
         QuestionReplyCreateRequestDto errDto = QuestionReplyCreateRequestDto.create("err", "답변");
-        Assertions.assertThrows(InvalidRoleException.class,() -> questionReplyCreateService.createQuestionReply(adminId, "손님", dto));
-        Assertions.assertThrows(QuestionNotFoundById.class,() -> questionReplyCreateService.createQuestionReply(adminId, role, errDto));
+        Assertions.assertThrows(InvalidRoleException.class,() -> questionReplyCreateService.createQuestionReplyByAdmin(adminId, "손님", dto));
+        Assertions.assertThrows(QuestionNotFoundById.class,() -> questionReplyCreateService.createQuestionReplyByAdmin(adminId, role, errDto));
 
     }
 

@@ -17,7 +17,7 @@ public class QuestionReplyModifyServiceImpl implements QuestionReplyModifyServic
     private final QuestionReplyRepository questionReplyRepository;
 
     @Override
-    public void modifyQuestionReply(String writerId, String role, String questionReplyId, QuestionReplyModifyRequestDto dto) {
+    public void modifyQuestionReplyByAdmin(String writerId, String role, String questionReplyId, QuestionReplyModifyRequestDto dto) {
         AdminRoleUtils.checkRole(role);
         QuestionReply questionReply = questionReplyRepository.findById(questionReplyId)
                 .orElseThrow(() -> new QuestionReplyNotFoundByIdException(questionReplyId));

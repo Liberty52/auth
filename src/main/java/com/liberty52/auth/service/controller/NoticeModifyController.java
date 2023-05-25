@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class NoticeModifyController {
     private final NoticeModifyService noticeModifyService;
 
-    @PutMapping("/notices/{noticeId}")
+    @PutMapping("/admin/notices/{noticeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifyNotice(@RequestHeader("LB-Role") String role,
+    public void modifyNoticeByAdmin(@RequestHeader("LB-Role") String role,
                              @PathVariable String noticeId,
                              @Validated @RequestBody NoticeModifyRequestDto dto) {
-        noticeModifyService.modifyNotice(role, noticeId, dto);
+        noticeModifyService.modifyNoticeByAdmin(role, noticeId, dto);
     }
 }

@@ -40,7 +40,7 @@ class NoticeModifyServiceImplTest {
         String newContent = UUID.randomUUID().toString();
         boolean newCommentable = !originCommentable;
 
-        noticeModifyService.modifyNotice(Role.ADMIN.name(), noticeId, NoticeModifyRequestDto.builder().title(newTitle).content(newContent).commentable(newCommentable).build());
+        noticeModifyService.modifyNoticeByAdmin(Role.ADMIN.name(), noticeId, NoticeModifyRequestDto.builder().title(newTitle).content(newContent).commentable(newCommentable).build());
 
         Notice notice = noticeRepository.findById(noticeId).get();
         Assertions.assertEquals(newTitle, notice.getTitle());
@@ -51,19 +51,19 @@ class NoticeModifyServiceImplTest {
     @Test
     void InvalidAdminRoleException() {
         Assertions.assertThrows(InvalidAdminRoleException.class,
-                () -> noticeModifyService.modifyNotice(UUID.randomUUID().toString(), noticeId, NoticeModifyRequestDto.builder().build()));
+                () -> noticeModifyService.modifyNoticeByAdmin(UUID.randomUUID().toString(), noticeId, NoticeModifyRequestDto.builder().build()));
     }
 
     @Test
     void resourceNotFound() {
         Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> noticeModifyService.modifyNotice(Role.ADMIN.name(), UUID.randomUUID().toString(), NoticeModifyRequestDto.builder().build()));
+                () -> noticeModifyService.modifyNoticeByAdmin(Role.ADMIN.name(), UUID.randomUUID().toString(), NoticeModifyRequestDto.builder().build()));
     }
 
     @Test
     void InvalidNoticeTitle() {
         Assertions.assertThrows(InvalidNoticeTitleException.class,
-                () -> noticeModifyService.modifyNotice(
+                () -> noticeModifyService.modifyNoticeByAdmin(
                         Role.ADMIN.name(),
                         noticeId,
                         NoticeModifyRequestDto.builder()
@@ -77,7 +77,7 @@ class NoticeModifyServiceImplTest {
     @Test
     void InvalidNoticeContent() {
         Assertions.assertThrows(InvalidNoticeContentException.class,
-                () -> noticeModifyService.modifyNotice(
+                () -> noticeModifyService.modifyNoticeByAdmin(
                         Role.ADMIN.name(),
                         noticeId,
                         NoticeModifyRequestDto.builder()

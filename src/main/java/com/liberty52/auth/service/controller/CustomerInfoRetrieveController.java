@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerInfoRetrieveController {
     private final CustomerInfoRetrieveService customerInfoRetrieveService;
 
-    @GetMapping("/customer-info")
+    @GetMapping("/admin/customer-info")
     @ResponseStatus(HttpStatus.OK)
     public CustomerInfoListResponseDto retrieveCustomerInfoByAdmin(@RequestHeader("LB-Role") String role,
                                                                Pageable pageable) {
