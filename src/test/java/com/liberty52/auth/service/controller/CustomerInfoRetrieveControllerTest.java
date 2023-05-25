@@ -45,7 +45,7 @@ class CustomerInfoRetrieveControllerTest {
     RestExceptionHandler restExceptionHandler;
     @MockBean
     CustomerInfoRetrieveService service;
-    final String LIST_RETRIEVE_API = "/customer-info?page=%d&size=%d";
+    final String LIST_RETRIEVE_API = "/admin/customer-info?page=%d&size=%d";
 
     @Test
     void userInfoListByAdmin() throws Exception {
