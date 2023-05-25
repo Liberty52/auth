@@ -1,6 +1,6 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.ResourceNotFoundException;
+import com.liberty52.auth.global.exception.notfound.ResourceNotFoundException;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.service.entity.Notice;
 import com.liberty52.auth.service.repository.NoticeRepository;

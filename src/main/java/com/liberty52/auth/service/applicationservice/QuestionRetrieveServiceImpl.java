@@ -1,6 +1,10 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.*;
+import com.liberty52.auth.global.exception.badrequest.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.badrequest.PageSizeException;
+import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
+import com.liberty52.auth.global.exception.notfound.QuestionNotFoundById;
 import com.liberty52.auth.service.controller.dto.AdminQuestionRetrieveResponse;
 import com.liberty52.auth.service.controller.dto.QuestionDetailResponseDto;
 import com.liberty52.auth.service.controller.dto.QuestionReplyResponse;

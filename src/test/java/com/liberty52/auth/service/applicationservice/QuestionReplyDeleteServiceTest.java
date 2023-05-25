@@ -1,7 +1,5 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.NotYourQuestionException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
 import com.liberty52.auth.service.controller.dto.QuestionReplyCreateRequestDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.entity.QuestionReply;

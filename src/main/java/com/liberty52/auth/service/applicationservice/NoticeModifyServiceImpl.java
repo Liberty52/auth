@@ -1,9 +1,6 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.BadRequestException;
-import com.liberty52.auth.global.exception.external.ResourceNotFoundException;
-import com.liberty52.auth.global.exception.internal.InvalidNoticeContentException;
-import com.liberty52.auth.global.exception.internal.InvalidNoticeTitleException;
+import com.liberty52.auth.global.exception.notfound.ResourceNotFoundException;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.service.controller.dto.NoticeModifyRequestDto;
 import com.liberty52.auth.service.repository.NoticeRepository;

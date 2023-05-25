@@ -1,8 +1,8 @@
 package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.adapter.S3Uploader;
-import com.liberty52.auth.global.exception.external.AuthNotFoundException;
-import com.liberty52.auth.global.exception.external.AuthWithInvalidPasswordException;
+import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
+import com.liberty52.auth.global.exception.badrequest.AuthWithInvalidPasswordException;
 import com.liberty52.auth.service.controller.dto.ModifyRequestDto;
 import com.liberty52.auth.service.controller.dto.ModifyResponseDto;
 import com.liberty52.auth.service.entity.Auth;

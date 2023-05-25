@@ -3,7 +3,7 @@ package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.MemberDeletedEvent;
-import com.liberty52.auth.global.exception.external.AuthNotFoundException;
+import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;

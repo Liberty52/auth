@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.global.config.WebSecurityConfig;
-import com.liberty52.auth.global.exception.external.AuthExceptionHandler;
+import com.liberty52.auth.global.exception.RestExceptionHandler;
 import com.liberty52.auth.service.applicationservice.CustomerInfoRetrieveService;
 import com.liberty52.auth.service.controller.dto.CustomerInfoListResponseDto;
 import com.liberty52.auth.service.controller.dto.CustomerInfoResponseDto;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(value = {CustomerInfoRetrieveController.class, AuthExceptionHandler.class},
+@WebMvcTest(value = {CustomerInfoRetrieveController.class, RestExceptionHandler.class},
             excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)},
             excludeAutoConfiguration = {SecurityAutoConfiguration.class,
             SecurityFilterAutoConfiguration.class,
@@ -42,7 +42,7 @@ class CustomerInfoRetrieveControllerTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    AuthExceptionHandler authExceptionHandler;
+    RestExceptionHandler restExceptionHandler;
     @MockBean
     CustomerInfoRetrieveService service;
     final String LIST_RETRIEVE_API = "/customer-info?page=%d&size=%d";

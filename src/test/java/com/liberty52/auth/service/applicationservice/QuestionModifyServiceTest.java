@@ -1,8 +1,8 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidResourceConstraintException;
-import com.liberty52.auth.global.exception.external.NotYourQuestionException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
+import com.liberty52.auth.global.exception.internalservererror.InvalidResourceConstraintException;
+import com.liberty52.auth.global.exception.forbidden.NotYourQuestionException;
+import com.liberty52.auth.global.exception.notfound.QuestionNotFoundById;
 import com.liberty52.auth.global.exception.internal.InvalidQuestionContentException;
 import com.liberty52.auth.global.exception.internal.InvalidQuestionTitleException;
 import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;

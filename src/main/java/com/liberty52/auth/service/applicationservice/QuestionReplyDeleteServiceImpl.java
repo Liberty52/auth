@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
-import com.liberty52.auth.global.exception.external.QuestionReplyNotFoundByIdException;
+import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.notfound.QuestionReplyNotFoundByIdException;
 import com.liberty52.auth.service.entity.QuestionReply;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.QuestionReplyRepository;

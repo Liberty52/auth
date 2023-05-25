@@ -10,7 +10,6 @@ import com.liberty52.auth.service.entity.SocialLogin;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.SocialLoginRepository;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

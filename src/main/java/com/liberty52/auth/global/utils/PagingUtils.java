@@ -1,6 +1,6 @@
 package com.liberty52.auth.global.utils;
 
-import com.liberty52.auth.global.exception.external.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.badrequest.PageNumberOutOfRangeException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

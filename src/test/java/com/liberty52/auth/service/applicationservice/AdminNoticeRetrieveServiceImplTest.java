@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
-import com.liberty52.auth.global.exception.external.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.notfound.NoticeNotFoundById;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.repository.NoticeRepository;
@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

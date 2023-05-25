@@ -1,8 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
-import com.liberty52.auth.global.exception.external.InvalidRoleException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
+import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.notfound.QuestionNotFoundById;
 import com.liberty52.auth.service.controller.dto.QuestionReplyCreateRequestDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.entity.QuestionReply;
