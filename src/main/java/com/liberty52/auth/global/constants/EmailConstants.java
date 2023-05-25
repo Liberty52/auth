@@ -1,4 +1,4 @@
-package com.liberty52.auth.global.contants;
+package com.liberty52.auth.global.constants;
 
 public final class EmailConstants {
 

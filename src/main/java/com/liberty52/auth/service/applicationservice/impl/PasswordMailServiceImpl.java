@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.adapter.MailSender;
-import com.liberty52.auth.global.contants.MailContentConstants;
+import com.liberty52.auth.global.constants.MailContentConstants;
 import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
 import com.liberty52.auth.global.exception.badrequest.AuthUpdatePasswordForbiddenException;
 import com.liberty52.auth.global.exception.internal.MailMessagingException;
