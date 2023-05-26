@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
-import com.liberty52.auth.global.exception.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.forbidden.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.repository.NoticeRepository;

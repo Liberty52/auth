@@ -1,8 +1,8 @@
 package com.liberty52.auth.service.applicationservice.impl;
 
-import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
-import com.liberty52.auth.global.exception.unauthorized.AuthUnauthorizedException;
-import com.liberty52.auth.global.exception.unauthorized.InvalidTokenException;
+import com.liberty52.auth.global.exception.external.notfound.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.unauthorized.AuthUnauthorizedException;
+import com.liberty52.auth.global.exception.external.unauthorized.InvalidTokenException;
 import com.liberty52.auth.global.jwt.JwtService;
 import com.liberty52.auth.service.applicationservice.LoginService;
 import com.liberty52.auth.service.controller.dto.EmailLoginRequestDto;

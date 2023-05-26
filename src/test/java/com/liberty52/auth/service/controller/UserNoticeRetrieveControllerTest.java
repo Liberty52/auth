@@ -8,10 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.liberty52.auth.global.config.WebSecurityConfig;
-import com.liberty52.auth.global.exception.RestExceptionHandler;
-import com.liberty52.auth.global.exception.ErrorResponse;
-import com.liberty52.auth.global.exception.notfound.NoticeNotFoundById;
-import com.liberty52.auth.global.exception.badrequest.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.external.RestExceptionHandler;
+import com.liberty52.auth.global.exception.external.ErrorResponse;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
 import com.liberty52.auth.service.applicationservice.UserNoticeRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;

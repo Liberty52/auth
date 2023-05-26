@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.global.config.WebSecurityConfig;
-import com.liberty52.auth.global.exception.RestExceptionHandler;
+import com.liberty52.auth.global.exception.external.RestExceptionHandler;
 import com.liberty52.auth.service.applicationservice.CustomerInfoRetrieveService;
 import com.liberty52.auth.service.controller.dto.CustomerInfoListResponseDto;
 import com.liberty52.auth.service.controller.dto.CustomerInfoResponseDto;

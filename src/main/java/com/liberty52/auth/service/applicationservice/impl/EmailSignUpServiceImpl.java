@@ -3,7 +3,7 @@ package com.liberty52.auth.service.applicationservice.impl;
 import com.liberty52.auth.global.adapter.S3Uploader;
 import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.SignedUpEvent;
-import com.liberty52.auth.global.exception.badrequest.AuthWithSuchEmailAlreadyExistsException;
+import com.liberty52.auth.global.exception.external.badrequest.AuthWithSuchEmailAlreadyExistsException;
 import com.liberty52.auth.service.applicationservice.EmailSignUpService;
 import com.liberty52.auth.service.controller.dto.SignUpRequestDto;
 import com.liberty52.auth.service.entity.Auth;

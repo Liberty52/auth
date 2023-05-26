@@ -3,7 +3,7 @@ package com.liberty52.auth.service.applicationservice.impl;
 import static com.liberty52.auth.global.utils.PagingUtils.*;
 import static com.liberty52.auth.global.utils.PagingUtils.getPageInfo;
 
-import com.liberty52.auth.global.exception.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
 import com.liberty52.auth.service.applicationservice.UserNoticeRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;

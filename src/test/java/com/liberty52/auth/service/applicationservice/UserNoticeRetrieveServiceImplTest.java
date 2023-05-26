@@ -2,8 +2,8 @@ package com.liberty52.auth.service.applicationservice;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.liberty52.auth.global.exception.notfound.NoticeNotFoundById;
-import com.liberty52.auth.global.exception.badrequest.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.entity.Notice;

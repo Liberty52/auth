@@ -1,6 +1,6 @@
 package com.liberty52.auth.service.applicationservice.impl;
 
-import com.liberty52.auth.global.exception.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.global.utils.PagingUtils;
 import com.liberty52.auth.service.applicationservice.AdminNoticeRetrieveService;

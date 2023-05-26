@@ -1,10 +1,9 @@
 package com.liberty52.auth.service.applicationservice.impl;
 
-import com.liberty52.auth.global.exception.badrequest.PageNumberOutOfRangeException;
-import com.liberty52.auth.global.exception.badrequest.PageSizeException;
-import com.liberty52.auth.global.exception.forbidden.InvalidAdminRoleException;
-import com.liberty52.auth.global.exception.notfound.AuthNotFoundException;
-import com.liberty52.auth.global.exception.notfound.QuestionNotFoundById;
+import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.external.badrequest.PageSizeException;
+import com.liberty52.auth.global.exception.external.notfound.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.notfound.QuestionNotFoundById;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.service.applicationservice.QuestionRetrieveService;
 import com.liberty52.auth.service.controller.dto.AdminQuestionRetrieveResponse;
@@ -14,7 +13,6 @@ import com.liberty52.auth.service.controller.dto.QuestionRetrieveResponseDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.entity.QuestionReply;
-import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import java.util.Collections;

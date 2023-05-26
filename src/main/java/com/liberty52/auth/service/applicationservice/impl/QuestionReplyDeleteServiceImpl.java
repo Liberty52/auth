@@ -1,6 +1,6 @@
 package com.liberty52.auth.service.applicationservice.impl;
 
-import com.liberty52.auth.global.exception.notfound.QuestionReplyNotFoundByIdException;
+import com.liberty52.auth.global.exception.external.notfound.QuestionReplyNotFoundByIdException;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.service.applicationservice.QuestionReplyDeleteService;
 import com.liberty52.auth.service.entity.QuestionReply;
