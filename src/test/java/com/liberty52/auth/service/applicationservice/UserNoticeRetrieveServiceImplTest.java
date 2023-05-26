@@ -1,17 +1,14 @@
 package com.liberty52.auth.service.applicationservice;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.liberty52.auth.global.exception.external.NoticeNotFoundById;
-import com.liberty52.auth.global.exception.external.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.entity.Notice;
 import com.liberty52.auth.service.repository.NoticeRepository;
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

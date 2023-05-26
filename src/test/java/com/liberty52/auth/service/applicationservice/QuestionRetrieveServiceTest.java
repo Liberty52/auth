@@ -63,7 +63,7 @@ public class QuestionRetrieveServiceTest {
 
   @Test
   void 관리자문의조회() {
-    AdminQuestionRetrieveResponse response = questionRetrieveService.retrieveAllQuestions(Role.ADMIN.name(), 0, 5);
+    AdminQuestionRetrieveResponse response = questionRetrieveService.retrieveQuestionByAdmin(Role.ADMIN.name(), 0, 5);
     assertThat(response.getCurrentPage()).isSameAs(1L);
     assertThat(response.getStartPage()).isSameAs(1L);
     assertThat(response.getLastPage()).isSameAs(1L);

@@ -2,7 +2,7 @@ package com.liberty52.auth.global.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.liberty52.auth.global.exception.external.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.unauthorized.AuthNotFoundException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.repository.AuthRepository;

@@ -1,8 +1,8 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidResourceConstraintException;
-import com.liberty52.auth.global.exception.external.NotYourQuestionException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
+import com.liberty52.auth.global.exception.external.internalservererror.InvalidResourceConstraintException;
+import com.liberty52.auth.global.exception.external.forbidden.NotYourQuestionException;
+import com.liberty52.auth.global.exception.external.notfound.QuestionNotFoundById;
 import com.liberty52.auth.global.exception.internal.InvalidQuestionContentException;
 import com.liberty52.auth.global.exception.internal.InvalidQuestionTitleException;
 import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;
@@ -48,7 +48,7 @@ public class QuestionModifyServiceTest {
     void modify() {
         String mTitle = "modified";
         String mContent = "modified content";
-        questionModifyService.modify(writerId, question.getId(), QuestionModifyRequestDto.createForTest(mTitle, mContent));
+        questionModifyService.modifyQuestion(writerId, question.getId(), QuestionModifyRequestDto.createForTest(mTitle, mContent));
 
         // then
         question = questionRepository.findByWriterId(writerId).get(0);
@@ -61,7 +61,7 @@ public class QuestionModifyServiceTest {
         String strangeId = UUID.randomUUID().toString();
         Assertions.assertThrows(
                 NotYourQuestionException.class,
-                () -> questionModifyService.modify(strangeId, question.getId(), createDto()));
+                () -> questionModifyService.modifyQuestion(strangeId, question.getId(), createDto()));
     }
 
     @Test
@@ -69,32 +69,32 @@ public class QuestionModifyServiceTest {
         String strangeId = UUID.randomUUID().toString();
         Assertions.assertThrows(
                 QuestionNotFoundById.class,
-                () -> questionModifyService.modify(writerId, strangeId, createDto()));
+                () -> questionModifyService.modifyQuestion(writerId, strangeId, createDto()));
     }
 
     @Test
     void throwInvalidResourceConstraintException() {
         InvalidResourceConstraintException e = Assertions.assertThrows(
                 InvalidResourceConstraintException.class,
-                () -> questionModifyService.modify(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MIN_LENGTH - 1), "?".repeat(Question.CONTENT_MIN_LENGTH)))
+                () -> questionModifyService.modifyQuestion(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MIN_LENGTH - 1), "?".repeat(Question.CONTENT_MIN_LENGTH)))
         );
         Assertions.assertTrue(e.getErrorMessage().contains(InvalidQuestionTitleException.class.getSimpleName()));
 
         e  = Assertions.assertThrows(
                 InvalidResourceConstraintException.class,
-                () -> questionModifyService.modify(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MAX_LENGTH + 1), "?".repeat(Question.CONTENT_MIN_LENGTH)))
+                () -> questionModifyService.modifyQuestion(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MAX_LENGTH + 1), "?".repeat(Question.CONTENT_MIN_LENGTH)))
         );
         Assertions.assertTrue(e.getErrorMessage().contains(InvalidQuestionTitleException.class.getSimpleName()));
 
         e = Assertions.assertThrows(
                 InvalidResourceConstraintException.class,
-                () -> questionModifyService.modify(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MIN_LENGTH), "?".repeat(Question.CONTENT_MIN_LENGTH - 1)))
+                () -> questionModifyService.modifyQuestion(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MIN_LENGTH), "?".repeat(Question.CONTENT_MIN_LENGTH - 1)))
         );
         Assertions.assertTrue(e.getErrorMessage().contains(InvalidQuestionContentException.class.getSimpleName()));
 
         e  = Assertions.assertThrows(
                 InvalidResourceConstraintException.class,
-                () -> questionModifyService.modify(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MIN_LENGTH), "?".repeat(Question.CONTENT_MAX_LENGTH + 1)))
+                () -> questionModifyService.modifyQuestion(writerId, question.getId(), createDto("?".repeat(Question.TITLE_MIN_LENGTH), "?".repeat(Question.CONTENT_MAX_LENGTH + 1)))
         );
         Assertions.assertTrue(e.getErrorMessage().contains(InvalidQuestionContentException.class.getSimpleName()));
     }

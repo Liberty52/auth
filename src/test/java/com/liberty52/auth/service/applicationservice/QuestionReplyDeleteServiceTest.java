@@ -1,7 +1,5 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.NotYourQuestionException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
 import com.liberty52.auth.service.controller.dto.QuestionReplyCreateRequestDto;
 import com.liberty52.auth.service.entity.Question;
 import com.liberty52.auth.service.entity.QuestionReply;
@@ -56,7 +54,7 @@ public class QuestionReplyDeleteServiceTest {
         Question beforeQuestion = questionRepository.findById(questionId).orElseGet(null);
         assertThat(beforeQuestion.getQuestionReply().getContent().equals("답변"));
 
-        questionReplyDeleteService.deleteQuestionReply(adminId, role, questionReplyId);
+        questionReplyDeleteService.deleteQuestionReplyByAdmin(adminId, role, questionReplyId);
 
         QuestionReply questionReply =questionReplyRepository.findById(questionReplyId).orElse(null);
         Question afterQuestion = questionRepository.findById(questionId).orElse(null);

@@ -14,7 +14,7 @@ public class MemberDeleteController {
 
     private final MemberDeleteService memberDeleteService;
     @DeleteMapping("/member")
-    public ResponseEntity<Void> deleteMemberC2(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId){
+    public ResponseEntity<Void> deleteMemberByUserId(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId){
         memberDeleteService.deleteMemberByUserId(userId);
         return ResponseEntity.ok().build();
     }

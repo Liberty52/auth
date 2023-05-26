@@ -1,6 +1,6 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.external.forbidden.InvalidAdminRoleException;
 import com.liberty52.auth.service.controller.dto.CustomerInfoListResponseDto;
 import com.liberty52.auth.service.controller.dto.CustomerInfoResponseDto;
 import com.liberty52.auth.service.entity.Auth;
@@ -31,7 +31,7 @@ class CustomerInfoRetrieveServiceImplTest {
         int page = 0;
         Iterator<Auth> allIter = all.iterator();
         while(true) {
-            CustomerInfoListResponseDto dto = service.retrieveAllByAdmin(Role.ADMIN.name(), PageRequest.of(page, size));
+            CustomerInfoListResponseDto dto = service.retrieveCustomerInfoByAdmin(Role.ADMIN.name(), PageRequest.of(page, size));
             if(dto.getInfoList().size() == 0) break;
             assertEquals(all.size(), dto.getTotalCount());
             assertEquals(page, dto.getPageNumber());
@@ -47,6 +47,6 @@ class CustomerInfoRetrieveServiceImplTest {
 
     @Test
     void InvalidAdminRoleException() {
-        assertThrows(InvalidAdminRoleException.class, () -> service.retrieveAllByAdmin(Role.USER.name(), PageRequest.of(0, 1)));
+        assertThrows(InvalidAdminRoleException.class, () -> service.retrieveCustomerInfoByAdmin(Role.USER.name(), PageRequest.of(0, 1)));
     }
 }

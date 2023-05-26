@@ -1,7 +1,6 @@
 package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.service.applicationservice.QuestionReplyModifyService;
-import com.liberty52.auth.service.controller.dto.QuestionReplyCreateRequestDto;
 import com.liberty52.auth.service.controller.dto.QuestionReplyModifyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -15,13 +14,13 @@ public class QuestionReplyModifyController {
 
     private final QuestionReplyModifyService questionReplyModifyService;
 
-    @PutMapping("/questionReplies/{questionReplyId}")
+    @PutMapping("/admin/questionReplies/{questionReplyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void questionReplyModify(
+    public void modifyQuestionReplyByAdmin(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String writerId,
             @RequestHeader("LB-Role") String role,
             @PathVariable String questionReplyId,
             @Validated @RequestBody QuestionReplyModifyRequestDto dto) {
-        questionReplyModifyService.modify(writerId, role, questionReplyId, dto);
+        questionReplyModifyService.modifyQuestionReplyByAdmin(writerId, role, questionReplyId, dto);
     }
 }

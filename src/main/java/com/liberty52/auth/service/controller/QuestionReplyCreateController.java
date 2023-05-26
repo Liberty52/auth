@@ -1,14 +1,16 @@
 package com.liberty52.auth.service.controller;
 
-import com.liberty52.auth.service.applicationservice.QuestionCreateService;
 import com.liberty52.auth.service.applicationservice.QuestionReplyCreateService;
-import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;
 import com.liberty52.auth.service.controller.dto.QuestionReplyCreateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,9 +18,9 @@ public class QuestionReplyCreateController {
 
     private final QuestionReplyCreateService questionReplyCreateService;
 
-    @PostMapping("/questionReplies")
+    @PostMapping("/admin/questionReplies")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String adminId, @RequestHeader("LB-Role") String role, @Validated @RequestBody QuestionReplyCreateRequestDto dto) {
-        questionReplyCreateService.createQuestionReply(adminId, role, dto);
+    public void createQuestionReplyByAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String adminId, @RequestHeader("LB-Role") String role, @Validated @RequestBody QuestionReplyCreateRequestDto dto) {
+        questionReplyCreateService.createQuestionReplyByAdmin(adminId, role, dto);
     }
 }

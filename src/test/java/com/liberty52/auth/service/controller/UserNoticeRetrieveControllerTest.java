@@ -8,10 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.liberty52.auth.global.config.WebSecurityConfig;
-import com.liberty52.auth.global.exception.external.AuthExceptionHandler;
+import com.liberty52.auth.global.exception.external.RestExceptionHandler;
 import com.liberty52.auth.global.exception.external.ErrorResponse;
-import com.liberty52.auth.global.exception.external.NoticeNotFoundById;
-import com.liberty52.auth.global.exception.external.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
 import com.liberty52.auth.service.applicationservice.UserNoticeRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
@@ -33,9 +32,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@WebMvcTest(value = {UserNoticeRetrieveController.class, AuthExceptionHandler.class},
+@WebMvcTest(value = {UserNoticeRetrieveController.class, RestExceptionHandler.class},
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)},
         excludeAutoConfiguration = {SecurityAutoConfiguration.class,
                 SecurityFilterAutoConfiguration.class,
@@ -47,7 +45,7 @@ class UserNoticeRetrieveControllerTest {
     UserNoticeRetrieveController userNoticeRetrieveController;
 
     @MockBean
-    AuthExceptionHandler authExceptionHandler;
+    RestExceptionHandler restExceptionHandler;
 
     @MockBean
     UserNoticeRetrieveService userNoticeRetrieveService;
@@ -96,7 +94,7 @@ class UserNoticeRetrieveControllerTest {
 
         given(userNoticeRetrieveService.retrieveUserNotice(any()))
                 .willThrow(PageNumberOutOfRangeException.class);
-        given(authExceptionHandler.handleGlobalException(any(),any()))
+        given(restExceptionHandler.handleGlobalException(any(),any()))
                 .willReturn(ResponseEntity.status(exception.getHttpStatus())
                         .body(response));
         //when
@@ -141,7 +139,7 @@ class UserNoticeRetrieveControllerTest {
 
         given(userNoticeRetrieveService.retrieveUserNoticeDetail(any()))
                 .willThrow(exception);
-        given(authExceptionHandler.handleGlobalException(any(),any()))
+        given(restExceptionHandler.handleGlobalException(any(),any()))
                 .willReturn(ResponseEntity.status(exception.getHttpStatus())
                         .body(response));
 

@@ -42,7 +42,7 @@ public class NoticeDeleteServiceTest {
     Notice beforeNotice= noticeRepository.findById(noticeId).get();
     Assertions.assertEquals(beforeNotice.getTitle(), "제목");
     Assertions.assertEquals(beforeNotice.getContent(), "내용");
-    noticeDeleteService.deleteNotice(role,noticeId);
+    noticeDeleteService.deleteNoticeByAdmin(role,noticeId);
 
     Optional<Notice> afterNotice = noticeRepository.findById(noticeId);
     Assertions.assertTrue(afterNotice.isEmpty());

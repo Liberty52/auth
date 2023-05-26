@@ -1,10 +1,8 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.NotYourQuestionException;
-import com.liberty52.auth.global.exception.external.QuestionNotFoundById;
-import com.liberty52.auth.service.controller.dto.QuestionCreateRequestDto;
+import com.liberty52.auth.global.exception.external.forbidden.NotYourQuestionException;
+import com.liberty52.auth.global.exception.external.notfound.QuestionNotFoundById;
 import com.liberty52.auth.service.entity.Question;
-import com.liberty52.auth.service.entity.QuestionStatus;
 import com.liberty52.auth.service.repository.QuestionRepository;
 import jakarta.persistence.EntityManager;
 import java.util.List;
@@ -15,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

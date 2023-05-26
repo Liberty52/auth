@@ -4,13 +4,12 @@ import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.SignedUpEvent;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
-import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
+import com.liberty52.auth.global.exception.external.badrequest.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLogin;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import com.liberty52.auth.service.repository.AuthRepository;
 import com.liberty52.auth.service.repository.SocialLoginRepository;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

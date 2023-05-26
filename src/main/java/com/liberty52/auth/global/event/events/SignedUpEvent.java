@@ -1,6 +1,6 @@
 package com.liberty52.auth.global.event.events;
 
-import static com.liberty52.auth.global.contants.EmailConstants.SignUpEmailConstants.*;
+import static com.liberty52.auth.global.constants.EmailConstants.SignUpEmailConstants.*;
 
 import com.liberty52.auth.global.event.Event;
 

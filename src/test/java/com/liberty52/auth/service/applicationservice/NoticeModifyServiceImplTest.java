@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import com.liberty52.auth.global.exception.external.InvalidAdminRoleException;
-import com.liberty52.auth.global.exception.external.ResourceNotFoundException;
+import com.liberty52.auth.global.exception.external.forbidden.InvalidAdminRoleException;
+import com.liberty52.auth.global.exception.external.notfound.ResourceNotFoundException;
 import com.liberty52.auth.global.exception.internal.InvalidNoticeContentException;
 import com.liberty52.auth.global.exception.internal.InvalidNoticeTitleException;
 import com.liberty52.auth.service.controller.dto.NoticeModifyRequestDto;
@@ -40,7 +40,7 @@ class NoticeModifyServiceImplTest {
         String newContent = UUID.randomUUID().toString();
         boolean newCommentable = !originCommentable;
 
-        noticeModifyService.modify(Role.ADMIN.name(), noticeId, NoticeModifyRequestDto.builder().title(newTitle).content(newContent).commentable(newCommentable).build());
+        noticeModifyService.modifyNoticeByAdmin(Role.ADMIN.name(), noticeId, NoticeModifyRequestDto.builder().title(newTitle).content(newContent).commentable(newCommentable).build());
 
         Notice notice = noticeRepository.findById(noticeId).get();
         Assertions.assertEquals(newTitle, notice.getTitle());
@@ -51,19 +51,19 @@ class NoticeModifyServiceImplTest {
     @Test
     void InvalidAdminRoleException() {
         Assertions.assertThrows(InvalidAdminRoleException.class,
-                () -> noticeModifyService.modify(UUID.randomUUID().toString(), noticeId, NoticeModifyRequestDto.builder().build()));
+                () -> noticeModifyService.modifyNoticeByAdmin(UUID.randomUUID().toString(), noticeId, NoticeModifyRequestDto.builder().build()));
     }
 
     @Test
     void resourceNotFound() {
         Assertions.assertThrows(ResourceNotFoundException.class,
-                () -> noticeModifyService.modify(Role.ADMIN.name(), UUID.randomUUID().toString(), NoticeModifyRequestDto.builder().build()));
+                () -> noticeModifyService.modifyNoticeByAdmin(Role.ADMIN.name(), UUID.randomUUID().toString(), NoticeModifyRequestDto.builder().build()));
     }
 
     @Test
     void InvalidNoticeTitle() {
         Assertions.assertThrows(InvalidNoticeTitleException.class,
-                () -> noticeModifyService.modify(
+                () -> noticeModifyService.modifyNoticeByAdmin(
                         Role.ADMIN.name(),
                         noticeId,
                         NoticeModifyRequestDto.builder()
@@ -77,7 +77,7 @@ class NoticeModifyServiceImplTest {
     @Test
     void InvalidNoticeContent() {
         Assertions.assertThrows(InvalidNoticeContentException.class,
-                () -> noticeModifyService.modify(
+                () -> noticeModifyService.modifyNoticeByAdmin(
                         Role.ADMIN.name(),
                         noticeId,
                         NoticeModifyRequestDto.builder()
