@@ -2,9 +2,9 @@ package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.adapter.MailSender;
 import com.liberty52.auth.global.constants.MailContentConstants;
-import com.liberty52.auth.global.exception.external.notfound.AuthNotFoundException;
-import com.liberty52.auth.global.exception.external.badrequest.AuthUpdatePasswordForbiddenException;
-import com.liberty52.auth.global.exception.internal.MailMessagingException;
+import com.liberty52.auth.global.exception.external.unauthorized.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.forbidden.AuthUpdatePasswordForbiddenException;
+import com.liberty52.auth.global.exception.external.internalservererror.MailMessagingException;
 import com.liberty52.auth.service.applicationservice.PasswordMailService;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;

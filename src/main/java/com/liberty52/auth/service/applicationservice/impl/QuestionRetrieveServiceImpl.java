@@ -2,7 +2,7 @@ package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
 import com.liberty52.auth.global.exception.external.badrequest.PageSizeException;
-import com.liberty52.auth.global.exception.external.notfound.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.unauthorized.AuthNotFoundException;
 import com.liberty52.auth.global.exception.external.notfound.QuestionNotFoundById;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.service.applicationservice.QuestionRetrieveService;

@@ -1,11 +1,8 @@
 package com.liberty52.auth.global.exception.external.badrequest;
 
-import com.liberty52.auth.global.exception.external.AbstractApiException;
-import com.liberty52.auth.global.exception.external.AuthErrorCode;
-
-public class AuthWithInvalidPasswordException extends AbstractApiException {
+public class AuthWithInvalidPasswordException extends BadRequestException {
 
   public AuthWithInvalidPasswordException() {
-    super(AuthErrorCode.INVALID_PASSWORD);
+    super("기존 비밀번호가 일치하지 않습니다");
   }
 }

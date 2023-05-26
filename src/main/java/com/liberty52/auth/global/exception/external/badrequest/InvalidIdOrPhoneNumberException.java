@@ -1,11 +1,8 @@
 package com.liberty52.auth.global.exception.external.badrequest;
 
-import com.liberty52.auth.global.exception.external.AbstractApiException;
-import com.liberty52.auth.global.exception.external.AuthErrorCode;
-
-public class InvalidIdOrPhoneNumberException extends AbstractApiException {
+public class InvalidIdOrPhoneNumberException extends BadRequestException {
 
   public InvalidIdOrPhoneNumberException() {
-    super(AuthErrorCode.INVALID_ID_OR_INVALID_PHONENUMBER);
+    super("입력하신 정보와 일치하는 계정이 없습니다.");
   }
 }

@@ -3,7 +3,7 @@ package com.liberty52.auth.service.applicationservice.impl;
 
 import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.MemberDeletedEvent;
-import com.liberty52.auth.global.exception.external.notfound.AuthNotFoundException;
+import com.liberty52.auth.global.exception.external.unauthorized.AuthNotFoundException;
 import com.liberty52.auth.service.applicationservice.MemberDeleteService;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.repository.AuthRepository;

@@ -4,7 +4,7 @@ import com.liberty52.auth.global.event.Events;
 import com.liberty52.auth.global.event.events.SignedUpEvent;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
-import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
+import com.liberty52.auth.global.exception.external.badrequest.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLogin;
 import com.liberty52.auth.service.entity.SocialLoginType;

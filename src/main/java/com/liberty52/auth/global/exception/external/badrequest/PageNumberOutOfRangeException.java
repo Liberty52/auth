@@ -1,11 +1,8 @@
 package com.liberty52.auth.global.exception.external.badrequest;
 
-import com.liberty52.auth.global.exception.external.AbstractApiException;
-import com.liberty52.auth.global.exception.external.AuthErrorCode;
-
-public class PageNumberOutOfRangeException extends AbstractApiException {
+public class PageNumberOutOfRangeException extends BadRequestException {
 
   public PageNumberOutOfRangeException() {
-    super((AuthErrorCode.INVALID_PAGE_NUMBER));
+    super(("유효하지 않은 페이지 번호입니다."));
   }
 }

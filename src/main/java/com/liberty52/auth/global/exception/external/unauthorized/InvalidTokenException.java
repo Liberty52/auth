@@ -1,11 +1,7 @@
 package com.liberty52.auth.global.exception.external.unauthorized;
 
-import static com.liberty52.auth.global.exception.external.AuthErrorCode.INVALID_TOKEN;
-
-import com.liberty52.auth.global.exception.external.AbstractApiException;
-
-public class InvalidTokenException extends AbstractApiException {
+public class InvalidTokenException extends UnAuthorizedException {
   public InvalidTokenException() {
-    super(INVALID_TOKEN);
+    super("토큰이 존재하지 않습니다.");
   }
 }

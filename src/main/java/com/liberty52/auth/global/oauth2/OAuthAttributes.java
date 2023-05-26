@@ -1,6 +1,6 @@
 package com.liberty52.auth.global.oauth2;
 
-import com.liberty52.auth.global.exception.internal.InvalidSocialLoginCodeAccessedException;
+import com.liberty52.auth.global.exception.external.badrequest.InvalidSocialLoginCodeAccessedException;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Role;
 import com.liberty52.auth.service.entity.SocialLoginType;

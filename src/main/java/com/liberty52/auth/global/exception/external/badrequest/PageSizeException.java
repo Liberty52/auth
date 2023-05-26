@@ -1,11 +1,8 @@
 package com.liberty52.auth.global.exception.external.badrequest;
 
-import com.liberty52.auth.global.exception.external.AbstractApiException;
-import com.liberty52.auth.global.exception.external.AuthErrorCode;
-
-public class PageSizeException extends AbstractApiException {
+public class PageSizeException extends BadRequestException {
 
   public PageSizeException() {
-    super((AuthErrorCode.INVALID_PAGE_SIZE));
+    super(("유효하지 않은 페이지 크기입니다."));
   }
 }

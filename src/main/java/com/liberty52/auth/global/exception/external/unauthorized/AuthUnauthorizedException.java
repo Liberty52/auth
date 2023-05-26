@@ -1,10 +1,7 @@
 package com.liberty52.auth.global.exception.external.unauthorized;
 
-import com.liberty52.auth.global.exception.external.AbstractApiException;
-import com.liberty52.auth.global.exception.external.AuthErrorCode;
-
-public class AuthUnauthorizedException extends AbstractApiException {
+public class AuthUnauthorizedException extends UnAuthorizedException {
     public AuthUnauthorizedException() {
-        super(AuthErrorCode.AUTH_UNAUTHORIZED);
+        super("회원정보가 일치하지 않습니다.");
     }
 }
