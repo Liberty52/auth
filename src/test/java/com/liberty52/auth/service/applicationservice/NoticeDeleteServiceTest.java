@@ -1,7 +1,5 @@
 package com.liberty52.auth.service.applicationservice;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.liberty52.auth.service.entity.Notice;
 import com.liberty52.auth.service.repository.NoticeRepository;
 import com.liberty52.auth.service.repository.QuestionRepository;
@@ -38,7 +36,7 @@ public class NoticeDeleteServiceTest {
   }
 
   @Test
-  void 공지사항삭제() {
+  void deleteNoticeByAdmin() {
     Notice beforeNotice= noticeRepository.findById(noticeId).get();
     Assertions.assertEquals(beforeNotice.getTitle(), "제목");
     Assertions.assertEquals(beforeNotice.getContent(), "내용");
