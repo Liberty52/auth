@@ -30,22 +30,23 @@ public class QuestionRetrieveServiceTest {
   QuestionRetrieveService questionRetrieveService;
 
   @Test
-  void 문의조회() {
+  void retrieveQuestions() {
     QuestionRetrieveResponseDto response = questionRetrieveService.retrieveQuestions(writerId, 0, 5);
-      assertThat(response.getCurrentPage()).isSameAs(1L);
-      assertThat(response.getStartPage()).isSameAs(1L);
-      assertThat(response.getLastPage()).isSameAs(1L);
-      assertThat(response.getTotalPage()).isSameAs(1L);
+    assertThat(response.getCurrentPage()).isSameAs(1L);
+    assertThat(response.getStartPage()).isSameAs(1L);
+    assertThat(response.getLastPage()).isSameAs(1L);
+    assertThat(response.getTotalPage()).isSameAs(1L);
 
-      QuestionContent questionContent = response.getContents().get(0);
-      assertThat(questionContent.getStatus()).isEqualTo(DONE);
-      assertThat(questionContent.getTitle()).isEqualTo("this is title");
-      assertThat(questionContent.getContent()).isEqualTo("this is content");
+    QuestionContent questionContent = response.getContents().get(0);
+    assertThat(questionContent.getStatus()).isEqualTo(DONE);
+    assertThat(questionContent.getTitle()).isEqualTo("this is title");
+    assertThat(questionContent.getContent()).isEqualTo("this is content");
   }
 
   @Test
-  void 상세문의조회() {
-    QuestionDetailResponseDto response = questionRetrieveService.retrieveQuestionDetail(questionedId, writerId);
+  void retrieveQuestionDetail() {
+    QuestionDetailResponseDto response = questionRetrieveService.retrieveQuestionDetail(
+        questionedId, writerId);
     QuestionReplyResponse questionReplyResponse = response.getQuestionReplyResponse();
 
     assertThat(response.getId()).isEqualTo(questionedId);
@@ -54,7 +55,7 @@ public class QuestionRetrieveServiceTest {
     assertThat(response.getContent()).isEqualTo("this is content");
     assertThat(response.getStatus()).isEqualTo(DONE);
 
-    if(questionReplyResponse != null){
+    if (questionReplyResponse != null) {
       assertThat(questionReplyResponse.getReplyWriterId()).isEqualTo("ADMIN-001");
       assertThat(questionReplyResponse.getReplyContent()).isEqualTo("this is reply content");
       assertThat(questionReplyResponse.getReplyCreatedAt()).isEqualTo(LocalDate.now());
@@ -62,8 +63,9 @@ public class QuestionRetrieveServiceTest {
   }
 
   @Test
-  void 관리자문의조회() {
-    AdminQuestionRetrieveResponse response = questionRetrieveService.retrieveQuestionByAdmin(Role.ADMIN.name(), 0, 5);
+  void retrieveQuestionByAdmin() {
+    AdminQuestionRetrieveResponse response = questionRetrieveService.retrieveQuestionByAdmin(
+        Role.ADMIN.name(), 0, 5);
     assertThat(response.getCurrentPage()).isSameAs(1L);
     assertThat(response.getStartPage()).isSameAs(1L);
     assertThat(response.getLastPage()).isSameAs(1L);
