@@ -1,7 +1,7 @@
 package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.service.applicationservice.LoginService;
-import com.liberty52.auth.service.controller.dto.EmailLoginRequestDto;
+import com.liberty52.auth.service.controller.dto.LoginRequestDto;
 import com.liberty52.auth.service.controller.dto.LoginResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class LoginController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    public LoginResponseDto login(@Validated @RequestBody EmailLoginRequestDto dto, HttpServletResponse response) {
+    public LoginResponseDto login(@Validated @RequestBody LoginRequestDto dto, HttpServletResponse response) {
         return loginService.login(dto, response);
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
