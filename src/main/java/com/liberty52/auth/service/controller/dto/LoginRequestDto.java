@@ -11,5 +11,5 @@ public class LoginRequestDto {
     @NotBlank
     private String password;
     @NotNull
-    private boolean check;
+    private boolean isAutoLogin;
 }
