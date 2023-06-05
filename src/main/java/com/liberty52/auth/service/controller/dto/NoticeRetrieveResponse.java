@@ -1,19 +1,16 @@
 package com.liberty52.auth.service.controller.dto;
 
-import static com.liberty52.auth.global.utils.PagingUtils.CURRENT_PAGE;
-import static com.liberty52.auth.global.utils.PagingUtils.LAST_PAGE;
-import static com.liberty52.auth.global.utils.PagingUtils.START_PAGE;
-import static com.liberty52.auth.global.utils.PagingUtils.TOTAL_PAGE;
-
 import com.liberty52.auth.global.utils.PagingUtils;
 import com.liberty52.auth.service.entity.Notice;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.aspectj.weaver.ast.Not;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static com.liberty52.auth.global.utils.PagingUtils.*;
 
 @Data
 public class NoticeRetrieveResponse {
@@ -25,7 +22,7 @@ public class NoticeRetrieveResponse {
     private long currentPage;
     private long lastPage;
     private long totalPage;
-
+    private long totalCount;
 
     @Data
     @AllArgsConstructor
@@ -64,6 +61,7 @@ public class NoticeRetrieveResponse {
         response.currentPage = pageInfo.getCurrentPage();
         response.lastPage = pageInfo.getLastPage();
         response.totalPage = pageInfo.getTotalPage();
+        response.totalCount = pageInfo.getTotalCount();
         return response;
     }
 }

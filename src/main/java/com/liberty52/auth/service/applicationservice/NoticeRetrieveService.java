@@ -4,7 +4,11 @@ import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import org.springframework.data.domain.Pageable;
 
-public interface AdminNoticeRetrieveService {
+public interface NoticeRetrieveService {
+
+    NoticeRetrieveResponse retrieveUserNotice(Pageable pageable);
+
+    NoticeDetailResponse retrieveUserNoticeDetail(String noticeId);
 
     NoticeRetrieveResponse retrieveNoticesByAdmin(String role, Pageable pageable);
 

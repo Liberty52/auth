@@ -1,24 +1,14 @@
 package com.liberty52.auth.service.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.liberty52.auth.global.config.WebSecurityConfig;
-import com.liberty52.auth.global.exception.external.RestExceptionHandler;
 import com.liberty52.auth.global.exception.external.ErrorResponse;
-import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.global.exception.external.RestExceptionHandler;
 import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
-import com.liberty52.auth.service.applicationservice.UserNoticeRetrieveService;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.service.applicationservice.NoticeRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.entity.Notice;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +23,18 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(value = {UserNoticeRetrieveController.class, RestExceptionHandler.class},
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(value = {NoticeRetrieveController.class, RestExceptionHandler.class},
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)},
         excludeAutoConfiguration = {SecurityAutoConfiguration.class,
                 SecurityFilterAutoConfiguration.class,
@@ -42,13 +43,13 @@ import org.springframework.test.web.servlet.MockMvc;
 class UserNoticeRetrieveControllerTest {
 
     @InjectMocks
-    UserNoticeRetrieveController userNoticeRetrieveController;
+    NoticeRetrieveController userNoticeRetrieveController;
 
     @MockBean
     RestExceptionHandler restExceptionHandler;
 
     @MockBean
-    UserNoticeRetrieveService userNoticeRetrieveService;
+    NoticeRetrieveService userNoticeRetrieveService;
 
 
     @Autowired
