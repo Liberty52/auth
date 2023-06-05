@@ -1,9 +1,7 @@
 package com.liberty52.auth.service.applicationservice;
 
-import static org.assertj.core.api.Assertions.*;
-
-import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
 import com.liberty52.auth.global.exception.external.badrequest.PageNumberOutOfRangeException;
+import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.entity.Notice;
@@ -15,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 @SpringBootTest
 class UserNoticeRetrieveServiceImplTest {
 
 
     @Autowired
-    UserNoticeRetrieveService userNoticeRetrieveService;
+    NoticeRetrieveService userNoticeRetrieveService;
 
     @Autowired
     EntityManager em;

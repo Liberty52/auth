@@ -6,6 +6,7 @@ import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,18 @@ import org.springframework.web.bind.annotation.*;
 public class NoticeRetrieveController {
 
     private final NoticeRetrieveService noticeRetrieveService;
+
+    @GetMapping("/notices")
+    public ResponseEntity<NoticeRetrieveResponse> retrieveUserNotice(Pageable pageable){
+        NoticeRetrieveResponse response = noticeRetrieveService.retrieveUserNotice(
+                pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/notices/{noticeId}")
+    public ResponseEntity<NoticeDetailResponse> retrieveUserNoticeDetail(@PathVariable("noticeId") String noticeId){
+        return ResponseEntity.ok(noticeRetrieveService.retrieveUserNoticeDetail(noticeId));
+    }
 
     @GetMapping("/admin/notices")
     @ResponseStatus(HttpStatus.OK)
