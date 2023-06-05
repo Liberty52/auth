@@ -13,20 +13,20 @@ import org.springframework.data.domain.PageRequest;
 
 
 @SpringBootTest
-class AdminNoticeRetrieveServiceImplTest {
+class NoticeRetrieveServiceImplTest {
 
     @Autowired
     private NoticeRepository noticeRepository;
 
     @Autowired
-    private AdminNoticeRetrieveService adminNoticeRetrieveService;
+    private NoticeRetrieveService noticeRetrieveService;
 
     private final String ROLE_ADMIN = "ADMIN";
     private final String ROLE_USER = "USER";
 
     @Test
     void test_retrieveNoticesByAdmin() {
-        NoticeRetrieveResponse response = adminNoticeRetrieveService.retrieveNoticesByAdmin(ROLE_ADMIN, PageRequest.of(0, 10));
+        NoticeRetrieveResponse response = noticeRetrieveService.retrieveNoticesByAdmin(ROLE_ADMIN, PageRequest.of(0, 10));
 
         Assertions.assertNotNull(response);
         Assertions.assertNotEquals(0, response.getStartPage());
@@ -46,7 +46,7 @@ class AdminNoticeRetrieveServiceImplTest {
     void test_retrieveNoticesByAdmin_when_user_throw_InvalidAdminRoleException() {
         Assertions.assertThrows(
                 InvalidAdminRoleException.class,
-                () -> adminNoticeRetrieveService.retrieveNoticesByAdmin(ROLE_USER, PageRequest.of(0, 10))
+                () -> noticeRetrieveService.retrieveNoticesByAdmin(ROLE_USER, PageRequest.of(0, 10))
         );
     }
 
@@ -54,7 +54,7 @@ class AdminNoticeRetrieveServiceImplTest {
     void test_retrieveNoticeDetailByAdmin() {
         final String noticeId = "NOTICE-001";
 
-        NoticeDetailResponse response = adminNoticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_ADMIN, noticeId);
+        NoticeDetailResponse response = noticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_ADMIN, noticeId);
 
         Assertions.assertNotNull(response);
         Assertions.assertFalse(response.getNoticeId().isBlank());
@@ -70,7 +70,7 @@ class AdminNoticeRetrieveServiceImplTest {
         final String noticeId = "NOTICE-000";
         Assertions.assertThrows(
                 InvalidAdminRoleException.class,
-                () -> adminNoticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_USER, noticeId)
+                () -> noticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_USER, noticeId)
         );
     }
 
@@ -79,7 +79,7 @@ class AdminNoticeRetrieveServiceImplTest {
         final String noticeId = "WRONG_NOTICE_ID";
         Assertions.assertThrows(
                 NoticeNotFoundById.class,
-                () -> adminNoticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_ADMIN, noticeId)
+                () -> noticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_ADMIN, noticeId)
         );
     }
 

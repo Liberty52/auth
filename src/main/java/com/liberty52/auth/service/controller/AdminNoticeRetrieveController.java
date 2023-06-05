@@ -1,6 +1,6 @@
 package com.liberty52.auth.service.controller;
 
-import com.liberty52.auth.service.applicationservice.AdminNoticeRetrieveService;
+import com.liberty52.auth.service.applicationservice.NoticeRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AdminNoticeRetrieveController {
 
-    private final AdminNoticeRetrieveService adminNoticeRetrieveService;
+    private final NoticeRetrieveService noticeRetrieveService;
 
     @GetMapping("/admin/notices")
     @ResponseStatus(HttpStatus.OK)
@@ -20,7 +20,7 @@ public class AdminNoticeRetrieveController {
             @RequestHeader("LB-Role") String role,
             Pageable pageable
     ) {
-        return adminNoticeRetrieveService.retrieveNoticesByAdmin(role, pageable);
+        return noticeRetrieveService.retrieveNoticesByAdmin(role, pageable);
     }
 
     @GetMapping("/admin/notices/{noticeId}")
@@ -29,7 +29,7 @@ public class AdminNoticeRetrieveController {
             @RequestHeader("LB-Role") String role,
             @PathVariable String noticeId
     ) {
-        return adminNoticeRetrieveService.retrieveNoticeDetailByAdmin(role, noticeId);
+        return noticeRetrieveService.retrieveNoticeDetailByAdmin(role, noticeId);
     }
 
 }

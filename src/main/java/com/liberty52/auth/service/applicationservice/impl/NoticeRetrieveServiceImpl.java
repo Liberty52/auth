@@ -3,7 +3,7 @@ package com.liberty52.auth.service.applicationservice.impl;
 import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
 import com.liberty52.auth.global.utils.AdminRoleUtils;
 import com.liberty52.auth.global.utils.PagingUtils;
-import com.liberty52.auth.service.applicationservice.AdminNoticeRetrieveService;
+import com.liberty52.auth.service.applicationservice.NoticeRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
 import com.liberty52.auth.service.entity.Notice;
@@ -16,7 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 @Service
 @RequiredArgsConstructor
-public class AdminNoticeRetrieveServiceImpl implements AdminNoticeRetrieveService {
+public class NoticeRetrieveServiceImpl implements NoticeRetrieveService {
 
     private final NoticeRepository noticeRepository;
 
