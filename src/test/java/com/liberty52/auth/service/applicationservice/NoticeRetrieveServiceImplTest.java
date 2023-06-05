@@ -2,44 +2,64 @@ package com.liberty52.auth.service.applicationservice;
 
 import com.liberty52.auth.global.exception.external.forbidden.InvalidAdminRoleException;
 import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
+import com.liberty52.auth.service.applicationservice.impl.NoticeRetrieveServiceImpl;
 import com.liberty52.auth.service.controller.dto.NoticeDetailResponse;
 import com.liberty52.auth.service.controller.dto.NoticeRetrieveResponse;
+import com.liberty52.auth.service.entity.Notice;
 import com.liberty52.auth.service.repository.NoticeRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@SpringBootTest
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+
+
+@ExtendWith(MockitoExtension.class)
 class NoticeRetrieveServiceImplTest {
 
-    @Autowired
+    @Mock
     private NoticeRepository noticeRepository;
-
-    @Autowired
-    private NoticeRetrieveService noticeRetrieveService;
+    @InjectMocks
+    private NoticeRetrieveServiceImpl noticeRetrieveService;
 
     private final String ROLE_ADMIN = "ADMIN";
     private final String ROLE_USER = "USER";
 
     @Test
-    void test_retrieveNoticesByAdmin() {
+    void retrieveNoticesByAdmin() {
+        // given
+        int N = 20;
+        List<Notice> givenNotices = new ArrayList<>();
+        for (int i = 1; i <= N; i++) {
+            givenNotices.add(Notice.builder()
+                            .title("notice-"+i)
+                            .content("content-"+i)
+                            .commentable(false).build());
+        }
+        given(noticeRepository.findAllByOrderByCreatedAtDesc(any()))
+                .willReturn(new PageImpl<>(givenNotices.subList(0, 10), PageRequest.of(0, 10), givenNotices.size()));
+
+        // when
         NoticeRetrieveResponse response = noticeRetrieveService.retrieveNoticesByAdmin(ROLE_ADMIN, PageRequest.of(0, 10));
 
+        // then
         Assertions.assertNotNull(response);
-        Assertions.assertNotEquals(0, response.getStartPage());
-        Assertions.assertNotEquals(0, response.getCurrentPage());
-        Assertions.assertNotEquals(0, response.getLastPage());
-        Assertions.assertNotEquals(0, response.getTotalPage());
-
-        Assertions.assertFalse(response.getContents().isEmpty());
-        response.getContents().forEach(res -> {
-            Assertions.assertFalse(res.getNoticeId().isBlank());
-            Assertions.assertFalse(res.getTitle().isBlank());
-            Assertions.assertFalse(res.getCreatedAt().isBlank());
-        });
+        Assertions.assertEquals(10, response.getContents().size());
+        Assertions.assertEquals(1, response.getStartPage());
+        Assertions.assertEquals(1, response.getCurrentPage());
+        Assertions.assertEquals(2, response.getTotalPage());
+        Assertions.assertEquals(N, response.getTotalCount());
     }
 
     @Test
@@ -51,18 +71,22 @@ class NoticeRetrieveServiceImplTest {
     }
 
     @Test
-    void test_retrieveNoticeDetailByAdmin() {
-        final String noticeId = "NOTICE-001";
-
-        NoticeDetailResponse response = noticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_ADMIN, noticeId);
-
+    void retrieveNoticeDetailByAdmin() {
+        // given
+        given(noticeRepository.findById(anyString()))
+                .willReturn(Optional.of(Notice.builder()
+                        .title("notice")
+                        .content("content")
+                        .commentable(false).build()));
+        // when
+        NoticeDetailResponse response = noticeRetrieveService.retrieveNoticeDetailByAdmin(ROLE_ADMIN, anyString());
+        // then
         Assertions.assertNotNull(response);
         Assertions.assertFalse(response.getNoticeId().isBlank());
-        Assertions.assertEquals(noticeId, response.getNoticeId());
-        Assertions.assertFalse(response.getTitle().isBlank());
-        Assertions.assertFalse(response.getContent().isBlank());
-        Assertions.assertFalse(response.getCreatedAt().isBlank());
+        Assertions.assertEquals("notice", response.getTitle());
+        Assertions.assertEquals("content", response.getContent());
         Assertions.assertFalse(response.isCommentable());
+        Assertions.assertFalse(response.getCreatedAt().isBlank());
     }
 
     @Test

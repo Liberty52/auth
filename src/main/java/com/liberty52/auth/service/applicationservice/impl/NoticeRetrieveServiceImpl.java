@@ -28,7 +28,7 @@ public class NoticeRetrieveServiceImpl implements NoticeRetrieveService {
         if (CollectionUtils.isEmpty(notices.getContent())) {
             return NoticeRetrieveResponse.EMPTY_RESOURCE_RESPONSE;
         }
-        PagingUtils.PageInfo pageInfo = PagingUtils.PageInfo.of(notices.getTotalPages(), pageable.getPageNumber());
+        PagingUtils.PageInfo pageInfo = PagingUtils.PageInfo.of(notices);
 
         return NoticeRetrieveResponse.of(notices.getContent(), pageInfo);
     }

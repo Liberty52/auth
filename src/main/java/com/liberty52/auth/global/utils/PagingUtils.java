@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,12 +49,16 @@ public class PagingUtils {
         private Long currentPage;
         private Long lastPage;
         private Long totalPage;
+        private Long totalCount;
 
-        public static PageInfo of(Integer totalPage, Integer pageNum) {
-            return PageInfo.of(totalPage.longValue(), pageNum.longValue());
+        public static PageInfo of(Page<?> page) {
+            long totalPages = page.getTotalPages();
+            long pageNumber = page.getPageable().getPageNumber();
+            long totalCount = page.getTotalElements();
+            return PageInfo.of(totalPages, pageNumber, totalCount);
         }
 
-        public static PageInfo of(Long totalPage, Long pageNum) {
+        public static PageInfo of(Long totalPage, Long pageNum, Long totalCount) {
             validatePageNumber(Math.toIntExact(pageNum), Math.toIntExact(totalPage));
 
             Long currentPage = pageNum + 1;
@@ -63,11 +68,11 @@ public class PagingUtils {
                     totalPage,
                     10L * (currentPage % 10 == 0 ? currentPage / 10 : currentPage / 10 + 1)
             );
-            return PageInfo.of(startPage, currentPage, lastPage, totalPage);
+            return PageInfo.of(startPage, currentPage, lastPage, totalPage, totalCount);
         }
 
-        private static PageInfo of(Long startPage, Long currentPage, Long lastPage, Long totalPage) {
-            return new PageInfo(startPage, currentPage, lastPage, totalPage);
+        private static PageInfo of(Long startPage, Long currentPage, Long lastPage, Long totalPage, Long totalCount) {
+            return new PageInfo(startPage, currentPage, lastPage, totalPage, totalCount);
         }
 
     }
