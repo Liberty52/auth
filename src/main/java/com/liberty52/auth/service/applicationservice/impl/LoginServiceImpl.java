@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
     if (!encoder.matches(dto.getPassword(), auth.getPassword())) {
       throw new AuthUnauthorizedException();
     }
-    String refreshToken = jwtService.createTokensAndAddHeaders(auth, dto.isAutoLogin(), response);
+    String refreshToken = jwtService.createTokensAndAddHeaders(auth, dto.getIsAutoLogin(), response);
     if (refreshToken != null) {
       auth.updateRefreshToken(refreshToken);
     }
