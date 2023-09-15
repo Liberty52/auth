@@ -3,8 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - dev
-      - ci/add-docker-pipeline
+      - dev # 추후 수정 필요
 
 jobs:
   build-and-push:
