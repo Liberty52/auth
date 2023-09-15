@@ -3,8 +3,8 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
+      - main
       - dev
-      - fix/update-docker-ci-pipeline
 
 jobs:
   build-and-push:
