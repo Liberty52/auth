@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - fix/update-docker-ci-pipeline
 
 jobs:
   build-and-push:
