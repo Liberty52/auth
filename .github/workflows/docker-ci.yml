@@ -3,7 +3,8 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - dev # 추후 수정 필요
+      - main
+      - dev
 
 jobs:
   build-and-push:
@@ -13,21 +14,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Add bootstrap.yml to Docker Context
-        run: echo "encrypt:\n ${{ secrets.BOOTSTRAP }}" > src/main/resources/bootstrap.yml
+      - name: Create src/main/resources/bootstrap.yml
+        run: |
+          mkdir -p src/main/resources
+          echo "encrypt:" > src/main/resources/bootstrap.yml
+          echo "  key: '${{ secrets.ENCRYPTKEY }}'" >> src/main/resources/bootstrap.yml
 
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build and Push Docker Dev Image
         run: |
-          docker build -t my-auth-server:latest -f multistage.Dockerfile . --build-arg SPRING_PROFILES_ACTIVE=dev
+          docker build --build-arg SPRING_PROFILES_ACTIVE=dev -t my-auth-server:latest -f multistage.Dockerfile .
           docker tag my-auth-server:latest ghcr.io/liberty52/liberty52-auth-server:dev-v${{ github.sha }}
           docker push ghcr.io/liberty52/liberty52-auth-server:dev-v${{ github.sha }}
 
-      - name: Build and Push Docker Prod Image # 추후 수정 필요
+      - name: Build and Push Docker Prod Image
         run: |
-          docker build -t my-auth-server:latest -f multistage.Dockerfile . --build-arg SPRING_PROFILES_ACTIVE=prod
+          docker build --build-arg SPRING_PROFILES_ACTIVE=prod -t my-auth-server:latest -f multistage.Dockerfile .
           docker tag my-auth-server:latest ghcr.io/liberty52/liberty52-auth-server:prod-v${{ github.sha }}
           docker push ghcr.io/liberty52/liberty52-auth-server:prod-v${{ github.sha }}
 
