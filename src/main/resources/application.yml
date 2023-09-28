@@ -23,9 +23,9 @@ spring:
       settings:
         web-allow-others: true
 
-servlet:
-  multipart:
-    max-file-size: 10MB
+  servlet:
+    multipart:
+      max-file-size: 10MB
 
 logging:
   level:
