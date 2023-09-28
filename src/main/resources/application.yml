@@ -15,6 +15,13 @@ spring:
     console:
       enabled: on
       path: /h2-console
+      settings:
+        web-allow-others: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
   cloud:
     config:
       label: main
