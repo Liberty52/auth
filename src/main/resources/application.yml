@@ -12,7 +12,3 @@ spring:
   cloud:
     config:
       label: main
-
-logging:
-  level:
-    root: info
