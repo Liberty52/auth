@@ -1,10 +1,5 @@
 package com.liberty52.auth.service.repository;
 
-import static com.liberty52.auth.service.utils.MockConstants.MOCK_USER_EMAIL;
-import static com.liberty52.auth.service.utils.MockFactory.createMockAuth;
-import static com.liberty52.auth.service.utils.MockFactory.createSocialLogin;
-import static org.assertj.core.api.Assertions.*;
-
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.SocialLoginType;
 import jakarta.persistence.EntityManager;
@@ -13,6 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import static com.liberty52.auth.service.utils.MockConstants.MOCK_USER_EMAIL;
+import static com.liberty52.auth.service.utils.MockFactory.createMockAuth;
+import static com.liberty52.auth.service.utils.MockFactory.createSocialLogin;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
