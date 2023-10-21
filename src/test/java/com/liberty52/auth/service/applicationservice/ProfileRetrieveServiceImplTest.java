@@ -1,21 +1,20 @@
 package com.liberty52.auth.service.applicationservice;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.liberty52.auth.service.controller.dto.ReviewerProfileResponse;
 import com.liberty52.auth.service.entity.Auth;
 import jakarta.persistence.EntityManager;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @SpringBootTest
