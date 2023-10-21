@@ -2,11 +2,10 @@ package com.liberty52.auth;
 
 import com.liberty52.auth.global.config.CRLFLogConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -14,7 +13,6 @@ import java.net.UnknownHostException;
 import java.util.Optional;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-@EnableDiscoveryClient
 @Slf4j
 public class AuthApplication {
 
