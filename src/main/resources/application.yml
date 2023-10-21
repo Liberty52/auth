@@ -9,16 +9,6 @@ spring:
   config:
     import:
       - optional:configserver:http://config-server.liberty52.com:8888/
-  datasource:
-    url: jdbc:h2:mem:testdb
-  h2:
-    console:
-      enabled: on
-      path: /h2-console
   cloud:
     config:
       label: main
-
-logging:
-  level:
-    root: info
