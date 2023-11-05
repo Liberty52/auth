@@ -22,7 +22,6 @@ public class NoticeCommentController {
     private final NoticeCommentRetrieveService noticeCommentRetrieveService;
     @Operation(summary = "공지사항 댓글 생성", description = "공지사항에 대한 댓글을 생성합니다.")
     @PostMapping("/notices/{noticeId}/comments")
-    @CrossOrigin
     public ResponseEntity<NoticeCommentResponseDto> createNoticeComment(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId,
                                                                         @PathVariable String noticeId,
                                                                         @RequestBody @Valid NoticeCommentRequestDto requestDto){
