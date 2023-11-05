@@ -2,6 +2,7 @@ package com.liberty52.auth.service.controller;
 
 
 import com.liberty52.auth.service.applicationservice.NoticeCommentCreateService;
+import com.liberty52.auth.service.applicationservice.NoticeCommentRetrieveService;
 import com.liberty52.auth.service.controller.dto.NoticeCommentRequestDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Notice;
@@ -35,6 +36,8 @@ public class NoticeCommentControllerTest {
     private ObjectMapper objectMapper;
     @MockBean
     private NoticeCommentCreateService noticeCommentCreateService;
+    @MockBean
+    private NoticeCommentRetrieveService noticeCommentRetrieveService;
     private final String testNoticeId = "NOTICE-001";
     private final String testWriterID = "TESTER-001";
 
