@@ -41,7 +41,6 @@ public class NoticeCommentControllerTest {
     private NoticeCommentRetrieveService noticeCommentRetrieveService;
     @MockBean
     private NoticeCommentUpdateService noticeCommentUpdateService;
-
     private final String testNoticeId = "NOTICE-001";
     private final String testWriterID = "TESTER-001";
 
