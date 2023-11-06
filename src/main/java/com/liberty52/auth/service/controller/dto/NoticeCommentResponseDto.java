@@ -22,6 +22,7 @@ public class NoticeCommentResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private boolean isMine = false;
 
     public NoticeCommentResponseDto(NoticeComment resultEntity) {
         this.commentId = resultEntity.getId();
@@ -33,10 +34,24 @@ public class NoticeCommentResponseDto {
         this.createdAt = resultEntity.getCreatedAt();
         this.updatedAt = resultEntity.getUpdatedAt();
     }
-    public static Page<NoticeCommentResponseDto> convertEntityPageToDtoPage(Page<NoticeComment> entityPage) {
+
+    public NoticeCommentResponseDto(NoticeComment resultEntity, String userId) {
+        this.commentId = resultEntity.getId();
+        this.noticeId = resultEntity.getNotice().getId();
+        this.writerId = resultEntity.getWriter().getId();
+        this.writerName = resultEntity.getWriter().getName();
+        this.writerEmail = resultEntity.getWriter().getEmail();
+        this.content = resultEntity.getContent();
+        this.createdAt = resultEntity.getCreatedAt();
+        this.updatedAt = resultEntity.getUpdatedAt();
+        if(userId!=null&&userId.equals(resultEntity.getWriter().getId()))
+            this.isMine = true;
+    }
+
+    public static Page<NoticeCommentResponseDto> convertEntityPageToDtoPage(Page<NoticeComment> entityPage, String userId) {
         List<NoticeCommentResponseDto> dtoList = entityPage
                 .stream()
-                .map(NoticeCommentResponseDto::new)
+                .map(resultEntity -> new NoticeCommentResponseDto(resultEntity, userId))
                 .collect(Collectors.toList());
         return new PageImpl<>(dtoList, entityPage.getPageable(), entityPage.getTotalElements());
     }
