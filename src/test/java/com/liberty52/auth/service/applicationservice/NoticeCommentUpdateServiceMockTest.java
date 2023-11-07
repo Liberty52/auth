@@ -44,16 +44,17 @@ public class NoticeCommentUpdateServiceMockTest {
         Notice mockNotice = mock(Notice.class);
         Auth mockWriter = mock(Auth.class);
         NoticeCommentRequestDto mockRequestDto = mock(NoticeCommentRequestDto.class);
-        NoticeComment mockPreviousNoticeComment = NoticeComment.builder()
-                .content("prevContent")
-                .build();
+        NoticeComment mockPreviousNoticeComment = mock(NoticeComment.class);
         NoticeComment mockNewNoticeComment = NoticeComment.builder()
                 .content("newContent")
                 .build();
         when(authRepository.findById(anyString())).thenReturn(Optional.of(mockWriter));
         when(noticeRepository.findById(anyString())).thenReturn(Optional.of(mockNotice));
         when(noticeCommentRepository.findById(anyString())).thenReturn(Optional.of(mockPreviousNoticeComment));
+        when(mockPreviousNoticeComment.getWriter()).thenReturn(mockWriter);
+        when(mockPreviousNoticeComment.getWriter().getId()).thenReturn(testWriterId);
         when(noticeCommentRepository.save(any(NoticeComment.class))).thenReturn(mockNewNoticeComment);
+
 
         //When
         NoticeComment updatedNoticeComment = noticeCommentUpdateService.updateNoticeComment(testWriterId, testNoticeId, testCommentId, mockRequestDto);

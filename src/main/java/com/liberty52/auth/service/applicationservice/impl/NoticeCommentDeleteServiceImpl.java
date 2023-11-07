@@ -3,11 +3,9 @@ package com.liberty52.auth.service.applicationservice.impl;
 import com.liberty52.auth.global.exception.external.forbidden.NotYourNoticeCommentException;
 import com.liberty52.auth.global.exception.external.notfound.NoticeCommentNotFoundById;
 import com.liberty52.auth.global.exception.external.notfound.NoticeNotFoundById;
-import com.liberty52.auth.global.exception.external.notfound.ResourceNotFoundException;
 import com.liberty52.auth.global.exception.external.unauthorized.AuthNotFoundException;
-import com.liberty52.auth.global.exception.external.unauthorized.AuthUnauthorizedException;
-import com.liberty52.auth.service.applicationservice.NoticeCommentUpdateService;
-import com.liberty52.auth.service.controller.dto.NoticeCommentRequestDto;
+import com.liberty52.auth.global.utils.AdminRoleUtils;
+import com.liberty52.auth.service.applicationservice.NoticeCommentDeleteService;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Notice;
 import com.liberty52.auth.service.entity.NoticeComment;
@@ -18,24 +16,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @Service
-@Transactional
 @RequiredArgsConstructor
-public class NoticeCommentUpdateServiceImpl implements NoticeCommentUpdateService {
+@Transactional
+public class NoticeCommentDeleteServiceImpl implements NoticeCommentDeleteService {
     private final AuthRepository authRepository;
     private final NoticeRepository noticeRepository;
     private final NoticeCommentRepository noticeCommentRepository;
+
     @Override
-    public NoticeComment updateNoticeComment(String userId, String noticeId, String commentId, NoticeCommentRequestDto requestDto) {
+    public void deleteNoticeComment(String userId, String noticeId, String commentId) {
         Auth auth = authRepository.findById(userId).orElseThrow(AuthNotFoundException::new);
-        Notice notice = noticeRepository.findById(noticeId).orElseThrow(()-> new NoticeNotFoundById(noticeId));
+        noticeRepository.findById(noticeId).orElseThrow(()-> new NoticeNotFoundById(noticeId));
         NoticeComment noticeComment = noticeCommentRepository.findById(commentId).orElseThrow(()-> new NoticeCommentNotFoundById(commentId));
-        if(!(noticeComment.getWriter().getId().equals(userId))){
+        if(!noticeComment.getWriter().getId().equals(userId)){
             throw new NotYourNoticeCommentException(userId);
         }
-        noticeComment.modifyContent(requestDto.getContent());
-        return noticeCommentRepository.save(noticeComment);
+        noticeCommentRepository.delete(noticeComment);
+    }
+
+    @Override
+    public void deleteNoticeCommentByAdmin(String role, String noticeId, String commentId) {
+        AdminRoleUtils.checkRole(role);
+        noticeRepository.findById(noticeId).orElseThrow(()-> new NoticeNotFoundById(noticeId));
+        NoticeComment noticeComment = noticeCommentRepository.findById(commentId).orElseThrow(()-> new NoticeCommentNotFoundById(commentId));
+        noticeCommentRepository.delete(noticeComment);
     }
 }
