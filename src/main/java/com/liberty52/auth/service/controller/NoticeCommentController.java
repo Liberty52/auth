@@ -1,6 +1,7 @@
 package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.service.applicationservice.NoticeCommentCreateService;
+import com.liberty52.auth.service.applicationservice.NoticeCommentDeleteService;
 import com.liberty52.auth.service.applicationservice.NoticeCommentRetrieveService;
 import com.liberty52.auth.service.applicationservice.NoticeCommentUpdateService;
 import com.liberty52.auth.service.controller.dto.NoticeCommentRequestDto;
@@ -22,6 +23,7 @@ public class NoticeCommentController {
     private final NoticeCommentCreateService noticeCommentCreateService;
     private final NoticeCommentRetrieveService noticeCommentRetrieveService;
     private final NoticeCommentUpdateService noticeCommentUpdateService;
+    private final NoticeCommentDeleteService noticeCommentDeleteService;
 
     @Operation(summary = "공지사항 댓글 생성", description = "공지사항에 대한 댓글을 생성합니다.")
     @PostMapping("/notices/{noticeId}/comments")
@@ -43,7 +45,7 @@ public class NoticeCommentController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDtoPage);
     }
 
-    @Operation(summary = "공지사항 댓글 수장", description = "공지사항에 대한 댓글을 수정합니다.")
+    @Operation(summary = "공지사항 댓글 수정", description = "공지사항에 대한 댓글을 수정합니다.")
     @PatchMapping("/notices/{noticeId}/comments/{commentId}")
     public ResponseEntity<NoticeCommentResponseDto> updateNoticeComment(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId,
                                                                         @PathVariable String noticeId,
@@ -53,6 +55,25 @@ public class NoticeCommentController {
         NoticeCommentResponseDto responseDto = new NoticeCommentResponseDto(resultEntity, userId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
+
+    @Operation(summary = "공지사항 댓글 삭제", description = "공지사항에 대한 댓글을 삭제합니다.")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/notices/{noticeId}/comments/{commentId}")
+    public void deleteNoticeComment(@RequestHeader(HttpHeaders.AUTHORIZATION) String userId,
+                                    @PathVariable String noticeId,
+                                    @PathVariable String commentId){
+        noticeCommentDeleteService.deleteNoticeComment(userId, noticeId, commentId);
+    }
+
+    @Operation(summary = "관리자의 공지사항 댓글 삭제", description = "관리자가 공지사항에 대한 댓글을 삭제합니다.")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("admin/notices/{noticeId}/comments/{commentId}")
+    public void deleteNoticeCommentByAdmin(@RequestHeader("LB-Role") String role,
+                                           @PathVariable String noticeId,
+                                           @PathVariable String commentId){
+        noticeCommentDeleteService.deleteNoticeCommentByAdmin(role, noticeId, commentId);
+    }
+
 
 
 
