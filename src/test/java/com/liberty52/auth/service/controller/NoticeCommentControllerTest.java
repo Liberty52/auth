@@ -3,6 +3,7 @@ package com.liberty52.auth.service.controller;
 
 import com.liberty52.auth.service.applicationservice.NoticeCommentCreateService;
 import com.liberty52.auth.service.applicationservice.NoticeCommentRetrieveService;
+import com.liberty52.auth.service.applicationservice.NoticeCommentUpdateService;
 import com.liberty52.auth.service.controller.dto.NoticeCommentRequestDto;
 import com.liberty52.auth.service.entity.Auth;
 import com.liberty52.auth.service.entity.Notice;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,6 +40,9 @@ public class NoticeCommentControllerTest {
     private NoticeCommentCreateService noticeCommentCreateService;
     @MockBean
     private NoticeCommentRetrieveService noticeCommentRetrieveService;
+    @MockBean
+    private NoticeCommentUpdateService noticeCommentUpdateService;
+
     private final String testNoticeId = "NOTICE-001";
     private final String testWriterID = "TESTER-001";
 
@@ -49,11 +54,13 @@ public class NoticeCommentControllerTest {
         requestData.put("content","Test Comment Content");
         String jsonData = objectMapper.writeValueAsString(requestData);
 
-        NoticeComment noticeCommentMock = new NoticeComment();
-        noticeCommentMock.setNotice(Notice.create("testTitle","testContent",true));
-        noticeCommentMock.setWriter(new Auth());
+        NoticeComment noticeCommentMock = mock(NoticeComment.class);
+        Notice noticeMock = mock(Notice.class);
+        Auth writerMock = mock(Auth.class);
         when(noticeCommentCreateService.createNoticeComment(anyString(), anyString(), any(NoticeCommentRequestDto.class)))
                 .thenReturn(noticeCommentMock);
+        when(noticeCommentMock.getNotice()).thenReturn(noticeMock);
+        when(noticeCommentMock.getWriter()).thenReturn(writerMock);
 
         //When
         mockMvc.perform(post("/notices/" + testNoticeId + "/comments")

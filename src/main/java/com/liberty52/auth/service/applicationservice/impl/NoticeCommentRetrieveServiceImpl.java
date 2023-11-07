@@ -19,6 +19,6 @@ public class NoticeCommentRetrieveServiceImpl implements NoticeCommentRetrieveSe
     @Override
     public Page<NoticeComment> retrieveNoticeComment(String noticeId, Pageable pageable) {
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(()-> new NoticeNotFoundById(noticeId));
-        return noticeCommentRepository.findAllByNoticeId(noticeId,pageable);
+        return noticeCommentRepository.findAllByNoticeId(noticeId, pageable);
     }
 }
