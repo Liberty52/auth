@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,7 +11,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "noticeComment")
 @Getter
-@Setter
 @NoArgsConstructor
 public class NoticeComment {
     @Id
@@ -38,5 +36,10 @@ public class NoticeComment {
         this.notice=notice;
         this.writer=writer;
         this.content=content;
+    }
+
+    public void modifyContent(String content){
+        this.content = content;
+        this.updatedAt = LocalDateTime.now();
     }
 }

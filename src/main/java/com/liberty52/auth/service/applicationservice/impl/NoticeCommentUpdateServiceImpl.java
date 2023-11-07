@@ -30,8 +30,7 @@ public class NoticeCommentUpdateServiceImpl implements NoticeCommentUpdateServic
         Auth auth = authRepository.findById(userId).orElseThrow(AuthNotFoundException::new);
         Notice notice = noticeRepository.findById(noticeId).orElseThrow(()-> new NoticeNotFoundById(noticeId));
         NoticeComment noticeComment = noticeCommentRepository.findById(commentId).orElseThrow(()-> new NoticeCommentNotFoundById(commentId));
-        noticeComment.setContent(requestDto.getContent());
-        noticeComment.setUpdatedAt(LocalDateTime.now());
+        noticeComment.modifyContent(requestDto.getContent());
         return noticeCommentRepository.save(noticeComment);
     }
 }
